@@ -1,0 +1,560 @@
+/*
+ * Capitol Twin Cinema visual refresh
+ * Brand source: public/assets/capitol_logo_mark.svg
+ * Exact logo colours: red #D83428, gold #F2AA3B, pale blue #E0F1F9, black, white.
+ */
+
+:root {
+  --ctc-red: #D83428;
+  --ctc-red-deep: #8D211B;
+  --ctc-gold: #F2AA3B;
+  --ctc-gold-deep: #B56A0C;
+  --ctc-blue: #E0F1F9;
+  --ctc-ink: #11110F;
+  --ctc-ink-soft: #211D18;
+  --ctc-paper: #FFFDF7;
+  --ctc-paper-warm: #FFF7E8;
+  --ctc-line: rgba(17, 17, 15, .16);
+  --ctc-shadow: 0 18px 36px rgba(17, 17, 15, .12);
+  --ctc-radius: 7px;
+}
+
+html,
+body {
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: var(--ctc-paper) !important;
+  color: var(--ctc-ink) !important;
+}
+
+html.dark body {
+  background: var(--ctc-ink) !important;
+  color: #fff !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-extrabold,
+.font-black {
+  font-family: "Bebas Neue", "Inter", sans-serif;
+  letter-spacing: .015em;
+}
+
+p,
+li,
+button,
+a {
+  font-family: "Inter", sans-serif;
+}
+
+/* Header: a clean marquee band with fewer competing controls. */
+body > aside[aria-label="Cinema Marquee Announcements"] {
+  background: var(--ctc-red) !important;
+  color: #fff !important;
+  border-bottom: 2px solid var(--ctc-gold);
+  box-shadow: none !important;
+  letter-spacing: .02em;
+}
+
+body > aside[aria-label="Cinema Marquee Announcements"] .text-cinema-gold,
+body > aside[aria-label="Cinema Marquee Announcements"] .text-amber-200 {
+  color: var(--ctc-gold) !important;
+}
+
+body > aside[aria-label="Cinema Marquee Announcements"] .animate-pulse {
+  background: var(--ctc-gold) !important;
+  animation: none;
+}
+
+header {
+  background: rgba(255, 253, 247, .98) !important;
+  border-bottom: 1px solid rgba(17, 17, 15, .16) !important;
+  box-shadow: 0 4px 18px rgba(17, 17, 15, .08);
+  backdrop-filter: none !important;
+}
+
+html.dark header {
+  background: rgba(17, 17, 15, .98) !important;
+  border-bottom-color: rgba(242, 170, 59, .45) !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .28);
+}
+
+header > div > div {
+  height: 5.25rem !important;
+}
+
+header .header-logo-light,
+header .header-logo-dark {
+  height: 4.25rem !important;
+  width: auto !important;
+}
+
+header .header-desktop-nav {
+  gap: 1.55rem !important;
+  color: var(--ctc-ink) !important;
+}
+
+header .header-desktop-nav a {
+  font-size: .77rem !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ctc-ink) !important;
+  transition: color 120ms ease, transform 120ms ease;
+}
+
+html.dark header .header-desktop-nav a {
+  color: #fff !important;
+}
+
+header .header-desktop-nav a:hover,
+html.dark header .header-desktop-nav a:hover {
+  color: var(--ctc-red) !important;
+  transform: translateY(-1px);
+}
+
+header #theme-toggle,
+header #mobile-menu-btn {
+  border-radius: var(--ctc-radius) !important;
+  background: var(--ctc-blue) !important;
+  color: var(--ctc-ink) !important;
+  box-shadow: none !important;
+}
+
+html.dark header #theme-toggle,
+html.dark header #mobile-menu-btn {
+  background: var(--ctc-ink-soft) !important;
+  color: var(--ctc-gold) !important;
+  border: 1px solid rgba(242, 170, 59, .4);
+}
+
+header .header-phone-action {
+  border-radius: var(--ctc-radius) !important;
+  background: var(--ctc-red) !important;
+  box-shadow: none !important;
+  letter-spacing: .04em;
+}
+
+header .header-phone-action:hover {
+  background: var(--ctc-red-deep) !important;
+}
+
+header .header-mobile-drawer {
+  background: var(--ctc-paper) !important;
+  border-top-color: var(--ctc-red) !important;
+}
+
+html.dark header .header-mobile-drawer {
+  background: var(--ctc-ink-soft) !important;
+}
+
+header .mobile-nav-link {
+  border-radius: 4px !important;
+}
+
+/* Hero: the red star and gold ring become the visual anchor. */
+#hero {
+  background: var(--ctc-ink) !important;
+  min-height: min(45rem, calc(100vh - 7.25rem));
+  display: flex;
+  align-items: center;
+  border-bottom: 8px solid var(--ctc-gold);
+  isolation: isolate;
+}
+
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 12px;
+  background: var(--ctc-red);
+  z-index: -1;
+}
+
+#hero::after {
+  content: "";
+  position: absolute;
+  top: 9%;
+  right: -8rem;
+  width: 34rem;
+  height: 34rem;
+  border: 1px solid rgba(242, 170, 59, .22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(242, 170, 59, .05), 0 0 0 36px rgba(242, 170, 59, .04);
+  z-index: -1;
+}
+
+#hero > div {
+  width: 100%;
+}
+
+#hero h1 {
+  max-width: 10ch;
+  font-size: clamp(3.7rem, 8vw, 7rem) !important;
+  line-height: .88 !important;
+  letter-spacing: .015em !important;
+  text-transform: uppercase;
+}
+
+#hero h1 span {
+  color: var(--ctc-gold) !important;
+  -webkit-text-fill-color: var(--ctc-gold) !important;
+  background: none !important;
+}
+
+#hero p {
+  max-width: 43rem;
+  color: #F4EEE5 !important;
+  font-size: 1.05rem !important;
+  line-height: 1.72 !important;
+}
+
+#hero .inline-flex.items-center.space-x-2 {
+  border-left: 4px solid var(--ctc-gold);
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+#hero .inline-flex.items-center.space-x-2 i {
+  color: var(--ctc-gold) !important;
+}
+
+#hero a {
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+#hero .bg-cinema-red {
+  background: var(--ctc-red) !important;
+}
+
+#hero .bg-cinema-red:hover {
+  background: var(--ctc-red-deep) !important;
+}
+
+#hero .bg-cinema-darkSurface {
+  background: transparent !important;
+  border-color: var(--ctc-gold) !important;
+}
+
+#hero .bg-cinema-darkSurface:hover {
+  background: var(--ctc-gold) !important;
+  color: var(--ctc-ink) !important;
+}
+
+#hero .relative.mx-auto {
+  border: 1px solid var(--ctc-gold) !important;
+  border-radius: var(--ctc-radius) !important;
+  background: var(--ctc-ink-soft) !important;
+  box-shadow: 14px 14px 0 rgba(216, 52, 40, .48) !important;
+}
+
+#hero .relative.mx-auto > div:first-child {
+  background: var(--ctc-red) !important;
+  letter-spacing: .08em;
+}
+
+#hero .relative.mx-auto > div:last-child {
+  background: var(--ctc-ink-soft) !important;
+  border-top-color: rgba(242, 170, 59, .35) !important;
+}
+
+#hero .relative.mx-auto img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* Shared section rhythm and brand rule. */
+main > section {
+  position: relative;
+}
+
+main > section h2 {
+  font-size: clamp(2.4rem, 5vw, 4.6rem) !important;
+  line-height: .92 !important;
+  letter-spacing: .02em !important;
+  text-transform: uppercase;
+}
+
+main > section h2::after {
+  content: "";
+  display: block;
+  width: 4rem;
+  height: 4px;
+  margin-top: .85rem;
+  background: var(--ctc-gold);
+}
+
+/* Listings get the pale-blue poster-board treatment. */
+#showtimes {
+  background: var(--ctc-blue) !important;
+  border-block-color: rgba(17, 17, 15, .14) !important;
+}
+
+html.dark #showtimes {
+  background: #1C1915 !important;
+  border-block-color: rgba(242, 170, 59, .26) !important;
+}
+
+#showtimes > div > div:first-child {
+  max-width: 48rem;
+  margin-left: 0;
+  text-align: left;
+  border-left: 6px solid var(--ctc-red);
+  padding-left: 1.25rem;
+}
+
+#showtimes h2,
+#pricing h2,
+#experience h2,
+#concessions h2,
+#contact h2 {
+  color: var(--ctc-ink) !important;
+}
+
+html.dark #showtimes h2,
+html.dark #pricing h2,
+html.dark #experience h2,
+html.dark #concessions h2,
+html.dark #contact h2 {
+  color: #fff !important;
+}
+
+#showtimes .grid > div {
+  border-radius: var(--ctc-radius) !important;
+  border: 1px solid var(--ctc-ink) !important;
+  border-top: 8px solid var(--ctc-red) !important;
+  background: var(--ctc-paper) !important;
+  box-shadow: 10px 10px 0 var(--ctc-gold) !important;
+}
+
+#showtimes .grid > div:nth-child(2) {
+  border-top-color: var(--ctc-gold) !important;
+}
+
+html.dark #showtimes .grid > div {
+  background: var(--ctc-ink-soft) !important;
+  border-color: rgba(242, 170, 59, .62) !important;
+  box-shadow: none !important;
+}
+
+#showtimes .grid > div > div:last-child {
+  background: var(--ctc-paper-warm) !important;
+  border-top-color: var(--ctc-line) !important;
+}
+
+html.dark #showtimes .grid > div > div:last-child {
+  background: #171411 !important;
+  border-top-color: rgba(242, 170, 59, .2) !important;
+}
+
+#showtimes h3 {
+  font-size: 2rem !important;
+  line-height: .98 !important;
+  text-transform: uppercase;
+}
+
+/* Pricing and contact use paper, ink, red, and gold instead of utility-colour noise. */
+#pricing,
+#contact {
+  background: var(--ctc-paper-warm) !important;
+}
+
+html.dark #pricing,
+html.dark #contact {
+  background: var(--ctc-ink) !important;
+}
+
+#pricing .grid > div,
+#contact .space-y-4 > div,
+#contact .lg\:col-span-6 > div {
+  border-radius: var(--ctc-radius) !important;
+  border-color: rgba(17, 17, 15, .2) !important;
+  box-shadow: none !important;
+}
+
+html.dark #pricing .grid > div,
+html.dark #contact .space-y-4 > div,
+html.dark #contact .lg\:col-span-6 > div {
+  border-color: rgba(242, 170, 59, .24) !important;
+}
+
+#pricing .grid > div h3 {
+  font-size: 1.65rem !important;
+  line-height: .95 !important;
+  text-transform: uppercase;
+}
+
+#pricing .grid > div:nth-child(4) {
+  border-top: 6px solid var(--ctc-red) !important;
+}
+
+#experience {
+  background: var(--ctc-paper) !important;
+}
+
+html.dark #experience {
+  background: #181512 !important;
+}
+
+#experience .grid > div {
+  border-radius: var(--ctc-radius) !important;
+  border-color: rgba(17, 17, 15, .2) !important;
+  box-shadow: var(--ctc-shadow) !important;
+}
+
+html.dark #experience .grid > div {
+  border-color: rgba(242, 170, 59, .3) !important;
+  box-shadow: none !important;
+}
+
+#experience .grid > div > div {
+  border-radius: 3px !important;
+}
+
+#concessions {
+  background: var(--ctc-blue) !important;
+  border-block-color: rgba(17, 17, 15, .14) !important;
+}
+
+html.dark #concessions {
+  background: #1C1915 !important;
+  border-block-color: rgba(242, 170, 59, .24) !important;
+}
+
+#concessions .grid > div {
+  background: var(--ctc-paper) !important;
+  border-radius: var(--ctc-radius) !important;
+  border-color: rgba(17, 17, 15, .2) !important;
+  box-shadow: none !important;
+}
+
+html.dark #concessions .grid > div {
+  background: var(--ctc-ink-soft) !important;
+  border-color: rgba(242, 170, 59, .22) !important;
+}
+
+#concessions .grid > div > div {
+  border-radius: 50% !important;
+  background: rgba(242, 170, 59, .18) !important;
+  color: var(--ctc-red) !important;
+}
+
+#concessions .grid > div:last-child {
+  border: 2px solid var(--ctc-red) !important;
+}
+
+#rentals {
+  background: var(--ctc-paper-warm) !important;
+}
+
+html.dark #rentals {
+  background: var(--ctc-ink) !important;
+}
+
+#rentals .bg-gradient-to-r {
+  background: var(--ctc-red) !important;
+  background-image: none !important;
+  border-radius: var(--ctc-radius) !important;
+  box-shadow: 12px 12px 0 var(--ctc-gold) !important;
+}
+
+#rentals .bg-black\/40 {
+  background: rgba(17, 17, 15, .3) !important;
+  border-color: rgba(255, 255, 255, .35) !important;
+  backdrop-filter: none !important;
+}
+
+/* Footer and mobile actions complete the red/gold system. */
+footer {
+  background: var(--ctc-ink) !important;
+  border-top-color: var(--ctc-gold) !important;
+}
+
+footer .text-cinema-gold {
+  color: var(--ctc-gold) !important;
+}
+
+body > aside[aria-label="Mobile Quick Actions"] {
+  background: rgba(255, 253, 247, .98) !important;
+  border-top-color: var(--ctc-red) !important;
+  backdrop-filter: none !important;
+}
+
+html.dark body > aside[aria-label="Mobile Quick Actions"] {
+  background: rgba(17, 17, 15, .98) !important;
+}
+
+body > aside[aria-label="Mobile Quick Actions"] a {
+  border-radius: 4px !important;
+}
+
+/* Lightbox keeps the same paper/gold frame as the rest of the site. */
+#image-lightbox > div > div {
+  border-color: var(--ctc-gold) !important;
+  border-radius: var(--ctc-radius) !important;
+}
+
+@media (max-width: 63.99rem) {
+  header > div > div {
+    height: 4.5rem !important;
+  }
+
+  header .header-logo-light,
+  header .header-logo-dark {
+    height: 3.3rem !important;
+  }
+
+  #hero {
+    min-height: 0;
+    padding-top: 4.5rem !important;
+    padding-bottom: 5.25rem !important;
+  }
+
+  #hero h1 {
+    max-width: 9ch;
+    font-size: clamp(3.25rem, 13vw, 5rem) !important;
+  }
+
+  #hero::after {
+    width: 18rem;
+    height: 18rem;
+    right: -7rem;
+    top: 23%;
+  }
+
+  #hero .relative.mx-auto {
+    box-shadow: 8px 8px 0 rgba(216, 52, 40, .48) !important;
+  }
+
+  main > section h2 {
+    font-size: clamp(2.4rem, 12vw, 4rem) !important;
+  }
+
+  #showtimes > div > div:first-child {
+    margin-right: 0;
+  }
+
+  #showtimes .grid > div {
+    box-shadow: 6px 6px 0 var(--ctc-gold) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
