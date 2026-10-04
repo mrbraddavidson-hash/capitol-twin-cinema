@@ -19,6 +19,27 @@
   <link rel="stylesheet" href="assets/fontawesome/all.min.css">
 
   <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    /* Keep the full navigation for wide desktop; use the compact drawer before it has room to breathe. */
+    @media (min-width: 64rem) and (max-width: 79.99rem) {
+      .header-desktop-nav,
+      .header-phone-action {
+        display: none !important;
+      }
+
+      .header-mobile-menu {
+        display: flex !important;
+      }
+
+      .header-mobile-drawer {
+        display: block !important;
+      }
+
+      .header-mobile-drawer.hidden {
+        display: none !important;
+      }
+    }
+  </style>
 
   <!-- Structured Data: MovieTheater -->
   <script type="application/ld+json">
@@ -109,13 +130,13 @@
         </a>
 
         <!-- Desktop Navigation -->
-        <nav aria-label="Main Navigation" class="hidden lg:flex items-center space-x-7 text-sm font-semibold">
-          <a href="#showtimes" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Films & Showtimes</a>
-          <a href="#pricing" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Tickets & Pricing</a>
-          <a href="#experience" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Theatre & Seating</a>
-          <a href="#concessions" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Concessions</a>
-          <a href="#rentals" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Parties & Rentals</a>
-          <a href="#contact" class="text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Contact</a>
+        <nav aria-label="Main Navigation" class="header-desktop-nav hidden lg:flex items-center space-x-4 text-sm font-semibold">
+          <a href="#showtimes" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Showtimes</a>
+          <a href="#pricing" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Tickets</a>
+          <a href="#experience" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Theatre</a>
+          <a href="#concessions" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Popcorn</a>
+          <a href="#rentals" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Rentals</a>
+          <a href="#contact" class="whitespace-nowrap text-slate-700 dark:text-slate-200 hover:text-cinema-red dark:hover:text-cinema-gold transition">Contact</a>
         </nav>
 
         <!-- Right Quick Actions -->
@@ -127,12 +148,12 @@
           </button>
 
           <!-- Movie Line Call Button -->
-          <a href="tel:5192916000" class="hidden sm:inline-flex items-center justify-center px-4 py-3 min-h-[48px] rounded-xl text-xs sm:text-sm font-bold bg-cinema-red text-white hover:bg-cinema-redHover shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-cinema-red transition">
+          <a href="tel:5192916000" class="header-phone-action hidden sm:inline-flex items-center justify-center px-4 py-3 min-h-[48px] rounded-xl text-xs sm:text-sm font-bold bg-cinema-red text-white hover:bg-cinema-redHover shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-cinema-red transition">
             <i class="fa-solid fa-phone mr-2"></i> (519) 291-6000
           </a>
 
           <!-- Mobile Hamburger -->
-          <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" class="lg:hidden p-3 min-w-[48px] min-h-[48px] rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-cinema-darkSurface hover:bg-slate-200 dark:hover:bg-cinema-border focus:outline-none focus:ring-2 focus:ring-cinema-red transition flex items-center justify-center">
+          <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false" class="header-mobile-menu lg:hidden p-3 min-w-[48px] min-h-[48px] rounded-xl text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-cinema-darkSurface hover:bg-slate-200 dark:hover:bg-cinema-border focus:outline-none focus:ring-2 focus:ring-cinema-red transition flex items-center justify-center">
             <i class="fa-solid fa-bars text-xl"></i>
           </button>
         </div>
@@ -140,7 +161,7 @@
     </div>
 
     <!-- Mobile Drawer -->
-    <div id="mobile-nav" class="hidden lg:hidden border-t border-slate-200 dark:border-cinema-border bg-white dark:bg-cinema-darkCard px-4 pt-3 pb-6 space-y-2 shadow-2xl">
+    <div id="mobile-nav" class="header-mobile-drawer hidden lg:hidden border-t border-slate-200 dark:border-cinema-border bg-white dark:bg-cinema-darkCard px-4 pt-3 pb-6 space-y-2 shadow-2xl">
       <a href="#showtimes" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-semibold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-cinema-darkSurface">🎬 Films & Showtimes</a>
       <a href="#pricing" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-semibold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-cinema-darkSurface">🎟️ Ticket Prices ($ CAD)</a>
       <a href="#experience" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-semibold text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-cinema-darkSurface">🪑 Auditorium & Seating</a>
