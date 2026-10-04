@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://capitol-twin-cinema.mrbraddavidson.workers.dev/sitemap.xml
