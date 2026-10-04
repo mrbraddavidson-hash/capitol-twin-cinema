@@ -1,34 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="logo-title logo-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 180" role="img" aria-labelledby="logo-title logo-desc">
   <title id="logo-title">Capitol Twin Cinema</title>
-  <desc id="logo-desc">A modern circular cinema emblem with a gold star and curved film strip beside the Capitol Twin Cinema wordmark.</desc>
+  <desc id="logo-desc">A bold Capitol Twin Cinema badge with a star, film strip, and modern stacked wordmark for dark backgrounds.</desc>
 
-  <g transform="translate(112 110)">
-    <circle r="98" fill="#fffbeb" stroke="#e5a93c" stroke-width="8"/>
-    <circle r="87" fill="none" stroke="#a02b22" stroke-opacity=".2" stroke-width="2"/>
+  <g transform="translate(90 90)">
+    <circle r="79" fill="#211d18" stroke="#e5a93c" stroke-width="6"/>
+    <circle r="68" fill="none" stroke="#a02b22" stroke-width="2"/>
 
-    <path d="M0-73 13-37h38L20-15l11 38L0 1l-31 22 11-38-31-22h38Z" fill="#a02b22" stroke="#e5a93c" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M0-55 11-24h33L17-5l10 31L0 8l-27 18 10-31-27-19h33Z" fill="#fffbeb" stroke="#e5a93c" stroke-width="4" stroke-linejoin="round"/>
 
-    <path d="M-70 26Q0-7 70 26v32Q0 26-70 58Z" fill="#211d18" stroke="#a02b22" stroke-width="3"/>
-    <path d="M-57 29Q0 5 57 29" fill="none" stroke="#e5a93c" stroke-width="3"/>
-
+    <path d="M-56 27Q0 2 56 27v25Q0 27-56 52Z" fill="#a02b22" stroke="#e5a93c" stroke-width="2.5"/>
+    <path d="M-47 28Q0 9 47 28" fill="none" stroke="#fffbeb" stroke-width="2.5" stroke-linecap="round"/>
     <g fill="#fffbeb">
-      <circle cx="-58" cy="36" r="3.2"/><circle cx="-42" cy="30" r="3.2"/><circle cx="-26" cy="26" r="3.2"/>
-      <circle cx="26" cy="26" r="3.2"/><circle cx="42" cy="30" r="3.2"/><circle cx="58" cy="36" r="3.2"/>
-      <circle cx="-55" cy="51" r="3.2"/><circle cx="-39" cy="46" r="3.2"/><circle cx="-23" cy="43" r="3.2"/>
-      <circle cx="23" cy="43" r="3.2"/><circle cx="39" cy="46" r="3.2"/><circle cx="55" cy="51" r="3.2"/>
+      <circle cx="-45" cy="34" r="3"/><circle cx="-30" cy="29" r="3"/><circle cx="-15" cy="26" r="3"/>
+      <circle cx="15" cy="26" r="3"/><circle cx="30" cy="29" r="3"/><circle cx="45" cy="34" r="3"/>
+      <circle cx="-42" cy="46" r="3"/><circle cx="-27" cy="42" r="3"/><circle cx="-12" cy="39" r="3"/>
+      <circle cx="12" cy="39" r="3"/><circle cx="27" cy="42" r="3"/><circle cx="42" cy="46" r="3"/>
     </g>
-
-    <path d="M-45 62Q0 40 45 62" fill="none" stroke="#e5a93c" stroke-width="3" stroke-linecap="round"/>
-    <text x="0" y="78" text-anchor="middle" fill="#211d18" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="1.7">CAPITOL TWIN</text>
-    <text x="0" y="91" text-anchor="middle" fill="#a02b22" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="2.4">CINEMA</text>
+    <text x="0" y="69" text-anchor="middle" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="900" letter-spacing="2.8">CTC</text>
   </g>
 
-  <g transform="translate(236 78)">
-    <text x="0" y="0" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="45" font-weight="900" letter-spacing="-1.5">CAPITOL TWIN</text>
-    <rect x="357" y="-34" width="115" height="36" rx="6" fill="#a02b22"/>
-    <text x="414.5" y="-10" text-anchor="middle" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="900" letter-spacing="1">CINEMA</text>
-    <text x="0" y="37" fill="#e7dfd0" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="800" letter-spacing="2.2">BIG SCREEN · BIG SOUND · SMALL PRICES</text>
-    <rect x="0" y="54" width="480" height="4" rx="2" fill="#e5a93c"/>
-    <text x="0" y="83" fill="#e5a93c" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="800" letter-spacing="2.2">LISTOWEL, ONTARIO</text>
+  <g transform="translate(204 58)">
+    <text x="0" y="0" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="900" letter-spacing="-1">CAPITOL</text>
+    <text x="0" y="55" fill="#e5a93c" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="900" letter-spacing="-1">TWIN</text>
+    <rect x="154" y="18" width="108" height="32" rx="7" fill="#a02b22"/>
+    <text x="208" y="40" text-anchor="middle" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="900" letter-spacing="1.5">CINEMA</text>
+    <rect x="0" y="76" width="262" height="4" rx="2" fill="#e5a93c"/>
+    <text x="0" y="106" fill="#e5a93c" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="900" letter-spacing="2">LISTOWEL, ONTARIO</text>
   </g>
 </svg>
