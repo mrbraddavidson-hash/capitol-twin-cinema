@@ -13,13 +13,25 @@
   <meta property="og:url" content="https://capitol-twin-cinema.mrbraddavidson.workers.dev/">
   <meta property="og:image" content="https://capitol-twin-cinema.mrbraddavidson.workers.dev/assets/auditorium_screen1.jpg">
 
-  <link rel="icon" type="image/png" href="assets/capitol_logo.png">
+  <link rel="icon" type="image/svg+xml" href="assets/capitol_logo_mark.svg">
   <link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/fonts.css">
   <link rel="stylesheet" href="assets/fontawesome/all.min.css">
 
   <link rel="stylesheet" href="assets/styles.css">
   <style>
+    .header-logo-dark {
+      display: none;
+    }
+
+    html.dark .header-logo-light {
+      display: none !important;
+    }
+
+    html.dark .header-logo-dark {
+      display: block !important;
+    }
+
     /* Keep the full navigation for wide desktop; use the compact drawer before it has room to breathe. */
     @media (min-width: 64rem) and (max-width: 79.99rem) {
       .header-desktop-nav,
@@ -49,7 +61,7 @@
     "name": "Capitol Twin Cinema",
     "alternateName": "Capitol Cinema Listowel",
     "image": "https://capitol-twin-cinema.mrbraddavidson.workers.dev/assets/auditorium_screen1.jpg",
-    "logo": "https://capitol-twin-cinema.mrbraddavidson.workers.dev/assets/capitol_logo.png",
+    "logo": "https://capitol-twin-cinema.mrbraddavidson.workers.dev/assets/capitol_logo_modern.svg",
     "telephone": "+1-519-291-6000",
     "email": "capitolcinema@hotmail.ca",
     "url": "https://capitol-twin-cinema.mrbraddavidson.workers.dev/",
@@ -113,20 +125,15 @@
       <div class="flex items-center justify-between h-20">
         
         <!-- Brand Logo Lockup -->
-        <a href="#hero" class="flex items-center space-x-3 group py-1 focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg">
-          <img src="assets/capitol_logo.png" 
-               alt="Capitol Twin Cinema circular logo"
-               width="254" height="254"
-               class="h-14 w-14 shrink-0 rounded-full border-2 border-cinema-gold bg-white object-cover transition-transform group-hover:scale-105">
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-cinema-red dark:text-white">Capitol Twin</span>
-              <span class="px-2 py-0.5 rounded text-xs font-black uppercase tracking-wider bg-cinema-red text-white">CINEMA</span>
-            </div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-cinema-gold block">
-              120 Wallace Ave N • Listowel, ON
-            </span>
-          </div>
+        <a href="#hero" class="flex items-center group py-1 focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg">
+          <img src="assets/capitol_logo_modern.svg"
+               alt="Capitol Twin Cinema logo"
+               width="720" height="220"
+               class="header-logo-light h-14 w-auto shrink-0 transition-transform group-hover:scale-105">
+          <img src="assets/capitol_logo_modern_inverse.svg"
+               alt="Capitol Twin Cinema logo"
+               width="720" height="220"
+               class="header-logo-dark h-14 w-auto shrink-0 transition-transform group-hover:scale-105">
         </a>
 
         <!-- Desktop Navigation -->
@@ -759,11 +766,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-cinema-border">
         <div class="flex items-center space-x-3">
-          <img src="assets/capitol_logo.png" alt="Capitol Twin Cinema circular logo" width="254" height="254" loading="lazy" decoding="async" class="h-12 w-12 shrink-0 rounded-full border-2 border-cinema-gold bg-white object-cover">
-          <div>
-            <span class="font-extrabold text-lg text-white">Capitol Twin Cinema</span>
-            <p class="text-xs text-cinema-gold font-bold">120 Wallace Ave N • Listowel, ON • (519) 291-6000</p>
-          </div>
+          <img src="assets/capitol_logo_modern_inverse.svg" alt="Capitol Twin Cinema logo" width="720" height="220" loading="lazy" decoding="async" class="h-12 w-auto shrink-0">
+          <p class="text-xs text-cinema-gold font-bold">120 Wallace Ave N • Listowel, ON • (519) 291-6000</p>
         </div>
 
         <div class="flex items-center space-x-6 text-sm text-slate-300">

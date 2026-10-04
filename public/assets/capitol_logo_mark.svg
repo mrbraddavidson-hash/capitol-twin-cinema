@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 224" role="img" aria-labelledby="mark-title mark-desc">
+  <title id="mark-title">Capitol Twin Cinema mark</title>
+  <desc id="mark-desc">A circular Capitol Twin Cinema emblem with a gold star and curved film strip.</desc>
+
+  <circle cx="112" cy="112" r="104" fill="#fffbeb" stroke="#e5a93c" stroke-width="8"/>
+  <circle cx="112" cy="112" r="93" fill="none" stroke="#a02b22" stroke-opacity=".2" stroke-width="2"/>
+  <path d="M112 39 125 75h38l-31 22 11 38-31-22-31 22 11-38-31-22h38Z" fill="#a02b22" stroke="#e5a93c" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M42 138Q112 105 182 138v32q-70-32-140 0Z" fill="#211d18" stroke="#a02b22" stroke-width="3"/>
+  <path d="M55 141q57-24 114 0" fill="none" stroke="#e5a93c" stroke-width="3"/>
+  <g fill="#fffbeb">
+    <circle cx="54" cy="148" r="3.2"/><circle cx="70" cy="142" r="3.2"/><circle cx="86" cy="138" r="3.2"/>
+    <circle cx="138" cy="138" r="3.2"/><circle cx="154" cy="142" r="3.2"/><circle cx="170" cy="148" r="3.2"/>
+    <circle cx="57" cy="163" r="3.2"/><circle cx="73" cy="158" r="3.2"/><circle cx="89" cy="155" r="3.2"/>
+    <circle cx="135" cy="155" r="3.2"/><circle cx="151" cy="158" r="3.2"/><circle cx="167" cy="163" r="3.2"/>
+  </g>
+  <path d="M67 174q45-22 90 0" fill="none" stroke="#e5a93c" stroke-width="3" stroke-linecap="round"/>
+  <text x="112" y="190" text-anchor="middle" fill="#211d18" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="1.7">CAPITOL TWIN</text>
+  <text x="112" y="203" text-anchor="middle" fill="#a02b22" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="2.4">CINEMA</text>
+</svg>

@@ -7,7 +7,9 @@ const requiredFiles = [
   "public/_headers",
   "public/assets/styles.css",
   "public/assets/fonts.css",
-  "public/assets/capitol_logo.png"
+  "public/assets/capitol_logo_modern.svg",
+  "public/assets/capitol_logo_modern_inverse.svg",
+  "public/assets/capitol_logo_mark.svg"
 ];
 
 await Promise.all(requiredFiles.map((file) => access(file)));

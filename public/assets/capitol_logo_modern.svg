@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">Capitol Twin Cinema</title>
+  <desc id="logo-desc">A modern circular cinema emblem with a gold star and curved film strip beside the Capitol Twin Cinema wordmark.</desc>
+
+  <g transform="translate(112 110)">
+    <circle r="98" fill="#fffbeb" stroke="#e5a93c" stroke-width="8"/>
+    <circle r="87" fill="none" stroke="#a02b22" stroke-opacity=".2" stroke-width="2"/>
+
+    <path d="M0-73 13-37h38L20-15l11 38L0 1l-31 22 11-38-31-22h38Z" fill="#a02b22" stroke="#e5a93c" stroke-width="5" stroke-linejoin="round"/>
+
+    <path d="M-70 26Q0-7 70 26v32Q0 26-70 58Z" fill="#211d18" stroke="#a02b22" stroke-width="3"/>
+    <path d="M-57 29Q0 5 57 29" fill="none" stroke="#e5a93c" stroke-width="3"/>
+
+    <g fill="#fffbeb">
+      <circle cx="-58" cy="36" r="3.2"/><circle cx="-42" cy="30" r="3.2"/><circle cx="-26" cy="26" r="3.2"/>
+      <circle cx="26" cy="26" r="3.2"/><circle cx="42" cy="30" r="3.2"/><circle cx="58" cy="36" r="3.2"/>
+      <circle cx="-55" cy="51" r="3.2"/><circle cx="-39" cy="46" r="3.2"/><circle cx="-23" cy="43" r="3.2"/>
+      <circle cx="23" cy="43" r="3.2"/><circle cx="39" cy="46" r="3.2"/><circle cx="55" cy="51" r="3.2"/>
+    </g>
+
+    <path d="M-45 62Q0 40 45 62" fill="none" stroke="#e5a93c" stroke-width="3" stroke-linecap="round"/>
+    <text x="0" y="78" text-anchor="middle" fill="#211d18" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="1.7">CAPITOL TWIN</text>
+    <text x="0" y="91" text-anchor="middle" fill="#a02b22" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="900" letter-spacing="2.4">CINEMA</text>
+  </g>
+
+  <g transform="translate(236 78)">
+    <text x="0" y="0" fill="#a02b22" font-family="Arial,Helvetica,sans-serif" font-size="45" font-weight="900" letter-spacing="-1.5">CAPITOL TWIN</text>
+    <rect x="357" y="-34" width="115" height="36" rx="6" fill="#a02b22"/>
+    <text x="414.5" y="-10" text-anchor="middle" fill="#fffbeb" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="900" letter-spacing="1">CINEMA</text>
+    <text x="0" y="37" fill="#211d18" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="800" letter-spacing="2.2">BIG SCREEN · BIG SOUND · SMALL PRICES</text>
+    <rect x="0" y="54" width="480" height="4" rx="2" fill="#e5a93c"/>
+    <text x="0" y="83" fill="#a02b22" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="800" letter-spacing="2.2">LISTOWEL, ONTARIO</text>
+  </g>
+</svg>
