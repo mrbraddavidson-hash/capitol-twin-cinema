@@ -9,6 +9,7 @@ Date: 2026-10-04
 - `git diff --check` — passed.
 - Live HTML request — `200`, expected title, and `assets/makeover.css` reference present.
 - Live stylesheet request — `200`, `text/css`, 12,702 bytes; exact red/gold/pale-blue tokens present.
+- Imported ZIP logo asset — `capitol_logo_original.png` is served from the hero badge without importing the ZIP's loyalty artwork or stale page shell.
 
 ## Rendered checks
 
@@ -24,5 +25,5 @@ Date: 2026-10-04
 
 ## Remaining risk
 
-- The named `capitol_twin_cinema_pngs.zip` was not present in the local filesystem during this pass, so no unverified PNGs were imported.
+- The named `capitol_twin_cinema_pngs.zip` was not present in the local filesystem during this pass. The separately supplied `capitol_twin_cinema.zip` was inspected; only its original circle logo was adopted because the rest of that package contains removed loyalty content and stale listings.
 - A dedicated 375px device viewport was not available through the current browser surface; responsive rules were reviewed in source and the desktop/live render was verified.

@@ -272,6 +272,27 @@ header .mobile-nav-link {
   object-fit: cover;
 }
 
+#hero .relative.mx-auto .hero-emblem {
+  position: absolute;
+  top: 5.3rem;
+  right: 1.1rem;
+  z-index: 2;
+  width: 9.5rem;
+  padding: .35rem;
+  border: 3px solid var(--ctc-gold);
+  border-radius: 50%;
+  background: var(--ctc-paper);
+  box-shadow: 8px 8px 0 rgba(17, 17, 15, .45);
+  transform: rotate(3deg);
+}
+
+#hero .relative.mx-auto .hero-emblem img {
+  width: 100%;
+  aspect-ratio: auto;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
 /* Shared section rhythm and brand rule. */
 main > section {
   position: relative;
@@ -533,6 +554,14 @@ body > aside[aria-label="Mobile Quick Actions"] a {
 
   #hero .relative.mx-auto {
     box-shadow: 8px 8px 0 rgba(216, 52, 40, .48) !important;
+  }
+
+  #hero .relative.mx-auto .hero-emblem {
+    top: 4.7rem;
+    right: .8rem;
+    width: 7rem;
+    border-width: 2px;
+    box-shadow: 5px 5px 0 rgba(17, 17, 15, .42);
   }
 
   main > section h2 {
