@@ -2,7 +2,7 @@
 
 ## Mode
 
-Static premium. No generated video or paid media is required. The existing SVG logo and auditorium photographs are the approved production assets for this pass.
+Static premium. No generated video or paid media is required. The supplied Capitol brand-kit SVGs are the approved responsive production logos, with the 4000px transparent PNG masters retained for ultra-print and signage.
 
 ## Page structure
 

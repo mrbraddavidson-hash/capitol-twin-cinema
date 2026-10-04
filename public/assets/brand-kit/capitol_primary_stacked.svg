@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.18" />
+    </filter>
+
+    <linearGradient id="star-gold-rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF73" />
+      <stop offset="50%" stop-color="#E2A624" />
+      <stop offset="100%" stop-color="#9C6B0D" />
+    </linearGradient>
+
+    <!-- Warm Marquee Gold for text -->
+    <linearGradient id="text-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFDE69" />
+      <stop offset="100%" stop-color="#F5A914" />
+    </linearGradient>
+
+    <linearGradient id="facet-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E63946" />
+      <stop offset="100%" stop-color="#C1121F" />
+    </linearGradient>
+    <linearGradient id="facet-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B7091B" />
+      <stop offset="100%" stop-color="#780000" />
+    </linearGradient>
+
+    <linearGradient id="cyan-film-cell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8EDBE9" />
+      <stop offset="100%" stop-color="#55B5C9" />
+    </linearGradient>
+
+    <g id="single-film-wing">
+      <path d="M 110,285 C 190,340 280,350 350,345 L 340,435 C 255,438 175,410 110,355 Z" fill="#181B1E" />
+      <path d="M 125,302 C 162,323 186,331 202,335 L 197,414 C 178,409 157,398 125,370 Z" fill="url(#cyan-film-cell)" stroke="#181B1E" stroke-width="3" />
+      <path d="M 218,338 C 255,344 278,346 298,347 L 293,425 C 273,424 251,422 213,416 Z" fill="url(#cyan-film-cell)" stroke="#181B1E" stroke-width="3" />
+    </g>
+  </defs>
+
+  <!-- Filmstrip Wings -->
+  <g id="filmstrip-wings" filter="url(#subtle-shadow)">
+    <use href="#single-film-wing" />
+    <use href="#single-film-wing" transform="translate(800, 0) scale(-1, 1)" />
+  </g>
+
+  <!-- Central Faceted 3D Star -->
+  <g id="center-star" filter="url(#subtle-shadow)">
+    <polygon points="
+      400,135 440,258 570,258 465,335 505,458
+      400,382 295,458 335,335 230,258 360,258
+    " fill="url(#star-gold-rim)" stroke="#8A5B04" stroke-width="2" stroke-linejoin="round" />
+
+    <g transform="translate(400, 312) scale(0.925) translate(-400, -312)">
+      <polygon points="400,135 400,312 360,258" fill="url(#facet-light)" />
+      <polygon points="400,135 440,258 400,312" fill="url(#facet-dark)" />
+      <polygon points="570,258 400,312 440,258" fill="url(#facet-light)" />
+      <polygon points="570,258 465,335 400,312" fill="url(#facet-dark)" />
+      <polygon points="505,458 400,312 465,335" fill="url(#facet-light)" />
+      <polygon points="505,458 400,382 400,312" fill="url(#facet-dark)" />
+      <polygon points="295,458 400,312 400,382" fill="url(#facet-light)" />
+      <polygon points="295,458 335,335 400,312" fill="url(#facet-dark)" />
+      <polygon points="230,258 400,312 335,335" fill="url(#facet-light)" />
+      <polygon points="230,258 360,258 400,312" fill="url(#facet-dark)" />
+      <circle cx="400" cy="312" r="8" fill="url(#star-gold-rim)" />
+    </g>
+  </g>
+
+  <!-- Typography: Bright Marquee Gold with Crisp Black Outline -->
+  <g id="typography" text-anchor="middle">
+    <!-- CAPITOL in Bright Gold with Crisp Black Outline -->
+    <text x="400" y="555" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="82" font-weight="900" letter-spacing="4" fill="url(#text-gold)" stroke="#14171A" stroke-width="4.5" paint-order="stroke fill">
+      CAPITOL
+    </text>
+
+    <!-- TWIN CINEMA in Bright Gold with Crisp Black Outline -->
+    <text x="400" y="622" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="url(#text-gold)" stroke="#14171A" stroke-width="3" paint-order="stroke fill">
+      TWIN CINEMA
+    </text>
+
+    <!-- Golden Ribbon -->
+    <g transform="translate(0, 646)">
+      <path d="M 315,22 L 332,6 L 468,6 L 485,22 L 468,38 L 332,38 Z" fill="url(#star-gold-rim)" />
+      <text x="400" y="27" font-family="'Montserrat', 'Arial', sans-serif" font-size="15" font-weight="800" letter-spacing="3" fill="#14171A">
+        EST. 1956
+      </text>
+    </g>
+
+    <text x="400" y="722" font-family="'Montserrat', 'Arial', sans-serif" font-size="13" font-weight="800" letter-spacing="5" fill="#14171A">
+      BIG SCREEN • BIG SOUND • SMALL PRICES
+    </text>
+  </g>
+</svg>

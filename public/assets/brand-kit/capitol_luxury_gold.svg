@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <filter id="gold-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.30" />
+    </filter>
+
+    <linearGradient id="gold-bright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF2A3" />
+      <stop offset="35%" stop-color="#E5B23A" />
+      <stop offset="70%" stop-color="#FCE082" />
+      <stop offset="100%" stop-color="#B27B13" />
+    </linearGradient>
+
+    <linearGradient id="gold-deep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DDA126" />
+      <stop offset="50%" stop-color="#9C6B0D" />
+      <stop offset="100%" stop-color="#593B02" />
+    </linearGradient>
+
+    <g id="single-wing-gold">
+      <path d="M 110,285 C 190,340 280,350 350,345 L 340,435 C 255,438 175,410 110,355 Z" fill="url(#gold-deep)" />
+      <path d="M 125,302 C 162,323 186,331 202,335 L 197,414 C 178,409 157,398 125,370 Z" fill="url(#gold-bright)" stroke="#593B02" stroke-width="3" />
+      <path d="M 218,338 C 255,344 278,346 298,347 L 293,425 C 273,424 251,422 213,416 Z" fill="url(#gold-bright)" stroke="#593B02" stroke-width="3" />
+    </g>
+  </defs>
+
+  <g id="filmstrip-wings-gold" filter="url(#gold-glow)">
+    <use href="#single-wing-gold" />
+    <use href="#single-wing-gold" transform="translate(800, 0) scale(-1, 1)" />
+  </g>
+
+  <g id="center-star-gold" filter="url(#gold-glow)">
+    <polygon points="
+      400,135 440,258 570,258 465,335 505,458
+      400,382 295,458 335,335 230,258 360,258
+    " fill="url(#gold-bright)" stroke="#593B02" stroke-width="2" stroke-linejoin="round" />
+    <g transform="translate(400, 312) scale(0.925) translate(-400, -312)">
+      <polygon points="400,135 400,312 360,258" fill="url(#gold-bright)" />
+      <polygon points="400,135 440,258 400,312" fill="url(#gold-deep)" />
+      <polygon points="570,258 400,312 440,258" fill="url(#gold-bright)" />
+      <polygon points="570,258 465,335 400,312" fill="url(#gold-deep)" />
+      <polygon points="505,458 400,312 465,335" fill="url(#gold-bright)" />
+      <polygon points="505,458 400,382 400,312" fill="url(#gold-deep)" />
+      <polygon points="295,458 400,312 400,382" fill="url(#gold-bright)" />
+      <polygon points="295,458 335,335 400,312" fill="url(#gold-deep)" />
+      <polygon points="230,258 400,312 335,335" fill="url(#gold-bright)" />
+      <polygon points="230,258 360,258 400,312" fill="url(#gold-deep)" />
+      <circle cx="400" cy="312" r="8" fill="url(#gold-bright)" />
+    </g>
+  </g>
+
+  <g id="typography-gold" text-anchor="middle">
+    <text x="400" y="555" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="82" font-weight="900" letter-spacing="4" fill="url(#gold-bright)">
+      CAPITOL
+    </text>
+    <text x="400" y="622" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="url(#gold-bright)">
+      TWIN CINEMA
+    </text>
+    <g transform="translate(0, 646)">
+      <path d="M 315,22 L 332,6 L 468,6 L 485,22 L 468,38 L 332,38 Z" fill="url(#gold-bright)" />
+      <text x="400" y="27" font-family="'Montserrat', 'Arial', sans-serif" font-size="15" font-weight="800" letter-spacing="3" fill="#593B02">
+        EST. 1956
+      </text>
+    </g>
+    <text x="400" y="722" font-family="'Montserrat', 'Arial', sans-serif" font-size="13" font-weight="700" letter-spacing="5" fill="url(#gold-bright)" opacity="0.9">
+      BIG SCREEN • BIG SOUND • SMALL PRICES
+    </text>
+  </g>
+</svg>

@@ -7,10 +7,11 @@ const requiredFiles = [
   "public/_headers",
   "public/assets/styles.css",
   "public/assets/fonts.css",
-  "public/assets/capitol_logo_modern.svg",
-  "public/assets/capitol_logo_modern_inverse.svg",
-  "public/assets/capitol_logo_mark.svg",
-  "public/assets/capitol_logo_original.png"
+  "public/assets/brand-kit/capitol_horizontal_lockup.svg",
+  "public/assets/brand-kit/capitol_primary_stacked.svg",
+  "public/assets/brand-kit/capitol_icon_mark.svg",
+  "public/assets/brand-kit/horizontal_lockup_4000px.png",
+  "public/assets/brand-kit/primary_stacked_4000px.png"
 ];
 
 await Promise.all(requiredFiles.map((file) => access(file)));
@@ -36,6 +37,16 @@ if (found.length) {
 for (const fragment of ["showtimes", "pricing", "experience", "concessions", "rentals", "contact"]) {
   if (!html.includes(`id="${fragment}"`)) {
     throw new Error(`Missing internal destination: #${fragment}`);
+  }
+}
+
+for (const fragment of [
+  "assets/brand-kit/capitol_horizontal_lockup.svg",
+  "assets/brand-kit/capitol_primary_stacked.svg",
+  "assets/brand-kit/primary_stacked_4000px.png"
+]) {
+  if (!html.includes(fragment)) {
+    throw new Error(`Missing brand-kit reference: ${fragment}`);
   }
 }
 
