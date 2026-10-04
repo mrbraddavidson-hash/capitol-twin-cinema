@@ -20,8 +20,8 @@ Date: 2026-10-04
 
 ## Deployment evidence
 
-- GitHub commit: `af03d5f` — `Refresh cinema visual system with logo palette`.
-- Cloudflare Worker version: `0bc75423-dddd-43f5-b89e-558860cd2379`.
+- GitHub commit: `40ed3b4` — `Use original circle logo in live cinema makeover`.
+- Cloudflare Worker version: `b7812aee-0f13-4adc-aaa0-be9195e96108`.
 
 ## Remaining risk
 
