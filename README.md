@@ -18,6 +18,6 @@ npm.cmd run deploy:check
 npm.cmd run deploy
 ```
 
-Current film listings, showtimes, prices, concessions, loyalty details, accessibility claims, and rental terms must be confirmed with the theatre before publishing factual updates.
+Current film listings, showtimes, prices, concessions, accessibility claims, and rental terms must be confirmed with the theatre before publishing factual updates.
 
 The production stylesheet is committed at `public/assets/styles.css`; the deployment build validates required files, internal destinations, and known stale content before Wrangler uploads the site.

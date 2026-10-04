@@ -18,7 +18,11 @@ const forbidden = [
   "capitoltwincinema.pages.dev",
   "The Wild Robot",
   "Beetlejuice Beetlejuice",
-  "handleFormSubmit"
+  "handleFormSubmit",
+  "loyalty",
+  "free pass",
+  "punch card",
+  "brand_collage.jpg"
 ];
 
 const found = forbidden.filter((value) => html.includes(value));
@@ -26,7 +30,7 @@ if (found.length) {
   throw new Error(`Unsafe or stale production content found: ${found.join(", ")}`);
 }
 
-for (const fragment of ["showtimes", "pricing", "loyalty", "experience", "concessions", "rentals", "contact"]) {
+for (const fragment of ["showtimes", "pricing", "experience", "concessions", "rentals", "contact"]) {
   if (!html.includes(`id="${fragment}"`)) {
     throw new Error(`Missing internal destination: #${fragment}`);
   }
