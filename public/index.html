@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Capitol Twin Cinema | Listowel, ON • Big Screen. Big Sound. Small Prices.</title>
-  <meta name="description" content="Capitol Twin Cinema information for 120 Wallace Ave N, Listowel, Ontario. Twin screens, Dolby sound, concessions, family-friendly pricing and loyalty rewards. Call (519) 291-6000 to confirm current films, showtimes and prices.">
+  <title>Capitol Twin Cinema | Movies in Listowel, Ontario</title>
+  <meta name="description" content="Showtimes and visitor information for Capitol Twin Cinema at 120 Wallace Ave N in Listowel, Ontario. Call (519) 291-6000 to confirm current listings.">
   <meta name="theme-color" content="#0E0D09">
   <link rel="canonical" href="https://capitol-twin-cinema.mrbraddavidson.workers.dev/">
   <meta property="og:type" content="website">
@@ -13,13 +13,10 @@
   <meta property="og:url" content="https://capitol-twin-cinema.mrbraddavidson.workers.dev/">
   <meta property="og:image" content="https://capitol-twin-cinema.mrbraddavidson.workers.dev/assets/brand_collage.jpg">
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="assets/capitol_logo.png">
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts.css">
+  <link rel="stylesheet" href="assets/fontawesome/all.min.css">
 
   <link rel="stylesheet" href="assets/styles.css">
 
@@ -98,6 +95,7 @@
         <a href="#hero" class="flex items-center space-x-3 group py-1 focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg">
           <img src="assets/capitol_logo.png" 
                alt="Capitol Twin Cinema Logo" 
+               width="269" height="254"
                class="h-14 w-auto object-contain transition-transform group-hover:scale-105">
           <div>
             <div class="flex items-center gap-1.5">
@@ -218,6 +216,7 @@
               <div class="relative group cursor-pointer overflow-hidden" onclick="openLightbox('assets/brand_collage.jpg', 'Capitol Twin Cinema Collage - Listowel, Ontario')">
                 <img src="assets/brand_collage.jpg" 
                      alt="Capitol Twin Cinema Listowel Official Showcase" 
+                     width="960" height="541" fetchpriority="high"
                      class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition flex items-center justify-center">
                   <span class="opacity-0 group-hover:opacity-100 bg-cinema-red text-white font-bold text-xs px-4 py-2 rounded-full shadow-lg transition">
@@ -276,6 +275,7 @@
                 <div class="sm:col-span-5 rounded-2xl overflow-hidden shadow-md">
                   <img src="assets/auditorium_screen1.jpg" 
                        alt="Screen 1 Auditorium Seating" 
+                       width="413" height="243" loading="lazy" decoding="async"
                        class="w-full h-48 object-cover cursor-pointer hover:opacity-95 transition"
                        onclick="openLightbox('assets/auditorium_screen1.jpg', 'Screen 1 Auditorium at Capitol Twin Cinema')">
                 </div>
@@ -329,6 +329,7 @@
                 <div class="sm:col-span-5 rounded-2xl overflow-hidden shadow-md">
                   <img src="assets/auditorium_screen2.jpg" 
                        alt="Screen 2 Auditorium Seating" 
+                       width="442" height="238" loading="lazy" decoding="async"
                        class="w-full h-48 object-cover cursor-pointer hover:opacity-95 transition"
                        onclick="openLightbox('assets/auditorium_screen2.jpg', 'Screen 2 Auditorium at Capitol Twin Cinema')">
                 </div>
@@ -401,7 +402,7 @@
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-4">Adults & Teenagers (13+).</p>
               <div class="mb-4">
                 <span class="text-3xl font-black text-cinema-red dark:text-cinema-gold">$10.00</span>
-                <span class="text-xs text-slate-500 font-semibold"> CAD</span>
+                <span class="text-xs text-slate-500 dark:text-slate-300 font-semibold"> CAD</span>
               </div>
               <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-300 font-medium">
                 <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i> Evening & Matinee Shows</li>
@@ -427,7 +428,7 @@
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-4">Children ages 12 and under.</p>
               <div class="mb-4">
                 <span class="text-3xl font-black text-cinema-red dark:text-cinema-gold">$8.00</span>
-                <span class="text-xs text-slate-500 font-semibold"> CAD</span>
+                <span class="text-xs text-slate-500 dark:text-slate-300 font-semibold"> CAD</span>
               </div>
               <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-300 font-medium">
                 <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i> All family films & matinees</li>
@@ -453,7 +454,7 @@
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-4">Community seniors aged 65+.</p>
               <div class="mb-4">
                 <span class="text-3xl font-black text-cinema-red dark:text-cinema-gold">$8.00</span>
-                <span class="text-xs text-slate-500 font-semibold"> CAD</span>
+                <span class="text-xs text-slate-500 dark:text-slate-300 font-semibold"> CAD</span>
               </div>
               <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-300 font-medium">
                 <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i> Available every single day</li>
@@ -482,7 +483,7 @@
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 mb-4">All tickets, all ages, both screens!</p>
               <div class="mb-4">
                 <span class="text-3xl font-black text-cinema-red dark:text-cinema-gold">$7.00</span>
-                <span class="text-xs text-slate-500 font-semibold"> CAD</span>
+                <span class="text-xs text-slate-500 dark:text-slate-300 font-semibold"> CAD</span>
               </div>
               <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-300 font-medium">
                 <li><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i> Best weekly movie deal</li>
@@ -545,6 +546,7 @@
             <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-cinema-gold/40 bg-black p-3 group cursor-pointer" onclick="openLightbox('assets/loyalty_punch_card.jpg', 'Official Capitol Twin Cinema Loyalty Punch Card')">
               <img src="assets/loyalty_punch_card.jpg" 
                    alt="Capitol Twin Cinema Loyalty Punch Card: Buy 10 Tickets, Get 1 Free Pass" 
+                   width="346" height="216" loading="lazy" decoding="async"
                    class="w-full h-auto object-contain rounded-2xl transition duration-500 group-hover:scale-102">
               <div class="mt-3 px-3 py-2 flex items-center justify-between text-xs text-cinema-gold font-bold">
                 <span><i class="fa-solid fa-star mr-1"></i> Official Loyalty Punch Card</span>
@@ -579,6 +581,7 @@
             <div class="relative h-64 sm:h-80 rounded-2xl overflow-hidden bg-slate-900 cursor-pointer" onclick="openLightbox('assets/auditorium_screen1.jpg', 'Screen 1 Auditorium Seating')">
               <img src="assets/auditorium_screen1.jpg" 
                    alt="Auditorium Seating with Blue and Red Seats at Capitol Twin Cinema" 
+                   width="413" height="243" loading="lazy" decoding="async"
                    class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
                 <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-cinema-red text-white self-start mb-1">
@@ -594,6 +597,7 @@
             <div class="relative h-64 sm:h-80 rounded-2xl overflow-hidden bg-slate-900 cursor-pointer" onclick="openLightbox('assets/auditorium_screen2.jpg', 'Screen 2 Auditorium Seating')">
               <img src="assets/auditorium_screen2.jpg" 
                    alt="Screen 2 Auditorium Seating with Plush Seats" 
+                   width="442" height="238" loading="lazy" decoding="async"
                    class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
                 <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-cinema-gold text-cinema-dark self-start mb-1">
@@ -740,7 +744,7 @@
                 <div>
                   <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Street Address</span>
                   <p class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">120 Wallace Ave N, Listowel, ON N4W 1K7</p>
-                  <p class="text-xs text-slate-500">North Perth, Southwestern Ontario</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-300">North Perth, Southwestern Ontario</p>
                 </div>
               </div>
 
@@ -753,7 +757,7 @@
                   <a href="tel:5192916000" class="font-bold text-sm sm:text-base text-cinema-red dark:text-cinema-gold hover:underline block">
                     (519) 291-6000
                   </a>
-                  <p class="text-xs text-slate-500">Recorded showtimes & box office inquiries</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-300">Recorded showtimes & box office inquiries</p>
                 </div>
               </div>
 
@@ -766,7 +770,7 @@
                   <a href="https://www.facebook.com/CapitolTwinCinema/" target="_blank" rel="noopener noreferrer" class="font-bold text-sm sm:text-base text-sky-600 dark:text-cinema-gold hover:underline block">
                     facebook.com/CapitolTwinCinema
                   </a>
-                  <p class="text-xs text-slate-500">Weekly trailers, contest giveaways & announcements</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-300">Weekly trailers, contest giveaways & announcements</p>
                 </div>
               </div>
             </div>
@@ -813,7 +817,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-cinema-border">
         <div class="flex items-center space-x-3">
-          <img src="assets/capitol_logo.png" alt="Capitol Twin Cinema" class="h-12 w-auto">
+          <img src="assets/capitol_logo.png" alt="Capitol Twin Cinema" width="269" height="254" loading="lazy" decoding="async" class="h-12 w-auto">
           <div>
             <span class="font-extrabold text-lg text-white">Capitol Twin Cinema</span>
             <p class="text-xs text-cinema-gold font-bold">120 Wallace Ave N • Listowel, ON • (519) 291-6000</p>
@@ -843,7 +847,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div class="rounded-2xl overflow-hidden border-2 border-cinema-gold/40 shadow-2xl bg-black">
-        <img id="lightbox-img" src="" alt="" class="max-h-[75vh] w-auto object-contain">
+        <img id="lightbox-img" src="" alt="" width="960" height="541" class="max-h-[75vh] w-auto object-contain">
       </div>
       <p id="lightbox-caption" class="text-cinema-gold font-bold text-sm mt-3 text-center px-4"></p>
     </div>

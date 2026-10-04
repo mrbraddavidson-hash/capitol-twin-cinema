@@ -6,6 +6,7 @@ const requiredFiles = [
   "public/sitemap.xml",
   "public/_headers",
   "public/assets/styles.css",
+  "public/assets/fonts.css",
   "public/assets/capitol_logo.png"
 ];
 
