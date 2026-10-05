@@ -2,8 +2,8 @@
 
 | Asset | Source | Usage | Rights/status |
 | --- | --- | --- | --- |
-| `public/assets/brand-kit/capitol_horizontal_lockup.svg` | `capitol_twin_cinema_full_brand_kit.zip` → `vectors/capitol_horizontal_lockup.svg` | Primary website header/footer lockup | User-supplied brand kit; current production logo |
-| `public/assets/brand-kit/capitol_primary_stacked.svg` | `capitol_twin_cinema_full_brand_kit.zip` → `vectors/capitol_primary_stacked.svg` | Hero badge and structured-data logo | User-supplied brand kit; current production logo |
+| `public/assets/brand-kit/capitol_horizontal_lockup.svg` | `capitol_twin_cinema_full_brand_kit.zip` → `vectors/capitol_horizontal_lockup.svg` | Secondary horizontal lockup for wide layouts and print | User-supplied brand kit; retained |
+| `public/assets/brand-kit/capitol_primary_stacked.svg` | `capitol_twin_cinema_full_brand_kit.zip` → `vectors/capitol_primary_stacked.svg` | Primary website header/footer lockup, hero badge, and structured-data logo | User-supplied brand kit; current production logo |
 | `public/assets/brand-kit/capitol_icon_mark.svg` | `capitol_twin_cinema_full_brand_kit.zip` → `vectors/capitol_icon_mark.svg` | Favicon and compact mark | User-supplied brand kit; current production logo |
 | `public/assets/brand-kit/horizontal_lockup_4000px.png` | `capitol_twin_cinema_full_brand_kit.zip` → `png_transparent/horizontal_lockup_4000px.png` | Ultra-print horizontal master | User-supplied brand kit; retained for print/signage |
 | `public/assets/brand-kit/primary_stacked_4000px.png` | `capitol_twin_cinema_full_brand_kit.zip` → `png_transparent/primary_stacked_4000px.png` | Ultra-print primary master | User-supplied brand kit; retained for print/signage |

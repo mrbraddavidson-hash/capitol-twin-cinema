@@ -41,7 +41,6 @@ for (const fragment of ["showtimes", "pricing", "experience", "concessions", "re
 }
 
 for (const fragment of [
-  "assets/brand-kit/capitol_horizontal_lockup.svg",
   "assets/brand-kit/capitol_primary_stacked.svg",
   "assets/brand-kit/primary_stacked_4000px.png"
 ]) {
