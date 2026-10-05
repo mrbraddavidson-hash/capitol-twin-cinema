@@ -92,3 +92,12 @@ Date: 2026-10-04
 - `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings at both breakpoints.
 - GitHub commit: `2dddd1d` — `Remove hero address badge`.
 - Cloudflare Worker version: `652495b2-aa2f-4237-816f-bf46b079b0d0`.
+
+## 2026-10-05 — soften theatre lights control
+
+- The light/dark control now uses a low-opacity tinted surface, muted icon colour, and restrained border; hover states remain visible and the 48px touch target plus `aria-pressed` behavior are unchanged.
+- Local Wrangler preview was inspected at desktop `1440×900` in dark and light modes and mobile `390×844`; the control no longer competes with the phone CTA or mobile menu.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?theme-toggle=756af43-livecheck&cb=756af43-2#hero` returned `200`; HTML references `assets/makeover.css?v=theme-toggle1`, and the deployed stylesheet contains the muted light/dark control states.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on desktop and mobile.
+- GitHub commit: `756af43` — `Soften theatre lights control`.
+- Cloudflare Worker version: `1e08bc54-8031-4200-81d1-2780ce7bf660`.
