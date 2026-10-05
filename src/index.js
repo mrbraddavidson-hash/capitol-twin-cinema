@@ -1,4 +1,5 @@
 const STATE_KEY = "current";
+const CONFIG_KEY = "site-config";
 const SESSION_COOKIE = "ctc_admin";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
 const MAX_BODY_BYTES = 24_000;
@@ -9,6 +10,15 @@ const EMPTY_STATE = Object.freeze({
   entries: []
 });
 
+const DEFAULT_CONFIG = Object.freeze({
+  version: 1,
+  movieLinePhone: "(519) 291-6000",
+  facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
+  introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
+  noticeTitle: "Confirm today’s film and start time.",
+  noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
+});
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -16,6 +26,10 @@ export default {
     try {
       if (url.pathname === "/api/showtimes" && request.method === "GET") {
         return jsonResponse(await readState(env), 200, { "Cache-Control": "no-store" });
+      }
+
+      if (url.pathname === "/api/site-config" && request.method === "GET") {
+        return jsonResponse(await readConfig(env), 200, { "Cache-Control": "no-store" });
       }
 
       if (url.pathname === "/api/admin/login" && request.method === "POST") {
@@ -40,8 +54,17 @@ export default {
         if (url.pathname === "/api/admin/status" && request.method === "GET") {
           return jsonResponse({
             storageConfigured: Boolean(env.NOW_SHOWING),
-            trailerSearchConfigured: Boolean(env.YOUTUBE_API_KEY)
+            trailerSearchConfigured: Boolean(env.YOUTUBE_API_KEY),
+            adminPasswordConfigured: Boolean(env.ADMIN_PASSWORD)
           });
+        }
+
+        if (url.pathname === "/api/admin/config" && request.method === "GET") {
+          return jsonResponse(await readConfig(env));
+        }
+
+        if (url.pathname === "/api/admin/config" && request.method === "POST") {
+          return saveConfig(request, env);
         }
 
         if (url.pathname === "/api/admin/showtimes" && request.method === "GET") {
@@ -123,6 +146,18 @@ async function saveShowtimes(request, env) {
   return jsonResponse(state, 201);
 }
 
+async function saveConfig(request, env) {
+  if (!env.NOW_SHOWING) {
+    return jsonResponse({ error: "NOW_SHOWING storage is not configured." }, 503);
+  }
+
+  const body = await readJson(request);
+  const config = normalizeConfig(body?.config || body);
+  const record = { ...config, updatedAt: new Date().toISOString() };
+  await env.NOW_SHOWING.put(CONFIG_KEY, JSON.stringify(record));
+  return jsonResponse(record, 201);
+}
+
 async function deleteShowtime(id, env) {
   if (!env.NOW_SHOWING) {
     return jsonResponse({ error: "NOW_SHOWING storage is not configured." }, 503);
@@ -200,6 +235,22 @@ async function readState(env) {
   }
 }
 
+async function readConfig(env) {
+  if (!env.NOW_SHOWING) return { ...DEFAULT_CONFIG, updatedAt: null };
+  const raw = await env.NOW_SHOWING.get(CONFIG_KEY);
+  if (!raw) return { ...DEFAULT_CONFIG, updatedAt: null };
+
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      ...normalizeConfig(parsed),
+      updatedAt: typeof parsed.updatedAt === "string" ? parsed.updatedAt : null
+    };
+  } catch {
+    return { ...DEFAULT_CONFIG, updatedAt: null };
+  }
+}
+
 function normalizeEntry(input, index) {
   const title = cleanText(input?.title, 120);
   if (!title) throw new Error(`Listing ${index + 1} needs a movie title.`);
@@ -228,6 +279,17 @@ function normalizeEntry(input, index) {
   };
 }
 
+function normalizeConfig(input) {
+  return {
+    version: 1,
+    movieLinePhone: cleanText(input?.movieLinePhone, 40) || DEFAULT_CONFIG.movieLinePhone,
+    facebookUrl: safeFacebookUrl(input?.facebookUrl) || DEFAULT_CONFIG.facebookUrl,
+    introCopy: cleanText(input?.introCopy, 240) || DEFAULT_CONFIG.introCopy,
+    noticeTitle: cleanText(input?.noticeTitle, 120) || DEFAULT_CONFIG.noticeTitle,
+    noticeBody: cleanText(input?.noticeBody, 240) || DEFAULT_CONFIG.noticeBody
+  };
+}
+
 function cleanText(value, maxLength) {
   return String(value ?? "").replace(/\s+/g, " ").trim().slice(0, maxLength);
 }
@@ -241,6 +303,17 @@ function safeExternalUrl(value) {
     const url = new URL(String(value || ""));
     return url.protocol === "https:" && ["youtube.com", "www.youtube.com", "youtu.be"].includes(url.hostname)
       ? url.href
+      : "";
+  } catch {
+    return "";
+  }
+}
+
+function safeFacebookUrl(value) {
+  try {
+    const url = new URL(String(value || ""));
+    return url.protocol === "https:" && ["facebook.com", "www.facebook.com"].includes(url.hostname)
+      ? url.href.slice(0, 240)
       : "";
   } catch {
     return "";

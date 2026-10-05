@@ -1,12 +1,20 @@
 (() => {
   const $ = (selector) => document.querySelector(selector);
-  const state = { entries: [], trailerResults: [], editingId: "" };
+  const DEFAULT_CONFIG = {
+    movieLinePhone: "(519) 291-6000",
+    facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
+    introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
+    noticeTitle: "Confirm today’s film and start time.",
+    noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
+  };
+  const state = { entries: [], trailerResults: [], editingId: "", config: { ...DEFAULT_CONFIG } };
 
   const loginView = $("#login-view");
   const appView = $("#app-view");
   const loginMessage = $("#login-message");
   const formMessage = $("#form-message");
   const statusMessage = $("#admin-status");
+  const configMessage = $("#config-message");
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -42,6 +50,7 @@
     state.entries = Array.isArray(data.entries) ? data.entries : [];
     renderEntries();
     loadAdminStatus();
+    loadConfig();
   }
 
   function showLogin(message = "") {
@@ -53,11 +62,87 @@
   async function loadAdminStatus() {
     try {
       const status = await api("/api/admin/status", { method: "GET", headers: {} });
+      setConnectionStatus("#status-storage", status.storageConfigured);
+      setConnectionStatus("#status-password", status.adminPasswordConfigured);
+      setConnectionStatus("#status-trailer", status.trailerSearchConfigured);
       statusMessage.textContent = status.trailerSearchConfigured
         ? "Trailer lookup is ready. Select an official result before publishing."
         : "Listings storage is ready. Trailer lookup needs the YOUTUBE_API_KEY Worker secret before it can search YouTube.";
     } catch (error) {
       statusMessage.textContent = error.message;
+    }
+  }
+
+  function setConnectionStatus(selector, ready) {
+    const element = $(selector);
+    if (!element) return;
+    element.textContent = ready ? "Ready" : "Needs setup";
+    element.dataset.ready = ready ? "true" : "false";
+  }
+
+  function fillConfig(config) {
+    state.config = { ...DEFAULT_CONFIG, ...config };
+    $("#config-phone").value = state.config.movieLinePhone;
+    $("#config-facebook").value = state.config.facebookUrl;
+    $("#config-intro").value = state.config.introCopy;
+    $("#config-notice-title").value = state.config.noticeTitle;
+    $("#config-notice-body").value = state.config.noticeBody;
+    $("#config-updated-at").textContent = config.updatedAt ? `Saved ${new Date(config.updatedAt).toLocaleString()}` : "Using defaults";
+  }
+
+  async function loadConfig() {
+    try {
+      fillConfig(await api("/api/admin/config", { method: "GET", headers: {} }));
+    } catch (error) {
+      setMessage(configMessage, error.message);
+    }
+  }
+
+  async function saveConfig(event) {
+    event.preventDefault();
+    const config = {
+      movieLinePhone: $("#config-phone").value.trim(),
+      facebookUrl: $("#config-facebook").value.trim(),
+      introCopy: $("#config-intro").value.trim(),
+      noticeTitle: $("#config-notice-title").value.trim(),
+      noticeBody: $("#config-notice-body").value.trim()
+    };
+    if (!config.movieLinePhone || !config.facebookUrl || !config.introCopy || !config.noticeTitle || !config.noticeBody) {
+      setMessage(configMessage, "Complete every public settings field before saving.");
+      return;
+    }
+
+    const button = $("#config-form button[type=submit]");
+    button.disabled = true;
+    try {
+      const data = await api("/api/admin/config", {
+        method: "POST",
+        body: JSON.stringify({ config })
+      });
+      fillConfig(data);
+      setMessage(configMessage, "Public settings saved. Refresh the public site to see the update.", false);
+    } catch (error) {
+      setMessage(configMessage, error.message);
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function resetConfig() {
+    fillConfig(DEFAULT_CONFIG);
+    setMessage(configMessage, "Form reset to the default theatre settings.", false);
+  }
+
+  async function copyCommand(button) {
+    const command = button.dataset.copyCommand;
+    if (!command) return;
+    try {
+      await navigator.clipboard.writeText(command);
+      const original = button.textContent;
+      button.textContent = "Copied";
+      window.setTimeout(() => { button.textContent = original; }, 1400);
+    } catch {
+      setMessage(configMessage, "Copy was blocked by the browser. Select the command manually.");
     }
   }
 
@@ -241,6 +326,11 @@
   $("#movie-form").addEventListener("submit", publish);
   $("#find-trailer").addEventListener("click", findTrailer);
   $("#reset-form").addEventListener("click", resetForm);
+  $("#config-form").addEventListener("submit", saveConfig);
+  $("#reset-config").addEventListener("click", resetConfig);
+  document.querySelectorAll("[data-copy-command]").forEach((button) => {
+    button.addEventListener("click", () => copyCommand(button));
+  });
 
   api("/api/admin/showtimes", { method: "GET", headers: {} })
     .then(showApp)

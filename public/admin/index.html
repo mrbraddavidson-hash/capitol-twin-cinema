@@ -117,6 +117,62 @@
           <p id="published-empty" class="admin-empty" hidden>No listings published yet.</p>
         </section>
       </div>
+
+      <section class="admin-card admin-config-card" aria-labelledby="config-heading">
+        <div class="admin-card-heading">
+          <div>
+            <p class="admin-eyebrow">Configuration</p>
+            <h2 id="config-heading">Public listings settings</h2>
+          </div>
+          <span id="config-updated-at" class="admin-help"></span>
+        </div>
+        <p class="admin-config-intro">Update the public Now Showing guidance and contact links here. These settings do not replace your movie listings.</p>
+
+        <div class="admin-config-layout">
+          <form id="config-form" class="admin-form">
+            <div class="admin-form-row">
+              <div>
+                <label for="config-phone">Movie line phone</label>
+                <input id="config-phone" type="text" maxlength="40" placeholder="(519) 291-6000" required>
+              </div>
+              <div>
+                <label for="config-facebook">Facebook updates URL</label>
+                <input id="config-facebook" type="url" maxlength="240" placeholder="https://www.facebook.com/CapitolTwinCinema/" required>
+              </div>
+            </div>
+
+            <label for="config-intro">Listings intro</label>
+            <textarea id="config-intro" rows="2" maxlength="240" required></textarea>
+
+            <label for="config-notice-title">Confirmation heading</label>
+            <input id="config-notice-title" type="text" maxlength="120" required>
+
+            <label for="config-notice-body">Confirmation message</label>
+            <textarea id="config-notice-body" rows="2" maxlength="240" required></textarea>
+
+            <div class="admin-config-actions">
+              <button class="admin-button admin-button--primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save public settings</button>
+              <button id="reset-config" class="admin-text-button" type="button">Reset form</button>
+            </div>
+            <p id="config-message" class="admin-message" role="status" aria-live="polite"></p>
+          </form>
+
+          <aside class="admin-config-tools" aria-labelledby="connections-heading">
+            <p class="admin-eyebrow">Connections</p>
+            <h3 id="connections-heading">Worker readiness</h3>
+            <div class="admin-connection-list">
+              <div class="admin-connection-row"><span>Listings storage</span><strong id="status-storage">Checking…</strong></div>
+              <div class="admin-connection-row"><span>Admin sign-in</span><strong id="status-password">Checking…</strong></div>
+              <div class="admin-connection-row"><span>Trailer lookup</span><strong id="status-trailer">Checking…</strong></div>
+            </div>
+            <p class="admin-help">Secrets stay in Cloudflare Worker configuration and are never stored in this editable panel.</p>
+            <div class="admin-command-list">
+              <div class="admin-command"><code>npx wrangler secret put ADMIN_PASSWORD</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put ADMIN_PASSWORD">Copy</button></div>
+              <div class="admin-command"><code>npx wrangler secret put YOUTUBE_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put YOUTUBE_API_KEY">Copy</button></div>
+            </div>
+          </aside>
+        </div>
+      </section>
     </section>
   </main>
 

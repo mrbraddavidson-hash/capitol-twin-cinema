@@ -1,4 +1,13 @@
 (function () {
+  const defaultConfig = {
+    movieLinePhone: "(519) 291-6000",
+    facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
+    introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
+    noticeTitle: "Confirm today’s film and start time.",
+    noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
+  };
+
+  let currentConfig = normalizeConfig(defaultConfig);
   const fallbackImage = {
     "Screen 1": "/assets/screen1-generic.jpg",
     "Screen 2": "/assets/screen2-generic.jpg"
@@ -30,7 +39,7 @@
       : entry.trailerUrl || "";
     const trailerLink = trailer
       ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Watch trailer <i class="fa-brands fa-youtube"></i></a>`
-      : `<a class="showtime-card-link" href="tel:5192916000">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
+      : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
 
     return `<article class="showtime-card ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
       <div class="showtime-card-media">
@@ -48,10 +57,64 @@
     </article>`;
   }
 
+  function normalizeConfig(value) {
+    const phone = String(value?.movieLinePhone || defaultConfig.movieLinePhone).trim() || defaultConfig.movieLinePhone;
+    const digits = phone.replace(/\D/g, "");
+    const facebookUrl = safeFacebookUrl(value?.facebookUrl) || defaultConfig.facebookUrl;
+    return {
+      movieLinePhone: phone,
+      phoneHref: digits ? `tel:${digits}` : "tel:5192916000",
+      facebookUrl,
+      introCopy: String(value?.introCopy || defaultConfig.introCopy).trim() || defaultConfig.introCopy,
+      noticeTitle: String(value?.noticeTitle || defaultConfig.noticeTitle).trim() || defaultConfig.noticeTitle,
+      noticeBody: String(value?.noticeBody || defaultConfig.noticeBody).trim() || defaultConfig.noticeBody
+    };
+  }
+
+  function safeFacebookUrl(value) {
+    try {
+      const url = new URL(String(value || ""));
+      return url.protocol === "https:" && ["facebook.com", "www.facebook.com"].includes(url.hostname)
+        ? url.href
+        : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function applyConfig(value) {
+    currentConfig = normalizeConfig(value);
+    const intro = document.querySelector(".showtimes-intro-copy");
+    const noticeTitle = document.querySelector(".showtimes-notice-copy strong");
+    const noticeBody = document.querySelector(".showtimes-notice-copy p");
+    if (intro) intro.textContent = currentConfig.introCopy;
+    if (noticeTitle) noticeTitle.textContent = currentConfig.noticeTitle;
+    if (noticeBody) noticeBody.textContent = currentConfig.noticeBody;
+    document.querySelectorAll("[data-showtimes-phone]").forEach((link) => {
+      link.href = currentConfig.phoneHref;
+    });
+    document.querySelectorAll("[data-showtimes-phone-label]").forEach((label) => {
+      label.textContent = currentConfig.movieLinePhone;
+    });
+    document.querySelectorAll("[data-showtimes-facebook]").forEach((link) => {
+      link.href = currentConfig.facebookUrl;
+    });
+  }
+
+  async function loadConfig() {
+    try {
+      const response = await fetch("/api/site-config", { headers: { Accept: "application/json" } });
+      if (response.ok) applyConfig(await response.json());
+    } catch {
+      // Static copy remains visible when configuration is unavailable.
+    }
+  }
+
   async function loadShowtimes() {
     const grid = document.getElementById("showtimes-grid");
     if (!grid) return;
 
+    await loadConfig();
     try {
       const response = await fetch("/api/showtimes", { headers: { Accept: "application/json" } });
       if (!response.ok) return;
@@ -59,10 +122,6 @@
       if (!Array.isArray(data.entries) || data.entries.length === 0) return;
 
       grid.innerHTML = data.entries.map(renderEntry).join("");
-      const copy = document.querySelector(".showtimes-intro-copy");
-      if (copy) copy.textContent = "Current films and showtimes are maintained by the theatre team. Call before travelling for last-minute changes.";
-      const notice = document.querySelector(".showtimes-notice-copy p");
-      if (notice) notice.textContent = "The listings below are the latest published update. Call the movie line to confirm before travelling.";
     } catch {
       // The static movie-line/Facebook fallback remains visible when the feed is unavailable.
     }

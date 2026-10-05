@@ -217,6 +217,98 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
   gap: 1.25rem;
 }
 
+.admin-config-card { margin-top: 1.25rem; }
+
+.admin-config-intro {
+  max-width: 70ch;
+  margin: .85rem 0 0;
+  color: var(--admin-muted);
+  line-height: 1.6;
+}
+
+.admin-config-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.admin-config-layout > .admin-form { margin-top: 1.1rem; }
+
+.admin-config-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .8rem 1rem;
+  margin-top: .35rem;
+}
+
+.admin-config-tools {
+  margin-top: 1.1rem;
+  padding: 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  background: var(--admin-paper-warm);
+}
+
+.admin-config-tools h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.admin-connection-list {
+  display: grid;
+  gap: .55rem;
+  margin: 1rem 0;
+}
+
+.admin-connection-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .55rem .65rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  background: #fff;
+  font-size: .78rem;
+}
+
+.admin-connection-row strong {
+  color: var(--admin-red);
+  font-size: .68rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.admin-connection-row strong[data-ready="true"] { color: #16734b; }
+
+.admin-command-list {
+  display: grid;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.admin-command {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .55rem .65rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.admin-command code {
+  overflow: hidden;
+  color: var(--admin-muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .67rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .admin-status {
   margin: 0 0 1.25rem;
   padding: .75rem 1rem;
@@ -310,4 +402,6 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
   .admin-form-row { grid-template-columns: 1fr; }
   .admin-heading-row { align-items: stretch; flex-direction: column; }
   .admin-button--quiet { align-self: flex-start; }
+  .admin-config-layout { grid-template-columns: 1fr; }
+  .admin-command { align-items: flex-start; flex-direction: column; }
 }
