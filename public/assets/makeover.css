@@ -1271,3 +1271,22 @@ html.dark #concessions {
     padding: .65rem 1rem !important;
   }
 }
+
+/* Keep the desktop navigation visually centred between the brand and actions. */
+@media (min-width: 64rem) {
+  header > div > div {
+    position: relative;
+  }
+
+  header .header-desktop-nav {
+    position: absolute;
+    left: 50%;
+    gap: 1.55rem !important;
+    margin: 0 !important;
+    transform: translateX(-50%);
+  }
+
+  header .header-desktop-nav > a {
+    margin-left: 0 !important;
+  }
+}
