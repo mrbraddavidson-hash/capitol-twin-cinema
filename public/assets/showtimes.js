@@ -12,6 +12,29 @@
     "Screen 1": "/assets/screen1-generic.jpg",
     "Screen 2": "/assets/screen2-generic.jpg"
   };
+  const screenOrder = ["Screen 1", "Screen 2"];
+
+  function fallbackEntry(screen) {
+    if (screen === "Screen 2") {
+      return {
+        screen,
+        title: "Facebook updates",
+        rating: "Digital",
+        runtime: "Dolby 5.1",
+        fallbackCopy: "Check the theatre’s Facebook page for the current film and schedule, then call to confirm before travelling.",
+        fallbackAction: "facebook"
+      };
+    }
+
+    return {
+      screen,
+      title: "Movie line schedule",
+      rating: "Digital",
+      runtime: "Dolby 5.1",
+      fallbackCopy: "Call the theatre’s recorded line for the current film, rating, running time and showtimes.",
+      fallbackAction: "phone"
+    };
+  }
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -37,9 +60,13 @@
     const trailer = entry.trailerId
       ? `https://www.youtube.com/watch?v=${encodeURIComponent(entry.trailerId)}`
       : entry.trailerUrl || "";
+    const fallbackLink = entry.fallbackAction === "facebook"
+      ? `<a class="showtime-card-link" href="${escapeHtml(currentConfig.facebookUrl)}" target="_blank" rel="noopener noreferrer">Open Facebook updates <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+      : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for Screen ${screen === "Screen 2" ? "2" : "1"} <i class="fa-solid fa-arrow-right"></i></a>`;
     const trailerLink = trailer
       ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Watch trailer <i class="fa-brands fa-youtube"></i></a>`
-      : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
+      : entry.fallbackAction ? fallbackLink : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
+    const bodyCopy = entry.fallbackCopy || schedule;
 
     return `<article class="showtime-card ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
       <div class="showtime-card-media">
@@ -50,8 +77,8 @@
       <div class="showtime-card-content">
         <div class="showtime-card-meta"><span>${escapeHtml(screen)}</span><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>
         <h3>${title}</h3>
-        <p class="showtime-card-schedule">${escapeHtml(schedule)}</p>
-        ${entry.notes ? `<p class="showtime-card-note">${escapeHtml(entry.notes)}</p>` : ""}
+        <p class="showtime-card-schedule">${escapeHtml(bodyCopy)}</p>
+        ${entry.fallbackCopy ? "" : (entry.notes ? `<p class="showtime-card-note">${escapeHtml(entry.notes)}</p>` : "")}
         ${trailerLink}
       </div>
     </article>`;
@@ -121,7 +148,8 @@
       const data = await response.json();
       if (!Array.isArray(data.entries) || data.entries.length === 0) return;
 
-      grid.innerHTML = data.entries.map(renderEntry).join("");
+      const entries = screenOrder.map((screen) => data.entries.find((entry) => entry.screen === screen) || fallbackEntry(screen));
+      grid.innerHTML = entries.map(renderEntry).join("");
     } catch {
       // The static movie-line/Facebook fallback remains visible when the feed is unavailable.
     }
