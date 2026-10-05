@@ -51,29 +51,50 @@
     return fallbackImage[screen] || fallbackImage["Screen 1"];
   }
 
+  function trailerIdFor(entry) {
+    const directId = String(entry?.trailerId || "").trim();
+    if (/^[A-Za-z0-9_-]{6,20}$/.test(directId)) return directId;
+
+    try {
+      const url = new URL(String(entry?.trailerUrl || ""));
+      if (!["youtube.com", "www.youtube.com", "youtu.be"].includes(url.hostname)) return "";
+      const id = url.hostname === "youtu.be" ? url.pathname.slice(1) : url.searchParams.get("v") || "";
+      return /^[A-Za-z0-9_-]{6,20}$/.test(id) ? id : "";
+    } catch {
+      return "";
+    }
+  }
+
   function renderEntry(entry, index) {
     const screen = entry.screen === "Screen 2" ? "Screen 2" : "Screen 1";
-    const image = escapeHtml(safeImage(entry.posterUrl, screen));
     const title = escapeHtml(entry.title);
     const details = [entry.rating, entry.runtime].filter(Boolean).join(" • ");
+    const trailerId = trailerIdFor(entry);
+    const media = trailerId
+      ? `<div class="showtime-card-media showtime-card-media--trailer">
+        <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?rel=0&modestbranding=1" title="${title} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+        <span class="showtime-card-caption">Official trailer</span>
+      </div>`
+      : `<div class="showtime-card-media">
+        <img src="${escapeHtml(safeImage(entry.posterUrl, screen))}" alt="${title} reference image for ${screen}" width="1600" height="900" loading="lazy" decoding="async" class="showtime-card-image" onerror="this.src='${fallbackImage[screen]}'">
+        <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+        <span class="showtime-card-caption">${escapeHtml(screen)}</span>
+      </div>`;
     const schedule = entry.showtimes?.length ? entry.showtimes.join(" • ") : "Call the movie line for today’s times.";
-    const trailer = entry.trailerId
-      ? `https://www.youtube.com/watch?v=${encodeURIComponent(entry.trailerId)}`
+    const trailer = trailerId
+      ? `https://www.youtube.com/watch?v=${encodeURIComponent(trailerId)}`
       : entry.trailerUrl || "";
     const fallbackLink = entry.fallbackAction === "facebook"
       ? `<a class="showtime-card-link" href="${escapeHtml(currentConfig.facebookUrl)}" target="_blank" rel="noopener noreferrer">Open Facebook updates <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
       : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for Screen ${screen === "Screen 2" ? "2" : "1"} <i class="fa-solid fa-arrow-right"></i></a>`;
     const trailerLink = trailer
-      ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Watch trailer <i class="fa-brands fa-youtube"></i></a>`
+      ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Open trailer on YouTube <i class="fa-brands fa-youtube"></i></a>`
       : entry.fallbackAction ? fallbackLink : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
     const bodyCopy = entry.fallbackCopy || schedule;
 
     return `<article class="showtime-card ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
-      <div class="showtime-card-media">
-        <img src="${image}" alt="${title} reference image for ${screen}" width="1600" height="900" loading="lazy" decoding="async" class="showtime-card-image" onerror="this.src='${fallbackImage[screen]}'">
-        <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
-        <span class="showtime-card-caption">${escapeHtml(screen)}</span>
-      </div>
+      ${media}
       <div class="showtime-card-content">
         <div class="showtime-card-meta"><span>${escapeHtml(screen)}</span><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>
         <h3>${title}</h3>
