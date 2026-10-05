@@ -101,3 +101,14 @@ Date: 2026-10-04
 - `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on desktop and mobile.
 - GitHub commit: `756af43` — `Soften theatre lights control`.
 - Cloudflare Worker version: `1e08bc54-8031-4200-81d1-2780ce7bf660`.
+
+## 2026-10-05 — Now Showing admin panel
+
+- Added `/admin/` with signed admin-cookie authentication, a two-screen movie/time editor, add/remove listing controls, optional YouTube trailer candidate search, explicit trailer selection, and publish actions.
+- Added the Worker `GET /api/showtimes` feed backed by the `NOW_SHOWING` KV namespace; the public `#showtimes` block replaces its static fallback cards only when published entries exist, and otherwise retains the movie-line/Facebook guidance.
+- Local Wrangler preview was inspected at desktop `1440×900` and mobile `390×844`; login, dashboard, test publish, dynamic public card, and no-console-error checks passed.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/admin/?cb=4f25a5b-livecheck-2` returned `200` and rendered the login panel; the public `#showtimes` fallback rendered at desktop and the live mobile admin login rendered at `390×844` with no console errors or warnings.
+- Production `ADMIN_PASSWORD` and `YOUTUBE_API_KEY` are intentionally not stored by this deployment; login and trailer search return setup-needed responses until the owner adds those secrets. No Facebook scraping was added.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, `git diff --check`, and JavaScript syntax checks passed.
+- GitHub commit: `4f25a5b` — `Add Now Showing admin panel`.
+- Cloudflare Worker version: `70991ecf-2130-4175-b288-e2f44f6086d8`.
