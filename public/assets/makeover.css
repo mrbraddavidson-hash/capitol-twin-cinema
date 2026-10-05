@@ -1385,13 +1385,13 @@ html.dark #concessions {
 }
 
 /* Keep both screens visible together once there is room for two readable cards. */
-@media (min-width: 48rem) {
+@media (min-width: 36rem) {
   #showtimes .showtimes-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 47.99rem) {
+@media (max-width: 35.99rem) {
   #showtimes .showtimes-grid {
     grid-template-columns: 1fr;
   }
