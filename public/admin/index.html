@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" class="admin-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capitol Twin Cinema | Now Showing Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/assets/fonts.css">
+  <link rel="stylesheet" href="/assets/fontawesome/all.min.css">
+  <link rel="stylesheet" href="/assets/makeover.css?v=theme-toggle1">
+  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel1">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="/" class="admin-brand" aria-label="Back to Capitol Twin Cinema home">
+      <img src="/assets/brand-kit/capitol_primary_stacked.svg" alt="Capitol Twin Cinema" width="800" height="800">
+      <span>Now Showing Admin</span>
+    </a>
+    <a href="/" class="admin-home-link">View public site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+  </header>
+
+  <main class="admin-shell">
+    <section id="login-view" class="admin-card admin-login-card" aria-labelledby="login-heading">
+      <p class="admin-eyebrow">Private theatre tool</p>
+      <h1 id="login-heading">Manage Now Showing</h1>
+      <p>Sign in to add a film, enter screen times, find its official trailer, and publish the update to the public listings.</p>
+      <form id="login-form" class="admin-form">
+        <label for="admin-password">Admin password</label>
+        <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="admin-button admin-button--primary" type="submit">Sign in <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+      <p id="login-message" class="admin-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="app-view" hidden aria-labelledby="admin-heading">
+      <div class="admin-heading-row">
+        <div>
+          <p class="admin-eyebrow">Capitol Twin Cinema</p>
+          <h1 id="admin-heading">Now Showing</h1>
+          <p class="admin-lede">Publish the current film and showtimes for each screen. Trailer matches are suggestions until you select one.</p>
+        </div>
+        <button id="logout-button" class="admin-button admin-button--quiet" type="button">Sign out</button>
+      </div>
+
+      <div id="admin-status" class="admin-status" role="status" aria-live="polite"></div>
+
+      <div class="admin-grid">
+        <section class="admin-card" aria-labelledby="entry-heading">
+          <div class="admin-card-heading">
+            <div>
+              <p class="admin-eyebrow">Listing editor</p>
+              <h2 id="entry-heading">Add a movie and times</h2>
+            </div>
+            <button id="reset-form" class="admin-text-button" type="button">Clear form</button>
+          </div>
+
+          <form id="movie-form" class="admin-form">
+            <input id="entry-id" type="hidden">
+            <div class="admin-form-row">
+              <div>
+                <label for="screen">Screen</label>
+                <select id="screen" required>
+                  <option>Screen 1</option>
+                  <option>Screen 2</option>
+                </select>
+              </div>
+              <div>
+                <label for="date">Date / run</label>
+                <input id="date" type="text" placeholder="This week">
+              </div>
+            </div>
+            <label for="title">Movie title</label>
+            <input id="title" type="text" maxlength="120" placeholder="e.g. The Wild Robot" required>
+
+            <div class="admin-form-row">
+              <div>
+                <label for="rating">Rating</label>
+                <input id="rating" type="text" maxlength="16" placeholder="PG">
+              </div>
+              <div>
+                <label for="runtime">Runtime</label>
+                <input id="runtime" type="text" maxlength="32" placeholder="1h 42m">
+              </div>
+            </div>
+
+            <label for="showtimes">Showtimes <span class="admin-help">comma separated</span></label>
+            <input id="showtimes" type="text" maxlength="320" placeholder="2:00 PM, 7:00 PM" required>
+
+            <div class="admin-trailer-heading">
+              <label for="trailer-id">Trailer</label>
+              <button id="find-trailer" class="admin-text-button" type="button"><i class="fa-brands fa-youtube"></i> Find official trailer</button>
+            </div>
+            <input id="trailer-id" type="hidden">
+            <input id="trailer-url" type="url" placeholder="Select a result or paste a YouTube URL">
+            <div id="trailer-results" class="trailer-results" aria-live="polite"></div>
+
+            <label for="poster-url">Poster image URL <span class="admin-help">optional</span></label>
+            <input id="poster-url" type="url" placeholder="https://...">
+
+            <label for="notes">Notes <span class="admin-help">optional</span></label>
+            <textarea id="notes" rows="3" maxlength="240" placeholder="Special presentation, holiday note, or age guidance"></textarea>
+
+            <button class="admin-button admin-button--primary" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Publish listing</button>
+            <p id="form-message" class="admin-message" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="admin-card" aria-labelledby="published-heading">
+          <div class="admin-card-heading">
+            <div>
+              <p class="admin-eyebrow">Live data</p>
+              <h2 id="published-heading">Published listings</h2>
+            </div>
+            <span id="updated-at" class="admin-help"></span>
+          </div>
+          <div id="published-list" class="published-list"></div>
+          <p id="published-empty" class="admin-empty" hidden>No listings published yet.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js?v=admin-panel1" defer></script>
+</body>
+</html>

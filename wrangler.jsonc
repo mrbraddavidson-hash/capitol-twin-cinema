@@ -1,20 +1,28 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "capitol-twin-cinema",
-  "compatibility_date": "2026-10-04",
-  "assets": {
-    "directory": "./public",
-    "html_handling": "auto-trailing-slash"
-  },
-  "observability": {
-    "enabled": true,
-    "logs": {
-      "enabled": true,
-      "head_sampling_rate": 1
-    },
-    "traces": {
-      "enabled": true,
-      "head_sampling_rate": 0.01
-    }
-  }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "capitol-twin-cinema",
+	"compatibility_date": "2026-10-04",
+	"main": "src/index.js",
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"html_handling": "auto-trailing-slash"
+	},
+	"observability": {
+		"enabled": true,
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1
+		},
+		"traces": {
+			"enabled": true,
+			"head_sampling_rate": 0.01
+		}
+	},
+	"kv_namespaces": [
+		{
+			"binding": "NOW_SHOWING",
+			"id": "28389f6e76cd4694abc38e5ee12a96f8"
+		}
+	]
 }
