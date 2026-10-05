@@ -112,3 +112,14 @@ Date: 2026-10-04
 - `npm.cmd run build`, `npm.cmd run deploy:check`, `git diff --check`, and JavaScript syntax checks passed.
 - GitHub commit: `4f25a5b` — `Add Now Showing admin panel`.
 - Cloudflare Worker version: `70991ecf-2130-4175-b288-e2f44f6086d8`.
+
+## 2026-10-05 — admin configuration tool
+
+- Added a Configuration card to `/admin/` for the public Now Showing phone number, Facebook link, listings intro, confirmation heading, and confirmation message.
+- Added readiness indicators for KV listings storage, admin sign-in, and YouTube trailer lookup, plus copy buttons for the secret setup commands without accepting secret values in the browser.
+- Added authenticated `/api/admin/config` read/write endpoints and public `/api/site-config`; settings are stored under a separate `site-config` KV key and applied by the public showtimes script.
+- Local Wrangler preview was inspected at desktop `1440×900`; a configuration save updated the public Now Showing copy and movie-line link, with no console errors or warnings. Unauthenticated configuration writes returned `401`.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/admin/?cb=468ad16-livecheck` returned `200` and rendered the protected login screen; live `/api/site-config` returned `200`, the public page served `assets/showtimes.js?v=admin-feed2`, and the live public Now Showing fallback rendered without console errors or warnings.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, `git diff --check`, and JavaScript syntax checks passed.
+- GitHub commit: `468ad16` — `Add admin configuration tool`.
+- Cloudflare Worker version: `a235306b-b9ea-49e7-afe7-f3edb12ee698`.
