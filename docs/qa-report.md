@@ -25,6 +25,15 @@ Date: 2026-10-04
 - GitHub commits: `932a04e` — `Adopt full Capitol brand kit as primary logo`; `aa06252` — `Bust makeover stylesheet cache for brand kit`.
 - Cloudflare Worker version: `f919c80c-6786-472f-9d39-00d72e58d494`.
 
+## 2026-10-05 — brighter photo-backed concession cards
+
+- `public/assets/makeover.css` now renders the real concession photographs at full opacity with a lighter readability veil; the exact card copy and prices are unchanged.
+- Local Wrangler preview was inspected at desktop `1440×900` and mobile `390×844`; the food, drink, candy, and combo subjects are visibly identifiable, with the supplied copy still readable.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?photo-bright=2279c01#concessions` was inspected at both breakpoints; the versioned `assets/makeover.css?v=photo-cards3` loaded the new overlay values.
+- Live image requests for all four concession assets returned `200 image/jpeg`; the live browser console reported no errors or warnings.
+- GitHub commit: `2279c01` — `Lighten concession card photography`.
+- Cloudflare Worker version: `17af7bfb-9d03-4a3e-b9ee-a5171c8099c4`.
+
 ## Remaining risk
 
 - The named `capitol_twin_cinema_pngs.zip` was not present in the local filesystem during this pass. The separately supplied `capitol_twin_cinema.zip` was inspected; only its original circle logo was adopted because the rest of that package contains removed loyalty content and stale listings.
