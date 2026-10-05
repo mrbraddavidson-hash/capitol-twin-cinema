@@ -10,12 +10,13 @@
 
 ## Direction
 
-Static premium refresh: a compact marquee header, ink-and-paper cinema palette, bold condensed display type, restrained square corners, and a recurring gold edge that echoes the circular logo ring. The primary action remains checking showtimes; the secondary action is calling the movie line.
+Static premium refresh: a compact marquee header, ink-and-paper cinema palette, bold condensed display type, softened tactile corners, and a recurring gold edge that echoes the circular logo ring. The primary action remains checking showtimes; the secondary action is calling the movie line.
 
 ## Scope
 
 - Rebalance the crowded desktop navigation to four primary destinations.
 - Rework colour, type, section surfaces, cards, buttons, hero framing, and responsive spacing using the verified logo palette.
+- Keep the visual system tidy and tactile: consistent softened corners, neutral depth, and fewer hard-edged poster-board blocks.
 - Do not invent new showtimes, prices, offers, testimonials, or integrations.
 - Do not add paid media generation or external dependencies.
 

@@ -1081,3 +1081,159 @@ body > aside[aria-label="Mobile Quick Actions"] a {
     text-align: left;
   }
 }
+
+/* Tidy pass: soften the hard poster-board edges while keeping the marquee
+   colours, real photography, and gold registration line as the signature. */
+:root {
+  --ctc-radius: 14px;
+  --ctc-radius-sm: 10px;
+  --ctc-shadow-soft: 0 14px 32px rgba(20, 23, 26, .13);
+}
+
+body > aside[aria-label="Cinema Marquee Announcements"] {
+  border-bottom-width: 1px;
+}
+
+header {
+  border-bottom-width: 1px !important;
+  box-shadow: 0 8px 24px rgba(20, 23, 26, .06);
+}
+
+header #theme-toggle,
+header #mobile-menu-btn,
+header .header-phone-action,
+body > aside[aria-label="Mobile Quick Actions"] a {
+  border-radius: var(--ctc-radius-sm) !important;
+}
+
+#hero {
+  border-bottom-width: 1px;
+}
+
+#hero .relative.mx-auto {
+  border-width: 1px !important;
+  border-color: rgba(247, 181, 25, .62) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, .25) !important;
+}
+
+#hero .relative.mx-auto > div:first-child {
+  padding: .85rem 1rem;
+}
+
+#hero a {
+  border-radius: var(--ctc-radius-sm) !important;
+}
+
+#hero .relative.mx-auto img {
+  display: block;
+}
+
+main > section h2::after {
+  width: 3rem;
+  height: 3px;
+  margin-top: .7rem;
+}
+
+#showtimes,
+#concessions {
+  border-block-width: 1px !important;
+}
+
+#showtimes {
+  background: #EAF7FA !important;
+}
+
+#concessions {
+  background: #FFF9EE !important;
+}
+
+html.dark #showtimes,
+html.dark #concessions {
+  background: #1B2022 !important;
+}
+
+#showtimes > div > div:first-child,
+#showtimes .showtimes-intro {
+  border-left-width: 3px;
+  padding-left: 1rem;
+}
+
+#showtimes .showtimes-notice {
+  border-left-width: 3px;
+  border-radius: var(--ctc-radius) !important;
+  box-shadow: var(--ctc-shadow-soft);
+}
+
+#showtimes .showtimes-action {
+  border-radius: var(--ctc-radius-sm);
+}
+
+#showtimes .showtime-card,
+#showtimes .grid > div {
+  border-radius: 16px !important;
+  border-top-width: 3px !important;
+  box-shadow: var(--ctc-shadow-soft) !important;
+}
+
+#showtimes .showtime-card-index {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+#pricing .grid > div,
+#contact .space-y-4 > div,
+#contact .lg\:col-span-6 > div {
+  border-radius: 16px !important;
+  box-shadow: var(--ctc-shadow-soft) !important;
+}
+
+#pricing .grid > div:nth-child(4) {
+  border-top-width: 3px !important;
+}
+
+#experience .grid > div {
+  border-radius: 18px !important;
+  box-shadow: var(--ctc-shadow-soft) !important;
+}
+
+#experience .grid > div > div {
+  border-radius: 12px !important;
+}
+
+#concessions .grid {
+  gap: 1.25rem;
+}
+
+#concessions .concession-card {
+  border-radius: 18px !important;
+  box-shadow: var(--ctc-shadow-soft) !important;
+}
+
+#concessions .concession-card--combo {
+  border-width: 1px !important;
+}
+
+#rentals .bg-gradient-to-r {
+  border-radius: 20px !important;
+  box-shadow: 0 18px 38px rgba(20, 23, 26, .16) !important;
+}
+
+#rentals .bg-black\/40 {
+  border-radius: 12px !important;
+}
+
+#image-lightbox > div > div {
+  border-radius: 16px !important;
+}
+
+@media (max-width: 63.99rem) {
+  #hero .relative.mx-auto {
+    box-shadow: 0 18px 34px rgba(0, 0, 0, .24) !important;
+  }
+
+  #showtimes .grid > div,
+  #showtimes .showtime-card {
+    box-shadow: var(--ctc-shadow-soft) !important;
+  }
+}

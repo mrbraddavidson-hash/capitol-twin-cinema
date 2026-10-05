@@ -17,6 +17,6 @@ Capitol Twin Cinema should feel like a real local marquee: crisp, warm, and unmi
 ## Layout choices
 
 - Hero is asymmetric: short, high-impact copy at left and a real auditorium image at right.
-- Listings use a pale-blue poster-board field and offset gold card edge.
+- Listings use a pale-blue poster-board field with calm neutral card depth instead of offset block shadows.
 - Supporting sections alternate paper, ink, and pale-blue fields so the page has rhythm without relying on gradients.
 - Desktop navigation exposes four high-value destinations; secondary links remain in the drawer and footer.
