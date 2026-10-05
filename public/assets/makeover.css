@@ -394,6 +394,357 @@ html.dark #showtimes .grid > div > div:last-child {
   text-transform: uppercase;
 }
 
+/* Current listings: turn the two screens into a clear, action-led availability board. */
+#showtimes .showtimes-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr);
+  gap: 2rem;
+  align-items: end;
+  max-width: none;
+  margin: 0 0 2.25rem;
+  border-left: 6px solid var(--ctc-red);
+  padding: .35rem 0 .35rem 1.25rem;
+  text-align: left;
+}
+
+#showtimes .showtimes-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: .55rem;
+  color: var(--ctc-red);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+#showtimes .showtimes-eyebrow i {
+  color: var(--ctc-gold);
+}
+
+#showtimes .showtimes-intro h2 {
+  margin: 0;
+  color: var(--ctc-ink) !important;
+}
+
+#showtimes .showtimes-intro-copy {
+  max-width: 30rem;
+  margin: 0;
+  color: rgba(20, 23, 26, .78);
+  font-family: "Inter", sans-serif;
+  font-size: .95rem;
+  line-height: 1.65;
+}
+
+#showtimes .showtimes-notice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid rgba(20, 23, 26, .22);
+  border-left: 8px solid var(--ctc-gold);
+  border-radius: var(--ctc-radius);
+  background: var(--ctc-ink);
+  color: #fff;
+}
+
+#showtimes .showtimes-notice-mark {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--ctc-gold);
+  color: var(--ctc-ink);
+  font-size: 1.15rem;
+}
+
+#showtimes .showtimes-notice-copy {
+  display: grid;
+  gap: .2rem;
+}
+
+#showtimes .showtimes-notice-copy > span {
+  color: var(--ctc-gold);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+#showtimes .showtimes-notice-copy strong {
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+#showtimes .showtimes-notice-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, .72);
+  font-family: "Inter", sans-serif;
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+#showtimes .showtimes-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+
+#showtimes .showtimes-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 2.8rem;
+  padding: .7rem .9rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: .72rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: left;
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+#showtimes .showtimes-action:hover {
+  transform: translateY(-1px);
+}
+
+#showtimes .showtimes-action i {
+  color: var(--ctc-gold);
+  font-size: .95rem;
+}
+
+#showtimes .showtimes-action--primary {
+  background: var(--ctc-red);
+  color: #fff;
+}
+
+#showtimes .showtimes-action--primary:hover {
+  background: var(--ctc-red-deep);
+}
+
+#showtimes .showtimes-action--primary span {
+  display: grid;
+  gap: .1rem;
+}
+
+#showtimes .showtimes-action--primary strong {
+  color: var(--ctc-gold);
+  font-size: .68rem;
+}
+
+#showtimes .showtimes-action--secondary {
+  border-color: rgba(247, 181, 25, .55);
+  background: transparent;
+  color: #fff;
+}
+
+#showtimes .showtimes-action--secondary:hover {
+  background: rgba(247, 181, 25, .12);
+}
+
+#showtimes .showtimes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+#showtimes .showtime-card {
+  overflow: hidden;
+  border: 1px solid rgba(20, 23, 26, .32);
+  border-top: 8px solid var(--ctc-red);
+  border-radius: var(--ctc-radius);
+  background: var(--ctc-paper);
+  box-shadow: 10px 10px 0 var(--ctc-gold);
+}
+
+#showtimes .showtime-card--gold {
+  border-top-color: var(--ctc-gold);
+}
+
+#showtimes .showtime-card-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 8;
+  background: var(--ctc-ink-soft);
+}
+
+#showtimes .showtime-card-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: transform 300ms ease, filter 300ms ease;
+}
+
+#showtimes .showtime-card:hover .showtime-card-image {
+  filter: saturate(1.08);
+  transform: scale(1.035);
+}
+
+#showtimes .showtime-card-index {
+  position: absolute;
+  top: .85rem;
+  left: .85rem;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--ctc-gold);
+  border-radius: 50%;
+  background: rgba(20, 23, 26, .88);
+  color: var(--ctc-gold);
+  font-family: "Bebas Neue", "Inter", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+#showtimes .showtime-card-caption {
+  position: absolute;
+  right: .85rem;
+  bottom: .75rem;
+  padding: .35rem .5rem;
+  background: rgba(20, 23, 26, .85);
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+#showtimes .showtime-card-content {
+  display: flex;
+  min-height: 13rem;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.25rem 1.35rem 1.35rem;
+}
+
+#showtimes .showtime-card-meta {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: .75rem;
+  color: var(--ctc-red);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+#showtimes .showtime-card--gold .showtime-card-meta {
+  color: var(--ctc-gold-deep);
+}
+
+#showtimes .showtime-card-meta span:last-child {
+  color: rgba(20, 23, 26, .66);
+  font-size: .62rem;
+  letter-spacing: .04em;
+  text-align: right;
+  text-transform: none;
+}
+
+#showtimes .showtime-card-meta i {
+  margin-right: .25rem;
+  color: var(--ctc-blue);
+}
+
+#showtimes .showtime-card-content h3 {
+  margin: 0;
+  color: var(--ctc-ink) !important;
+  font-size: clamp(1.65rem, 3vw, 2.2rem) !important;
+}
+
+#showtimes .showtime-card-content p {
+  max-width: 32rem;
+  margin: .65rem 0 1.2rem;
+  color: rgba(20, 23, 26, .74);
+  font-family: "Inter", sans-serif;
+  font-size: .82rem;
+  line-height: 1.6;
+}
+
+#showtimes .showtime-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: auto;
+  color: var(--ctc-red);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#showtimes .showtime-card--gold .showtime-card-link {
+  color: var(--ctc-gold-deep);
+}
+
+#showtimes .showtime-card-link:hover {
+  text-decoration: underline;
+}
+
+#showtimes .showtime-card-link i {
+  font-size: .7rem;
+  transition: transform 120ms ease;
+}
+
+#showtimes .showtime-card-link:hover i {
+  transform: translateX(3px);
+}
+
+#showtimes .showtimes-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  margin: 1.75rem 0 0;
+  color: rgba(20, 23, 26, .68);
+  font-family: "Inter", sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+#showtimes .showtimes-footnote i {
+  color: var(--ctc-red);
+}
+
+html.dark #showtimes .showtimes-intro-copy,
+html.dark #showtimes .showtimes-footnote,
+html.dark #showtimes .showtime-card-content p {
+  color: rgba(255, 255, 255, .72);
+}
+
+html.dark #showtimes .showtimes-intro h2,
+html.dark #showtimes .showtime-card-content h3 {
+  color: #fff !important;
+}
+
+html.dark #showtimes .showtime-card {
+  border-color: rgba(247, 181, 25, .62);
+  background: var(--ctc-ink-soft);
+  box-shadow: none;
+}
+
+html.dark #showtimes .showtime-card-meta span:last-child {
+  color: rgba(255, 255, 255, .66);
+}
+
+html.dark #showtimes .showtime-card--gold .showtime-card-meta,
+html.dark #showtimes .showtime-card--gold .showtime-card-link {
+  color: var(--ctc-gold);
+}
+
 /* Pricing and contact use paper, ink, red, and gold instead of utility-colour noise. */
 #pricing,
 #contact {
@@ -596,5 +947,58 @@ body > aside[aria-label="Mobile Quick Actions"] a {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  #showtimes .showtimes-intro {
+    grid-template-columns: 1fr;
+    gap: .7rem;
+  }
+
+  #showtimes .showtimes-notice {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  #showtimes .showtimes-notice-actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+
+  #showtimes .showtimes-action {
+    flex: 1 1 12rem;
+  }
+
+  #showtimes .showtimes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #showtimes .showtime-card {
+    box-shadow: 6px 6px 0 var(--ctc-gold);
+  }
+}
+
+@media (max-width: 39.99rem) {
+  #showtimes .showtimes-notice {
+    grid-template-columns: 1fr;
+  }
+
+  #showtimes .showtimes-notice-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #showtimes .showtimes-action {
+    width: 100%;
+  }
+
+  #showtimes .showtime-card-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .35rem;
+  }
+
+  #showtimes .showtime-card-meta span:last-child {
+    text-align: left;
   }
 }

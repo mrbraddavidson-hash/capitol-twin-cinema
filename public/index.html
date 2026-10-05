@@ -261,131 +261,85 @@
     <!-- Now Playing on Twin Screens -->
     <section id="showtimes" class="py-16 bg-white dark:bg-cinema-darkCard border-y border-slate-200 dark:border-cinema-border">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center max-w-3xl mx-auto mb-12">
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-cinema-red text-white mb-3">
-            <i class="fa-solid fa-clapperboard mr-1.5 text-cinema-gold"></i> Current Listings
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-extrabold text-cinema-red dark:text-white">
-             Current Films & Showtimes
-          </h2>
-          <p class="mt-3 font-body text-slate-700 dark:text-slate-300 text-sm sm:text-base">
-             Listings can change during the week. Call the movie line at <strong>(519) 291-6000</strong> or check Facebook before travelling.
+
+        <div class="showtimes-intro">
+          <div>
+            <span class="showtimes-eyebrow">
+              <i class="fa-solid fa-clapperboard"></i> Now showing
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-cinema-red dark:text-white">Current Listings</h2>
+          </div>
+          <p class="showtimes-intro-copy">
+            Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          <!-- Screen 1 Feature -->
-          <div class="rounded-3xl overflow-hidden bg-slate-50 dark:bg-cinema-darkSurface border border-slate-200 dark:border-cinema-border shadow-xl flex flex-col justify-between">
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-4">
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-cinema-red text-white">
-                  SCREEN 1
-                </span>
-                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <i class="fa-solid fa-circle-check mr-1"></i> Digital Dolby 5.1
-                </span>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-                <div class="sm:col-span-5 rounded-2xl overflow-hidden shadow-md">
-                  <img src="assets/auditorium_screen1.jpg" 
-                       alt="Screen 1 Auditorium Seating" 
-                       width="413" height="243" loading="lazy" decoding="async"
-                       class="w-full h-48 object-cover cursor-pointer hover:opacity-95 transition"
-                       onclick="openLightbox('assets/auditorium_screen1.jpg', 'Screen 1 Auditorium at Capitol Twin Cinema')">
-                </div>
-                <div class="sm:col-span-7 space-y-2">
-                  <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-black bg-slate-200 dark:bg-cinema-border text-slate-800 dark:text-slate-200">CURRENT LISTING</span>
-                  </div>
-                  <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Screen 1 Schedule</h3>
-                  <p class="text-xs font-body text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Call the theatre's recorded movie line for the current film, rating and running time.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Screen 1 Showtimes -->
-              <div class="mt-6 pt-4 border-t border-slate-200 dark:border-cinema-border">
-                <span class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-                  Confirm today's showtimes:
-                </span>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-3 py-1.5 rounded-lg bg-cinema-red text-white text-xs font-bold shadow-sm">
-                    <i class="fa-solid fa-phone mr-1"></i> (519) 291-6000
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-4 bg-slate-100 dark:bg-cinema-darkCard/80 border-t border-slate-200 dark:border-cinema-border flex items-center justify-between">
-              <span class="text-xs text-slate-600 dark:text-slate-300">
-                Doors open 30 mins prior to showtime
-              </span>
-              <a href="tel:5192916000" class="text-xs font-bold text-cinema-red dark:text-cinema-gold hover:underline">
-                Call for Tickets & Info →
-              </a>
-            </div>
+        <div class="showtimes-notice">
+          <div class="showtimes-notice-mark" aria-hidden="true">
+            <i class="fa-solid fa-bullhorn"></i>
           </div>
-
-          <!-- Screen 2 Feature -->
-          <div class="rounded-3xl overflow-hidden bg-slate-50 dark:bg-cinema-darkSurface border border-slate-200 dark:border-cinema-border shadow-xl flex flex-col justify-between">
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-4">
-                <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-cinema-gold text-cinema-dark">
-                  SCREEN 2
-                </span>
-                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <i class="fa-solid fa-circle-check mr-1"></i> Digital Dolby 5.1
-                </span>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-                <div class="sm:col-span-5 rounded-2xl overflow-hidden shadow-md">
-                  <img src="assets/auditorium_screen2.jpg" 
-                       alt="Screen 2 Auditorium Seating" 
-                       width="442" height="238" loading="lazy" decoding="async"
-                       class="w-full h-48 object-cover cursor-pointer hover:opacity-95 transition"
-                       onclick="openLightbox('assets/auditorium_screen2.jpg', 'Screen 2 Auditorium at Capitol Twin Cinema')">
-                </div>
-                <div class="sm:col-span-7 space-y-2">
-                  <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-black bg-slate-200 dark:bg-cinema-border text-slate-800 dark:text-slate-200">CURRENT LISTING</span>
-                  </div>
-                  <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Screen 2 Schedule</h3>
-                  <p class="text-xs font-body text-slate-600 dark:text-slate-300 leading-relaxed">
-                    Check the theatre's Facebook page or call the movie line for the current film and schedule.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Screen 2 Showtimes -->
-              <div class="mt-6 pt-4 border-t border-slate-200 dark:border-cinema-border">
-                <span class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
-                  Current updates:
-                </span>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-3 py-1.5 rounded-lg bg-cinema-red text-white text-xs font-bold shadow-sm">
-                    <i class="fa-brands fa-facebook mr-1"></i> facebook.com/CapitolTwinCinema
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-4 bg-slate-100 dark:bg-cinema-darkCard/80 border-t border-slate-200 dark:border-cinema-border flex items-center justify-between">
-              <span class="text-xs text-slate-600 dark:text-slate-300">
-                Doors open 30 mins prior to showtime
-              </span>
-              <a href="tel:5192916000" class="text-xs font-bold text-cinema-red dark:text-cinema-gold hover:underline">
-                Call for Tickets & Info →
-              </a>
-            </div>
+          <div class="showtimes-notice-copy">
+            <span>Before you head out</span>
+            <strong>Confirm today’s film and start time.</strong>
+            <p>Call the recorded movie line or check the theatre’s Facebook page for the latest update.</p>
           </div>
-
+          <div class="showtimes-notice-actions">
+            <a href="tel:5192916000" class="showtimes-action showtimes-action--primary">
+              <i class="fa-solid fa-phone"></i>
+              <span>Call movie line <strong>(519) 291-6000</strong></span>
+            </a>
+            <a href="https://www.facebook.com/CapitolTwinCinema/" target="_blank" rel="noopener noreferrer" class="showtimes-action showtimes-action--secondary">
+              <i class="fa-brands fa-facebook"></i>
+              <span>Facebook updates <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></span>
+            </a>
+          </div>
         </div>
 
+        <div class="showtimes-grid">
+          <article class="showtime-card showtime-card--ruby">
+            <div class="showtime-card-media">
+              <img src="assets/auditorium_screen1.jpg"
+                   alt="Screen 1 Auditorium Seating"
+                   width="413" height="243" loading="lazy" decoding="async"
+                   class="showtime-card-image"
+                   onclick="openLightbox('assets/auditorium_screen1.jpg', 'Screen 1 Auditorium at Capitol Twin Cinema')">
+              <span class="showtime-card-index" aria-hidden="true">01</span>
+              <span class="showtime-card-caption">Screen 1 auditorium</span>
+            </div>
+            <div class="showtime-card-content">
+              <div class="showtime-card-meta">
+                <span>Screen 1</span>
+                <span><i class="fa-solid fa-volume-high"></i> Digital • Dolby 5.1</span>
+              </div>
+              <h3>Movie line schedule</h3>
+              <p>Call the theatre’s recorded line for the current film, rating, running time and showtimes.</p>
+              <a href="tel:5192916000" class="showtime-card-link">Call for Screen 1 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <article class="showtime-card showtime-card--gold">
+            <div class="showtime-card-media">
+              <img src="assets/auditorium_screen2.jpg"
+                   alt="Screen 2 Auditorium Seating"
+                   width="442" height="238" loading="lazy" decoding="async"
+                   class="showtime-card-image"
+                   onclick="openLightbox('assets/auditorium_screen2.jpg', 'Screen 2 Auditorium at Capitol Twin Cinema')">
+              <span class="showtime-card-index" aria-hidden="true">02</span>
+              <span class="showtime-card-caption">Screen 2 auditorium</span>
+            </div>
+            <div class="showtime-card-content">
+              <div class="showtime-card-meta">
+                <span>Screen 2</span>
+                <span><i class="fa-solid fa-volume-high"></i> Digital • Dolby 5.1</span>
+              </div>
+              <h3>Facebook updates</h3>
+              <p>Check the theatre’s Facebook page for the current film and schedule, then call to confirm before travelling.</p>
+              <a href="https://www.facebook.com/CapitolTwinCinema/" target="_blank" rel="noopener noreferrer" class="showtime-card-link">Open Facebook updates <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </article>
+        </div>
+
+        <p class="showtimes-footnote"><i class="fa-regular fa-clock"></i> Doors open 30 minutes prior to showtime.</p>
       </div>
     </section>
 

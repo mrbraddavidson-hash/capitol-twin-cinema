@@ -50,4 +50,10 @@ for (const fragment of [
   }
 }
 
+for (const fragment of ["showtimes-notice", "showtimes-grid", "showtime-card", "Call movie line", "Facebook updates"]) {
+  if (!html.includes(fragment)) {
+    throw new Error(`Missing current-listings treatment: ${fragment}`);
+  }
+}
+
 console.log("Static-site validation passed.");
