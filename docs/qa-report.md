@@ -38,3 +38,12 @@ Date: 2026-10-04
 
 - The named `capitol_twin_cinema_pngs.zip` was not present in the local filesystem during this pass. The separately supplied `capitol_twin_cinema.zip` was inspected; only its original circle logo was adopted because the rest of that package contains removed loyalty content and stale listings.
 - A dedicated 375px device viewport was not available through the current browser surface; responsive rules were reviewed in source and desktop/live light-and-dark renders were verified.
+
+## 2026-10-05 — tidy visual surfaces
+
+- The final tidy layer softens the hero, listings, pricing, experience, concession, rental, and contact surfaces with consistent corners, neutral shadows, lighter section fields, and fewer hard-edged offset blocks; copy, brand colours, and real photography are unchanged.
+- Local Wrangler preview was inspected at desktop `1440×900` and mobile `390×844`, including hero, current listings, and concessions; the layouts remained readable and balanced.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?tidy=c747f11#hero` returned `200`; the cache-busted `assets/makeover.css?v=tidy1` returned `200` with the tidy tokens present.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on the desktop/mobile checks.
+- GitHub commit: `c747f11` — `Soften blocky site surfaces`.
+- Cloudflare Worker version: `b5eba6a7-b724-4d6d-bcf2-4c1250f5400a`.
