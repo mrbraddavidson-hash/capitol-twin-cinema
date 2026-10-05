@@ -74,3 +74,12 @@ Date: 2026-10-04
 - Live browser console reported no errors or warnings.
 - GitHub commit: `a32660f` — `Lighten marquee gold accent`.
 - Cloudflare Worker version: `4d683b1e-4837-4f21-a4e1-d05ccc613061`.
+
+## 2026-10-05 — remove pricing section labels
+
+- Removed the “Honest Canadian Pricing” and “Concession Stand” pill labels; the pricing and concession headings, copy, prices, and cards remain intact with the intro spacing preserved.
+- Local Wrangler preview was inspected at desktop `1440×900` and mobile `390×844`; both sections remained readable and aligned without the removed labels.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?pricing-label=55299fd&cb=55299fd-1#pricing` returned `200`; the HTML references `assets/makeover.css?v=pricing-label1`, and neither removed label is present.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on the desktop pricing and mobile concessions checks.
+- GitHub commit: `55299fd` — `Remove pricing section labels`.
+- Cloudflare Worker version: `21d48925-ccb5-44ca-8f1f-bf95c6dd591f`.
