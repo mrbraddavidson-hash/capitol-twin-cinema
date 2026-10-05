@@ -1352,3 +1352,34 @@ html.dark #concessions {
 .text-amber-400 {
   color: var(--ctc-gold) !important;
 }
+
+/* Keep embedded trailers compact and visually centred inside their cards. */
+#showtimes .showtime-card-media--trailer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: auto;
+  max-height: none;
+  padding: 1rem;
+}
+
+#showtimes .showtime-card-trailer-frame {
+  width: min(100%, 42rem);
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+#showtimes .showtime-card-media--trailer iframe {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 39.99rem) {
+  #showtimes .showtime-card-media--trailer {
+    padding: .65rem;
+  }
+
+  #showtimes .showtime-card-trailer-frame {
+    width: 100%;
+  }
+}

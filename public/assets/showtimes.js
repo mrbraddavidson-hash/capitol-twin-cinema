@@ -72,7 +72,9 @@
     const trailerId = trailerIdFor(entry);
     const media = trailerId
       ? `<div class="showtime-card-media showtime-card-media--trailer">
-        <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?rel=0&modestbranding=1" title="${title} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="showtime-card-trailer-frame">
+          <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?rel=0&modestbranding=1" title="${title} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
         <span class="showtime-card-caption">Official trailer</span>
       </div>`
