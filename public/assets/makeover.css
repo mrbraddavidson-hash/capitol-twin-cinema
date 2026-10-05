@@ -910,27 +910,6 @@ html.dark #concessions .grid > .concession-card {
   text-shadow: 0 2px 10px rgba(0, 0, 0, .48);
 }
 
-#concessions .concession-card > div:first-child {
-  background: rgba(247, 181, 25, .9) !important;
-  color: var(--ctc-ink) !important;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, .2);
-}
-
-#concessions .concession-card--drinks > div:first-child {
-  background: rgba(177, 43, 36, .92) !important;
-  color: #fff !important;
-}
-
-#concessions .concession-card--candy > div:first-child {
-  background: rgba(221, 42, 128, .9) !important;
-  color: #fff !important;
-}
-
-#concessions .concession-card--combo > div:first-child {
-  background: var(--ctc-red) !important;
-  color: #fff !important;
-}
-
 @media (max-width: 639px) {
   #concessions .concession-card {
     min-height: 270px;
