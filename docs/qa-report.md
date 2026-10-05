@@ -47,3 +47,12 @@ Date: 2026-10-04
 - `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on the desktop/mobile checks.
 - GitHub commit: `c747f11` — `Soften blocky site surfaces`.
 - Cloudflare Worker version: `b5eba6a7-b724-4d6d-bcf2-4c1250f5400a`.
+
+## 2026-10-05 — compact hero CTAs
+
+- The hero showtimes and movie-line CTAs now use a 44px minimum height, smaller type and padding, tighter spacing, and no desktop text wrapping; mobile buttons retain full-width tap targets.
+- Local preview was inspected at desktop `1440×900` and mobile `390×844`; both buttons measured `44px` high and remained readable.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?hero-buttons=e610071&cb=e610071-2#hero` was checked at both breakpoints; the cache-busted `assets/makeover.css?v=hero-buttons1` served the compact rules.
+- Live browser console reported no errors or warnings.
+- GitHub commit: `e610071` — `Compact hero call-to-action buttons`.
+- Cloudflare Worker version: `b3483ab4-56a1-4df4-9181-ab9c76ab1caa`.
