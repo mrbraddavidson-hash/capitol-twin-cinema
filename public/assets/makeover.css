@@ -214,7 +214,7 @@ header .mobile-nav-link {
 }
 
 #hero h1 {
-  max-width: 14ch;
+  max-width: 18ch;
   font-size: clamp(3.7rem, 8vw, 7rem) !important;
   line-height: .88 !important;
   letter-spacing: .015em !important;
