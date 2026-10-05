@@ -591,6 +591,7 @@ html.dark #showtimes .grid > div > div:last-child {
 #showtimes .showtime-card-media {
   position: relative;
   overflow: hidden;
+  width: 100%;
   aspect-ratio: 16 / 6.5;
   background: var(--ctc-ink-soft);
 }
