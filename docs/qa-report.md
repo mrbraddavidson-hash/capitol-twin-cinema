@@ -65,3 +65,12 @@ Date: 2026-10-04
 - Live browser console reported no errors or warnings.
 - GitHub commit: `d9f695b` — `Center desktop header navigation`.
 - Cloudflare Worker version: `991f19f1-7713-4cf4-a4b6-2c77a24c4a1e`.
+
+## 2026-10-05 — lighter marquee gold
+
+- The orange-looking accent was shifted to a softer light gold `#FFD166` across the hero, header, buttons, borders, labels, and utility amber text; dark contrast roles remain on the existing deep-gold token.
+- Local and live renders were inspected at desktop `1440×900` and mobile `390×844`; the lighter gold remained readable and the existing layout stayed intact.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?lighter-gold=a32660f&cb=a32660f-1#hero` returned `200`; `assets/makeover.css?v=lighter-gold1` served the new token with no legacy orange token remaining.
+- Live browser console reported no errors or warnings.
+- GitHub commit: `a32660f` — `Lighten marquee gold accent`.
+- Cloudflare Worker version: `4d683b1e-4837-4f21-a4e1-d05ccc613061`.
