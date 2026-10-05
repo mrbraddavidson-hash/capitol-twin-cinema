@@ -83,3 +83,12 @@ Date: 2026-10-04
 - `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings on the desktop pricing and mobile concessions checks.
 - GitHub commit: `55299fd` — `Remove pricing section labels`.
 - Cloudflare Worker version: `21d48925-ccb5-44ca-8f1f-bf95c6dd591f`.
+
+## 2026-10-05 — remove hero address badge
+
+- Removed the hero’s `120 Wallace Ave N • Listowel, Ontario` location badge while retaining the hero headline, supporting copy, phone CTA, and address details elsewhere on the page.
+- Local Wrangler preview was inspected at desktop `1440×900` and mobile `390×844`; the hero reflowed cleanly with no empty badge gap.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?hero-address=2dddd1d&cb=2dddd1d-1#hero` returned `200`; the exact hero badge text is absent and the hero headline/phone CTA remain present.
+- `npm.cmd run build`, `npm.cmd run deploy:check`, and `git diff --check` passed; live browser console reported no errors or warnings at both breakpoints.
+- GitHub commit: `2dddd1d` — `Remove hero address badge`.
+- Cloudflare Worker version: `652495b2-aa2f-4237-816f-bf46b079b0d0`.
