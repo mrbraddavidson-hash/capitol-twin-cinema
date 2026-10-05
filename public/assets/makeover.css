@@ -144,6 +144,30 @@ html.dark header #mobile-menu-btn {
   border: 1px solid rgba(255, 209, 102, .4);
 }
 
+/* Keep the mode control available without competing with the primary phone CTA. */
+header #theme-toggle {
+  background: rgba(134, 205, 223, .16) !important;
+  color: rgba(20, 23, 26, .72) !important;
+  border: 1px solid rgba(20, 23, 26, .16);
+  font-size: .95rem !important;
+}
+
+header #theme-toggle:hover {
+  background: rgba(134, 205, 223, .28) !important;
+  color: var(--ctc-ink) !important;
+}
+
+html.dark header #theme-toggle {
+  background: rgba(255, 255, 255, .06) !important;
+  color: rgba(255, 209, 102, .78) !important;
+  border-color: rgba(255, 209, 102, .24);
+}
+
+html.dark header #theme-toggle:hover {
+  background: rgba(255, 209, 102, .1) !important;
+  color: var(--ctc-gold) !important;
+}
+
 header .header-phone-action {
   border-radius: var(--ctc-radius) !important;
   background: var(--ctc-red) !important;
