@@ -95,12 +95,12 @@ html.dark header {
 }
 
 header > div > div {
-  height: 5.25rem !important;
+  height: 5.75rem !important;
 }
 
 header .header-logo-light,
 header .header-logo-dark {
-  height: 4.25rem !important;
+  height: 5rem !important;
   width: auto !important;
 }
 
@@ -171,6 +171,7 @@ header .mobile-nav-link {
 #hero {
   background: var(--ctc-ink) !important;
   min-height: min(45rem, calc(100vh - 7.25rem));
+  scroll-margin-top: 5.75rem;
   display: flex;
   align-items: center;
   border-bottom: 8px solid var(--ctc-gold);
@@ -203,8 +204,17 @@ header .mobile-nav-link {
   width: 100%;
 }
 
+#hero > div > .grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 3rem !important;
+}
+
+#hero > div > .grid > div {
+  min-width: 0;
+}
+
 #hero h1 {
-  max-width: 10ch;
+  max-width: 14ch;
   font-size: clamp(3.7rem, 8vw, 7rem) !important;
   line-height: .88 !important;
   letter-spacing: .015em !important;
@@ -274,6 +284,10 @@ header .mobile-nav-link {
 }
 
 #hero .relative.mx-auto > div:last-child {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
   background: var(--ctc-ink-soft) !important;
   border-top-color: rgba(247, 181, 25, .35) !important;
 }
@@ -889,22 +903,28 @@ body > aside[aria-label="Mobile Quick Actions"] a {
 
 @media (max-width: 63.99rem) {
   header > div > div {
-    height: 4.5rem !important;
+    height: 4.75rem !important;
   }
 
   header .header-logo-light,
   header .header-logo-dark {
-    height: 3.3rem !important;
+    height: 4rem !important;
   }
 
   #hero {
     min-height: 0;
-    padding-top: 4.5rem !important;
+    scroll-margin-top: 4.75rem;
+    padding-top: 1.75rem !important;
     padding-bottom: 5.25rem !important;
   }
 
+  #hero > div > .grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
   #hero h1 {
-    max-width: 9ch;
+    max-width: 12ch;
     font-size: clamp(3.25rem, 13vw, 5rem) !important;
   }
 
