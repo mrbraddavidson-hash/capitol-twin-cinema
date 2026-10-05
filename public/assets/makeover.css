@@ -1,13 +1,14 @@
 /*
  * Capitol Twin Cinema visual refresh
  * Brand source: public/assets/brand-kit/capitol_primary_stacked.svg
- * Exact brand-kit colours: red #D32734, gold #F7B519, cyan #86CDDF, ink #14171A, white.
+ * Brand-kit colours with a lighter display gold: red #D32734, gold #FFD166,
+ * cyan #86CDDF, ink #14171A, white.
  */
 
 :root {
   --ctc-red: #D32734;
   --ctc-red-deep: #B7091B;
-  --ctc-gold: #F7B519;
+  --ctc-gold: #FFD166;
   --ctc-gold-deep: #8A5B04;
   --ctc-blue: #86CDDF;
   --ctc-ink: #14171A;
@@ -22,7 +23,7 @@
   --color-cinema-red: #D32734;
   --color-cinema-redHover: #B7091B;
   --color-cinema-redLight: #E63946;
-  --color-cinema-gold: #F7B519;
+  --color-cinema-gold: #FFD166;
   --color-cinema-cream: #FFFDF7;
   --color-cinema-dark: #14171A;
   --color-cinema-darkCard: #181B1E;
@@ -90,7 +91,7 @@ header {
 
 html.dark header {
   background: rgba(20, 23, 26, .98) !important;
-  border-bottom-color: rgba(247, 181, 25, .45) !important;
+  border-bottom-color: rgba(255, 209, 102, .45) !important;
   box-shadow: 0 4px 18px rgba(0, 0, 0, .28);
 }
 
@@ -140,7 +141,7 @@ html.dark header #theme-toggle,
 html.dark header #mobile-menu-btn {
   background: var(--ctc-ink-soft) !important;
   color: var(--ctc-gold) !important;
-  border: 1px solid rgba(247, 181, 25, .4);
+  border: 1px solid rgba(255, 209, 102, .4);
 }
 
 header .header-phone-action {
@@ -194,9 +195,9 @@ header .mobile-nav-link {
   right: -8rem;
   width: 34rem;
   height: 34rem;
-  border: 1px solid rgba(247, 181, 25, .22);
+  border: 1px solid rgba(255, 209, 102, .22);
   border-radius: 50%;
-  box-shadow: 0 0 0 18px rgba(247, 181, 25, .05), 0 0 0 36px rgba(247, 181, 25, .04);
+  box-shadow: 0 0 0 18px rgba(255, 209, 102, .05), 0 0 0 36px rgba(255, 209, 102, .04);
   z-index: -1;
 }
 
@@ -289,7 +290,7 @@ header .mobile-nav-link {
   gap: 1rem;
   align-items: center;
   background: var(--ctc-ink-soft) !important;
-  border-top-color: rgba(247, 181, 25, .35) !important;
+  border-top-color: rgba(255, 209, 102, .35) !important;
 }
 
 #hero .relative.mx-auto img {
@@ -328,7 +329,7 @@ main > section h2::after {
 
 html.dark #showtimes {
   background: #1C1915 !important;
-  border-block-color: rgba(247, 181, 25, .26) !important;
+  border-block-color: rgba(255, 209, 102, .26) !important;
 }
 
 #showtimes > div > div:first-child {
@@ -369,7 +370,7 @@ html.dark #contact h2 {
 
 html.dark #showtimes .grid > div {
   background: var(--ctc-ink-soft) !important;
-  border-color: rgba(247, 181, 25, .62) !important;
+  border-color: rgba(255, 209, 102, .62) !important;
   box-shadow: none !important;
 }
 
@@ -380,7 +381,7 @@ html.dark #showtimes .grid > div {
 
 html.dark #showtimes .grid > div > div:last-child {
   background: #171411 !important;
-  border-top-color: rgba(247, 181, 25, .2) !important;
+  border-top-color: rgba(255, 209, 102, .2) !important;
 }
 
 #showtimes h3 {
@@ -535,13 +536,13 @@ html.dark #showtimes .grid > div > div:last-child {
 }
 
 #showtimes .showtimes-action--secondary {
-  border-color: rgba(247, 181, 25, .55);
+  border-color: rgba(255, 209, 102, .55);
   background: transparent;
   color: #fff;
 }
 
 #showtimes .showtimes-action--secondary:hover {
-  background: rgba(247, 181, 25, .12);
+  background: rgba(255, 209, 102, .12);
 }
 
 #showtimes .showtimes-grid {
@@ -726,7 +727,7 @@ html.dark #showtimes .showtime-card-content h3 {
 }
 
 html.dark #showtimes .showtime-card {
-  border-color: rgba(247, 181, 25, .62);
+  border-color: rgba(255, 209, 102, .62);
   background: var(--ctc-ink-soft);
   box-shadow: none;
 }
@@ -762,7 +763,7 @@ html.dark #contact {
 html.dark #pricing .grid > div,
 html.dark #contact .space-y-4 > div,
 html.dark #contact .lg\:col-span-6 > div {
-  border-color: rgba(247, 181, 25, .24) !important;
+  border-color: rgba(255, 209, 102, .24) !important;
 }
 
 #pricing .grid > div h3 {
@@ -790,7 +791,7 @@ html.dark #experience {
 }
 
 html.dark #experience .grid > div {
-  border-color: rgba(247, 181, 25, .3) !important;
+  border-color: rgba(255, 209, 102, .3) !important;
   box-shadow: none !important;
 }
 
@@ -805,7 +806,7 @@ html.dark #experience .grid > div {
 
 html.dark #concessions {
   background: #1C1915 !important;
-  border-block-color: rgba(247, 181, 25, .24) !important;
+  border-block-color: rgba(255, 209, 102, .24) !important;
 }
 
 #concessions .grid > div {
@@ -817,12 +818,12 @@ html.dark #concessions {
 
 html.dark #concessions .grid > div {
   background: var(--ctc-ink-soft) !important;
-  border-color: rgba(247, 181, 25, .22) !important;
+  border-color: rgba(255, 209, 102, .22) !important;
 }
 
 #concessions .grid > div > div {
   border-radius: 50% !important;
-  background: rgba(247, 181, 25, .18) !important;
+  background: rgba(255, 209, 102, .18) !important;
   color: var(--ctc-red) !important;
 }
 
@@ -1112,7 +1113,7 @@ body > aside[aria-label="Mobile Quick Actions"] a {
 
 #hero .relative.mx-auto {
   border-width: 1px !important;
-  border-color: rgba(247, 181, 25, .62) !important;
+  border-color: rgba(255, 209, 102, .62) !important;
   border-radius: 18px !important;
   box-shadow: 0 22px 48px rgba(0, 0, 0, .25) !important;
 }
@@ -1289,4 +1290,11 @@ html.dark #concessions {
   header .header-desktop-nav > a {
     margin-left: 0 !important;
   }
+}
+
+/* Keep utility amber accents aligned with the lighter marquee gold. */
+.text-amber-200,
+.text-amber-300,
+.text-amber-400 {
+  color: var(--ctc-gold) !important;
 }

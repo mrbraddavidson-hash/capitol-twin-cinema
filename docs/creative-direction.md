@@ -7,7 +7,7 @@ Capitol Twin Cinema should feel like a real local marquee: crisp, warm, and unmi
 ## System
 
 - **Cinema Ruby Red:** `#D32734` for calls to action, top rules, and key labels.
-- **Marquee Gold Amber:** `#F7B519` for focus, dividers, the hero edge, and supporting emphasis.
+- **Marquee Gold Amber:** `#FFD166` for focus, dividers, the hero edge, and supporting emphasis; this is the lighter display treatment of the supplied gold.
 - **Sky Blue Film Tint:** `#86CDDF` for the listings/concessions paper surface.
 - **Theater Ink / screen white:** `#14171A` and `#FFFFFF` for readable theatre contrast.
 - **Type:** Bebas Neue for marquee-scale headlines; Inter for body and interface copy.
