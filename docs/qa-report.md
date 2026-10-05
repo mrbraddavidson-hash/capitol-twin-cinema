@@ -56,3 +56,12 @@ Date: 2026-10-04
 - Live browser console reported no errors or warnings.
 - GitHub commit: `e610071` — `Compact hero call-to-action buttons`.
 - Cloudflare Worker version: `b3483ab4-56a1-4df4-9181-ab9c76ab1caa`.
+
+## 2026-10-05 — centred desktop header navigation
+
+- Desktop navigation is now positioned from the header's true centre between the left logo and right-side actions; the compact mobile logo/menu arrangement is unchanged.
+- Local and live renders were inspected at desktop `1440×900` and mobile `390×844`; the nav remained centred without overlapping the brand or phone/theme controls.
+- Live Worker `https://capitol-twin-cinema.mrbraddavidson.workers.dev/?header-center=d9f695b&cb=d9f695b-1#hero` returned `200`; `assets/makeover.css?v=header-center1` served the new centring rule.
+- Live browser console reported no errors or warnings.
+- GitHub commit: `d9f695b` — `Center desktop header navigation`.
+- Cloudflare Worker version: `991f19f1-7713-4cf4-a4b6-2c77a24c4a1e`.
