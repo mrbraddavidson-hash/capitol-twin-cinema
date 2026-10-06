@@ -383,6 +383,34 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   gap: .5rem;
 }
 
+.movie-results {
+  display: grid;
+  gap: .5rem;
+}
+
+.movie-result {
+  display: grid;
+  gap: .2rem;
+  width: 100%;
+  padding: .7rem .8rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--admin-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.movie-result:hover,
+.movie-result:focus-visible {
+  border-color: var(--admin-red);
+  box-shadow: 0 0 0 2px rgba(211, 39, 52, .12);
+  outline: none;
+}
+
+.movie-result strong { font-size: .78rem; }
+.movie-result span { color: var(--admin-muted); font-size: .68rem; line-height: 1.4; }
+
 .trailer-result {
   display: grid;
   grid-template-columns: 84px 1fr;

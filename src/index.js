@@ -1,5 +1,6 @@
 const STATE_KEY = "current";
 const CONFIG_KEY = "site-config";
+const TMDB_API_BASE = "https://api.themoviedb.org/3";
 const SESSION_COOKIE = "ctc_admin";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
 const MAX_BODY_BYTES = 24_000;
@@ -55,7 +56,8 @@ export default {
           return jsonResponse({
             storageConfigured: Boolean(env.NOW_SHOWING),
             trailerSearchConfigured: Boolean(env.YOUTUBE_API_KEY),
-            adminPasswordConfigured: Boolean(env.ADMIN_PASSWORD)
+            adminPasswordConfigured: Boolean(env.ADMIN_PASSWORD),
+            movieSearchConfigured: Boolean(env.TMDB_API_KEY)
           });
         }
 
@@ -82,6 +84,14 @@ export default {
 
         if (url.pathname === "/api/admin/trailer-search" && request.method === "POST") {
           return searchTrailers(request, env);
+        }
+
+        if (url.pathname === "/api/admin/movie-search" && request.method === "POST") {
+          return searchMovies(request, env);
+        }
+
+        if (url.pathname === "/api/admin/movie-details" && request.method === "POST") {
+          return readMovieDetails(request, env);
         }
       }
 
@@ -215,6 +225,107 @@ async function searchTrailers(request, env) {
     }));
 
   return jsonResponse({ query: `${title} official trailer`, results });
+}
+
+async function searchMovies(request, env) {
+  if (!env.TMDB_API_KEY) {
+    return jsonResponse({
+      error: "Movie data lookup is not configured yet. Set the TMDB_API_KEY Worker secret."
+    }, 503);
+  }
+
+  const body = await readJson(request);
+  const title = cleanText(body?.title, 120);
+  if (!title) return jsonResponse({ error: "Enter a movie title first." }, 400);
+
+  try {
+    const data = await tmdbFetch("/search/movie", {
+      query: title,
+      language: "en-CA",
+      region: "CA",
+      include_adult: "false",
+      page: "1"
+    }, env);
+    const results = (Array.isArray(data?.results) ? data.results : [])
+      .filter((item) => item?.id && item?.title)
+      .slice(0, 8)
+      .map((item) => ({
+        id: Number(item.id),
+        title: cleanText(item.title, 140),
+        releaseDate: cleanText(item.release_date, 16),
+        overview: cleanText(item.overview, 280)
+      }));
+    return jsonResponse({ query: title, results });
+  } catch (error) {
+    console.error("TMDB movie lookup failed", error);
+    return jsonResponse({ error: tmdbErrorMessage(error) }, 502);
+  }
+}
+
+async function readMovieDetails(request, env) {
+  if (!env.TMDB_API_KEY) {
+    return jsonResponse({
+      error: "Movie data lookup is not configured yet. Set the TMDB_API_KEY Worker secret."
+    }, 503);
+  }
+
+  const body = await readJson(request);
+  const tmdbId = Number(body?.tmdbId);
+  if (!Number.isInteger(tmdbId) || tmdbId < 1) {
+    return jsonResponse({ error: "Choose a movie result first." }, 400);
+  }
+
+  try {
+    const data = await tmdbFetch(`/movie/${tmdbId}`, {
+      language: "en-CA",
+      append_to_response: "release_dates"
+    }, env);
+    const certification = tmdbCertification(data?.release_dates);
+    return jsonResponse({
+      id: tmdbId,
+      title: cleanText(data?.title, 140),
+      releaseDate: cleanText(data?.release_date, 16),
+      rating: certification,
+      runtime: formatRuntime(data?.runtime),
+      overview: cleanText(data?.overview, 240),
+      sourceUrl: `https://www.themoviedb.org/movie/${tmdbId}`
+    });
+  } catch (error) {
+    console.error("TMDB movie details failed", error);
+    return jsonResponse({ error: tmdbErrorMessage(error) }, 502);
+  }
+}
+
+async function tmdbFetch(pathname, params, env) {
+  const url = new URL(`${TMDB_API_BASE}${pathname}`);
+  url.searchParams.set("api_key", env.TMDB_API_KEY);
+  Object.entries(params || {}).forEach(([key, value]) => url.searchParams.set(key, value));
+  const response = await fetch(url);
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data?.status_code >= 400) {
+    throw new Error(data?.status_message || `TMDB request failed (${response.status}).`);
+  }
+  return data;
+}
+
+function tmdbCertification(releaseDates) {
+  const regions = Array.isArray(releaseDates?.results) ? releaseDates.results : [];
+  const region = regions.find((item) => item?.iso_3166_1 === "CA")
+    || regions.find((item) => item?.iso_3166_1 === "US");
+  const dates = Array.isArray(region?.release_dates) ? region.release_dates : [];
+  return cleanText(dates.find((item) => item?.certification)?.certification, 16);
+}
+
+function formatRuntime(minutes) {
+  const value = Number(minutes);
+  if (!Number.isFinite(value) || value <= 0) return "";
+  const hours = Math.floor(value / 60);
+  const remainder = value % 60;
+  return hours ? `${hours}h ${remainder ? `${remainder}m` : ""}`.trim() : `${value}m`;
+}
+
+function tmdbErrorMessage(error) {
+  return String(error?.message || "Movie data lookup failed.").slice(0, 240);
 }
 
 async function readState(env) {

@@ -69,8 +69,12 @@
                 <input id="date" type="text" placeholder="This week">
               </div>
             </div>
-            <label for="title">Movie title</label>
+            <div class="admin-trailer-heading">
+              <label for="title">Movie title</label>
+              <button id="find-movie" class="admin-text-button" type="button"><i class="fa-solid fa-magnifying-glass"></i> Find movie data</button>
+            </div>
             <input id="title" type="text" maxlength="120" placeholder="e.g. The Wild Robot" required>
+            <div id="movie-results" class="movie-results" aria-live="polite"></div>
 
             <label for="showtime-preset">Add a showtime</label>
             <div class="admin-showtimes-picker">
@@ -209,11 +213,13 @@
             <div class="admin-connection-list">
               <div class="admin-connection-row"><span>Listings storage</span><strong id="status-storage">Checking…</strong></div>
               <div class="admin-connection-row"><span>Admin sign-in</span><strong id="status-password">Checking…</strong></div>
+              <div class="admin-connection-row"><span>Movie data lookup</span><strong id="status-movie">Checking…</strong></div>
               <div class="admin-connection-row"><span>Trailer lookup</span><strong id="status-trailer">Checking…</strong></div>
             </div>
             <p class="admin-help">Secrets stay in Cloudflare Worker configuration and are never stored in this editable panel.</p>
             <div class="admin-command-list">
               <div class="admin-command"><code>npx wrangler secret put ADMIN_PASSWORD</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put ADMIN_PASSWORD">Copy</button></div>
+              <div class="admin-command"><code>npx wrangler secret put TMDB_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put TMDB_API_KEY">Copy</button></div>
               <div class="admin-command"><code>npx wrangler secret put YOUTUBE_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put YOUTUBE_API_KEY">Copy</button></div>
             </div>
             </aside>
@@ -223,6 +229,6 @@
     </section>
   </main>
 
-  <script src="/admin/admin.js?v=admin-panel4" defer></script>
+  <script src="/admin/admin.js?v=admin-panel5" defer></script>
 </body>
 </html>

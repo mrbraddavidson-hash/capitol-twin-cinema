@@ -68,7 +68,7 @@
   function renderEntry(entry, index) {
     const screen = entry.screen === "Screen 2" ? "Screen 2" : "Screen 1";
     const title = escapeHtml(entry.title);
-    const details = [entry.rating, entry.runtime].filter(Boolean).join(" • ");
+    const details = [entry.date, entry.rating, entry.runtime].filter(Boolean).join(" • ");
     const trailerId = trailerIdFor(entry);
     const media = trailerId
       ? `<div class="showtime-card-media showtime-card-media--trailer">

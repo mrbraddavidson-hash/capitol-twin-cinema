@@ -7,7 +7,7 @@
     noticeTitle: "Confirm today’s film and start time.",
     noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
   };
-  const state = { entries: [], trailerResults: [], editingId: "", config: { ...DEFAULT_CONFIG } };
+  const state = { entries: [], trailerResults: [], movieResults: [], editingId: "", config: { ...DEFAULT_CONFIG } };
 
   const loginView = $("#login-view");
   const appView = $("#app-view");
@@ -64,10 +64,16 @@
       const status = await api("/api/admin/status", { method: "GET", headers: {} });
       setConnectionStatus("#status-storage", status.storageConfigured);
       setConnectionStatus("#status-password", status.adminPasswordConfigured);
+      setConnectionStatus("#status-movie", status.movieSearchConfigured);
       setConnectionStatus("#status-trailer", status.trailerSearchConfigured);
-      statusMessage.textContent = status.trailerSearchConfigured
-        ? "Trailer lookup is ready. Select an official result before publishing."
-        : "Listings storage is ready. Trailer lookup needs the YOUTUBE_API_KEY Worker secret before it can search YouTube.";
+      const messages = [];
+      messages.push(status.movieSearchConfigured
+        ? "Movie data lookup is ready."
+        : "Movie data lookup needs the TMDB_API_KEY Worker secret.");
+      messages.push(status.trailerSearchConfigured
+        ? "Trailer lookup is ready."
+        : "Trailer lookup needs the YOUTUBE_API_KEY Worker secret.");
+      statusMessage.textContent = messages.join(" ");
     } catch (error) {
       statusMessage.textContent = error.message;
     }
@@ -133,6 +139,75 @@
     setMessage(configMessage, "Form reset to the default theatre settings.", false);
   }
 
+  function renderMovieResults(results) {
+    state.movieResults = results;
+    const list = $("#movie-results");
+    if (!results.length) {
+      list.replaceChildren();
+      return;
+    }
+    list.innerHTML = results.map((result, index) => `<button type="button" class="movie-result" data-movie-index="${index}">
+      <strong>${escapeHtml(result.title)}</strong>
+      <span>${escapeHtml(result.releaseDate || "Release date unavailable")}${result.overview ? ` · ${escapeHtml(result.overview)}` : ""}</span>
+    </button>`).join("");
+    list.querySelectorAll("[data-movie-index]").forEach((button) => {
+      button.addEventListener("click", () => selectMovie(Number(button.dataset.movieIndex)));
+    });
+  }
+
+  async function findMovie() {
+    const title = $("#title").value.trim();
+    if (!title) {
+      setMessage(formMessage, "Enter a movie title before searching.");
+      $("#title").focus();
+      return;
+    }
+
+    const button = $("#find-movie");
+    button.disabled = true;
+    button.textContent = "Searching movie data…";
+    try {
+      const data = await api("/api/admin/movie-search", {
+        method: "POST",
+        body: JSON.stringify({ title })
+      });
+      renderMovieResults(data.results || []);
+      setMessage(formMessage, data.results?.length ? "Choose the matching movie to fill its release data." : "No movie matches found.", !data.results?.length);
+    } catch (error) {
+      setMessage(formMessage, error.message);
+    } finally {
+      button.disabled = false;
+      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find movie data';
+    }
+  }
+
+  async function selectMovie(index) {
+    const result = state.movieResults[index];
+    if (!result) return;
+    const button = $("#find-movie");
+    button.disabled = true;
+    setMessage(formMessage, `Loading ${result.title}…`, false);
+    try {
+      const details = await api("/api/admin/movie-details", {
+        method: "POST",
+        body: JSON.stringify({ tmdbId: result.id })
+      });
+      $("#title").value = details.title || result.title;
+      if (details.releaseDate) $("#date").value = `Released ${details.releaseDate}`;
+      if (details.rating) $("#rating").value = details.rating;
+      if (details.runtime) $("#runtime").value = details.runtime;
+      const optional = document.querySelector(".admin-optional");
+      if (optional) optional.open = true;
+      renderMovieResults([]);
+      setMessage(formMessage, `${details.title || result.title} details filled. Add showtimes, then publish.`, false);
+    } catch (error) {
+      setMessage(formMessage, error.message);
+    } finally {
+      button.disabled = false;
+      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find movie data';
+    }
+  }
+
   async function copyCommand(button) {
     const command = button.dataset.copyCommand;
     if (!command) return;
@@ -181,7 +256,9 @@
     $("#entry-id").value = "";
     $("#trailer-id").value = "";
     $("#trailer-results").replaceChildren();
+    $("#movie-results").replaceChildren();
     state.trailerResults = [];
+    state.movieResults = [];
     state.editingId = "";
     setMessage(formMessage, "", true);
   }
@@ -335,6 +412,7 @@
   });
 
   $("#movie-form").addEventListener("submit", publish);
+  $("#find-movie").addEventListener("click", findMovie);
   $("#find-trailer").addEventListener("click", findTrailer);
   $("#add-showtime").addEventListener("click", addShowtime);
   $("#reset-form").addEventListener("click", resetForm);

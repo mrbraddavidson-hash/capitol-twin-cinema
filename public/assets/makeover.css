@@ -752,8 +752,18 @@ html.dark #showtimes .grid > div > div:last-child {
   color: var(--ctc-red);
 }
 
+#showtimes .showtimes-attribution {
+  margin: .55rem 0 0;
+  color: rgba(20, 23, 26, .56);
+  font-family: "Inter", sans-serif;
+  font-size: .62rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 html.dark #showtimes .showtimes-intro-copy,
 html.dark #showtimes .showtimes-footnote,
+html.dark #showtimes .showtimes-attribution,
 html.dark #showtimes .showtime-card-content p {
   color: rgba(255, 255, 255, .72);
 }
