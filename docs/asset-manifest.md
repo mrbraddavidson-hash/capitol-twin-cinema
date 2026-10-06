@@ -19,7 +19,7 @@
 | `public/assets/concession-drinks.jpg` | [Pexels photo 8250376](https://www.pexels.com/photo/close-up-of-colorful-drinks-in-plastic-cups-8250376/), Julia Filirovska | Fountain Drinks & Slush card background | Real photograph; Pexels free-use license; resized locally to 1600×1066 |
 | `public/assets/concession-candy.jpg` | [Pexels photo 7930589](https://www.pexels.com/photo/close-up-of-different-shape-colorful-candy-7930589/), Oleg Prachuk | Movie Candies card background | Real photograph; Pexels free-use license; resized locally to 1066×1600 |
 | `public/assets/concession-combo.jpg` | [Pexels photo 7234380](https://www.pexels.com/photo/a-paper-tumbler-beside-a-red-disposable-cup-with-straw-7234380/), Pavel Danilyuk | Cinema Combo #1 card background | Real photograph; Pexels free-use license; resized locally to 1068×1600 |
-| `capitol_twin_cinema_pngs.zip` | User-named incoming pack | Not imported; file was not present locally during the pass | Pending re-attachment if needed |
+| `public/assets/brand-kit/capitol_twin_cinema_pngs.zip` | Master brand pack archive | Full high-res transparent PNG export suite (19 assets across logos, badges, and concessions) | Imported and present locally |
 
 The ZIP also contains a loyalty punch-card image and a collage that includes loyalty copy. Those files were deliberately not deployed because the site brief removes the loyalty program.
 
