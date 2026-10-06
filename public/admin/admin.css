@@ -26,7 +26,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 88px;
+  min-height: 72px;
   padding: .85rem clamp(1rem, 5vw, 4rem);
   background: var(--admin-paper);
   border-bottom: 1px solid var(--admin-line);
@@ -47,8 +47,8 @@ body {
 }
 
 .admin-brand img {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
 }
 
@@ -65,7 +65,7 @@ body {
 .admin-text-button:hover { text-decoration: underline; }
 
 .admin-shell {
-  width: min(1180px, calc(100% - 2rem));
+  width: min(960px, calc(100% - 2rem));
   margin: 0 auto;
   padding: clamp(2rem, 6vw, 5rem) 0;
 }
@@ -79,7 +79,7 @@ body {
   padding: clamp(1.25rem, 3vw, 2rem);
   background: var(--admin-paper);
   border: 1px solid var(--admin-line);
-  border-radius: 14px;
+  border-radius: 18px;
   box-shadow: var(--admin-shadow);
 }
 
@@ -110,8 +110,8 @@ h2 {
   line-height: .98;
 }
 
-h1 { font-size: clamp(2.7rem, 6vw, 4.75rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h1 { font-size: clamp(2.35rem, 5vw, 3.8rem); }
+h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 
 .admin-card > p,
 .admin-lede {
@@ -123,7 +123,7 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
 .admin-form {
   display: grid;
   gap: .65rem;
-  margin-top: 1.5rem;
+  margin-top: 1.1rem;
 }
 
 .admin-form label {
@@ -174,13 +174,13 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
 
 .admin-button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
   gap: .5rem;
   padding: .7rem 1rem;
   border: 1px solid transparent;
-  border-radius: 7px;
+  border-radius: 9px;
   cursor: pointer;
   font: inherit;
   font-size: .78rem;
@@ -213,11 +213,40 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
 
 .admin-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
   gap: 1.25rem;
 }
 
 .admin-config-card { margin-top: 1.25rem; }
+
+.admin-publish-button {
+  width: 100%;
+  margin-top: .25rem;
+}
+
+.admin-optional {
+  margin-top: .4rem;
+  border-top: 1px solid var(--admin-line);
+}
+
+.admin-optional > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .8rem 0 .2rem;
+  color: var(--admin-ink);
+  cursor: pointer;
+  font-size: .78rem;
+  font-weight: 900;
+  list-style: none;
+}
+
+.admin-optional > summary::-webkit-details-marker { display: none; }
+.admin-optional > summary::after { content: "+"; color: var(--admin-red); font-size: 1.1rem; }
+.admin-optional[open] > summary::after { content: "−"; }
+.admin-optional-body { display: grid; gap: .65rem; padding: .4rem 0 .2rem; }
 
 .admin-config-intro {
   max-width: 70ch;
@@ -228,7 +257,7 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
 
 .admin-config-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
@@ -421,6 +450,48 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
   opacity: .55;
 }
 
+.admin-advanced {
+  max-width: 760px;
+  margin: 1.25rem auto 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.admin-advanced > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-advanced > summary::-webkit-details-marker { display: none; }
+
+.admin-advanced-summary-copy {
+  display: grid;
+  gap: .2rem;
+}
+
+.admin-advanced-summary-copy .admin-eyebrow { margin-bottom: 0; }
+.admin-advanced-summary-copy strong { font-size: 1.05rem; }
+.admin-advanced-toggle {
+  flex: 0 0 auto;
+  color: var(--admin-red);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.admin-advanced-toggle::after { content: " +"; }
+.admin-advanced[open] .admin-advanced-toggle::after { content: " −"; }
+
+.admin-advanced-body {
+  padding: 0 clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem);
+  border-top: 1px solid var(--admin-line);
+}
+
 .facebook-posts {
   display: grid;
   gap: .65rem;
@@ -467,4 +538,5 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); }
   .admin-button--quiet { align-self: flex-start; }
   .admin-config-layout { grid-template-columns: 1fr; }
   .admin-command { align-items: flex-start; flex-direction: column; }
+  .admin-optional > summary { align-items: flex-start; flex-direction: column; gap: .25rem; }
 }

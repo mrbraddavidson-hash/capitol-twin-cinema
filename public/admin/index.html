@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/assets/fonts.css">
   <link rel="stylesheet" href="/assets/fontawesome/all.min.css">
   <link rel="stylesheet" href="/assets/makeover.css?v=theme-toggle1">
-  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel2">
+  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel3">
 </head>
 <body>
   <header class="admin-header">
@@ -36,8 +36,8 @@
       <div class="admin-heading-row">
         <div>
           <p class="admin-eyebrow">Capitol Twin Cinema</p>
-          <h1 id="admin-heading">Now Showing</h1>
-          <p class="admin-lede">Publish the current film and showtimes for each screen. Trailer matches are suggestions until you select one.</p>
+          <h1 id="admin-heading">Manage showtimes</h1>
+          <p class="admin-lede">Update Screen 1 or Screen 2, then publish. That’s it.</p>
         </div>
         <button id="logout-button" class="admin-button admin-button--quiet" type="button">Sign out</button>
       </div>
@@ -48,8 +48,8 @@
         <section class="admin-card" aria-labelledby="entry-heading">
           <div class="admin-card-heading">
             <div>
-              <p class="admin-eyebrow">Listing editor</p>
-              <h2 id="entry-heading">Add a movie and times</h2>
+              <p class="admin-eyebrow">Step 1</p>
+              <h2 id="entry-heading">Screen listing</h2>
             </div>
             <button id="reset-form" class="admin-text-button" type="button">Clear form</button>
           </div>
@@ -72,17 +72,6 @@
             <label for="title">Movie title</label>
             <input id="title" type="text" maxlength="120" placeholder="e.g. The Wild Robot" required>
 
-            <div class="admin-form-row">
-              <div>
-                <label for="rating">Rating</label>
-                <input id="rating" type="text" maxlength="16" placeholder="PG">
-              </div>
-              <div>
-                <label for="runtime">Runtime</label>
-                <input id="runtime" type="text" maxlength="32" placeholder="1h 42m">
-              </div>
-            </div>
-
             <label for="showtimes">Showtimes <span class="admin-help">comma separated</span></label>
             <input id="showtimes" type="text" maxlength="320" placeholder="2:00 PM, 7:00 PM" required>
 
@@ -94,13 +83,29 @@
             <input id="trailer-url" type="url" placeholder="Select a result or paste a YouTube URL">
             <div id="trailer-results" class="trailer-results" aria-live="polite"></div>
 
-            <label for="poster-url">Poster image URL <span class="admin-help">optional</span></label>
-            <input id="poster-url" type="url" placeholder="https://...">
+            <details class="admin-optional">
+              <summary>Optional movie details <span class="admin-help">rating, runtime, poster, notes</span></summary>
+              <div class="admin-optional-body">
+                <div class="admin-form-row">
+                  <div>
+                    <label for="rating">Rating</label>
+                    <input id="rating" type="text" maxlength="16" placeholder="PG">
+                  </div>
+                  <div>
+                    <label for="runtime">Runtime</label>
+                    <input id="runtime" type="text" maxlength="32" placeholder="1h 42m">
+                  </div>
+                </div>
 
-            <label for="notes">Notes <span class="admin-help">optional</span></label>
-            <textarea id="notes" rows="3" maxlength="240" placeholder="Special presentation, holiday note, or age guidance"></textarea>
+                <label for="poster-url">Poster image URL</label>
+                <input id="poster-url" type="url" placeholder="https://...">
 
-            <button class="admin-button admin-button--primary" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Publish listing</button>
+                <label for="notes">Notes</label>
+                <textarea id="notes" rows="3" maxlength="240" placeholder="Special presentation, holiday note, or age guidance"></textarea>
+              </div>
+            </details>
+
+            <button class="admin-button admin-button--primary admin-publish-button" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Publish screen listing</button>
             <p id="form-message" class="admin-message" role="status" aria-live="polite"></p>
           </form>
         </section>
@@ -108,8 +113,8 @@
         <section class="admin-card" aria-labelledby="published-heading">
           <div class="admin-card-heading">
             <div>
-              <p class="admin-eyebrow">Live data</p>
-              <h2 id="published-heading">Published listings</h2>
+              <p class="admin-eyebrow">Step 2</p>
+              <h2 id="published-heading">Live listings</h2>
             </div>
             <span id="updated-at" class="admin-help"></span>
           </div>
@@ -118,18 +123,27 @@
         </section>
       </div>
 
-      <section class="admin-card admin-config-card" aria-labelledby="config-heading">
-        <div class="admin-card-heading">
-          <div>
-            <p class="admin-eyebrow">Configuration</p>
-            <h2 id="config-heading">Public listings settings</h2>
+      <details id="advanced-settings" class="admin-card admin-advanced">
+        <summary>
+          <span class="admin-advanced-summary-copy">
+            <span class="admin-eyebrow">Advanced</span>
+            <strong>Settings &amp; connections</strong>
+            <span class="admin-help">Public text, Worker status, and Facebook</span>
+          </span>
+          <span class="admin-advanced-toggle">Open</span>
+        </summary>
+        <section class="admin-advanced-body" aria-labelledby="config-heading">
+          <div class="admin-card-heading">
+            <div>
+              <p class="admin-eyebrow">Configuration</p>
+              <h2 id="config-heading">Public listings settings</h2>
+            </div>
+            <span id="config-updated-at" class="admin-help"></span>
           </div>
-          <span id="config-updated-at" class="admin-help"></span>
-        </div>
-        <p class="admin-config-intro">Update the public Now Showing guidance and contact links here. These settings do not replace your movie listings.</p>
+          <p class="admin-config-intro">Only change these fields when the public guidance or contact details need updating.</p>
 
-        <div class="admin-config-layout">
-          <form id="config-form" class="admin-form">
+          <div class="admin-config-layout">
+            <form id="config-form" class="admin-form">
             <div class="admin-form-row">
               <div>
                 <label for="config-phone">Movie line phone</label>
@@ -155,9 +169,9 @@
               <button id="reset-config" class="admin-text-button" type="button">Reset form</button>
             </div>
             <p id="config-message" class="admin-message" role="status" aria-live="polite"></p>
-          </form>
+            </form>
 
-          <aside class="admin-config-tools" aria-labelledby="connections-heading">
+            <aside class="admin-config-tools" aria-labelledby="connections-heading">
             <p class="admin-eyebrow">Connections</p>
             <h3 id="connections-heading">Worker readiness</h3>
             <div class="admin-connection-list">
@@ -188,12 +202,13 @@
               <div id="facebook-posts" class="facebook-posts" aria-live="polite"></div>
               <p id="facebook-message" class="admin-message" role="status" aria-live="polite"></p>
             </div>
-          </aside>
-        </div>
-      </section>
+            </aside>
+          </div>
+        </section>
+      </details>
     </section>
   </main>
 
-  <script src="/admin/admin.js?v=admin-panel2" defer></script>
+  <script src="/admin/admin.js?v=admin-panel3" defer></script>
 </body>
 </html>
