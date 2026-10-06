@@ -3,8 +3,9 @@
 The public `/showtimes` section now reads a small published record from the `NOW_SHOWING` Worker KV namespace. The private `/admin/` panel can:
 
 - add or edit a Screen 1 or Screen 2 movie;
+- search both screens together and choose a matching result for either screen;
 - store a run/date note, rating, runtime, and comma-separated showtimes;
-- search TMDB for a matching movie and fill its release date, certification, and runtime when `TMDB_API_KEY` is configured;
+- search TMDB for a matching movie and fill its release date, certification, runtime, and description when `TMDB_API_KEY` is configured;
 - search YouTube for Canadian official-trailer candidates when `YOUTUBE_API_KEY` is configured;
 - require a human to select the trailer result before publishing; and
 - remove a listing without editing the public HTML; and
@@ -30,4 +31,4 @@ The editable public settings are stored separately under the `site-config` KV ke
 
 The browser posts validated entries to `/api/admin/showtimes`; the Worker writes one `current` JSON record to KV. The public page reads `/api/showtimes` and keeps the existing movie-line/Facebook cards visible until at least one listing has been published. KV is suitable for this low-volume, read-heavy record; a short propagation delay after a publish is expected.
 
-The admin panel intentionally does not scrape Facebook HTML or auto-publish an unverified movie. The Facebook link remains a stable manual source for visitors, while showtimes are kept under the theatre's direct control.
+The admin panel intentionally does not scrape Facebook HTML or auto-publish an unverified movie. The Facebook link remains a stable manual source for visitors, while showtimes are kept under the theatre's direct control. TMDB descriptions and runtime data remain reviewable and editable before publishing.

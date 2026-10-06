@@ -234,6 +234,55 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 
 .admin-config-card { margin-top: 1.25rem; }
 
+.admin-bulk-search {
+  margin: 1rem 0 1.1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  background: var(--admin-paper-warm);
+}
+
+.admin-bulk-search > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-bulk-search > summary::-webkit-details-marker { display: none; }
+
+.admin-bulk-search-summary {
+  display: grid;
+  gap: .2rem;
+}
+
+.admin-bulk-search-summary strong { font-size: .82rem; }
+
+.admin-bulk-search-toggle {
+  flex: 0 0 auto;
+  color: var(--admin-red);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.admin-bulk-search-toggle::after { content: " +"; }
+.admin-bulk-search[open] .admin-bulk-search-toggle::after { content: " −"; }
+
+.admin-bulk-search-body {
+  display: grid;
+  gap: .75rem;
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--admin-line);
+}
+
+.admin-bulk-search-body .admin-form-row { padding-top: .35rem; }
+
+.admin-bulk-search-body .admin-button { justify-self: start; }
+
 .admin-publish-button {
   width: 100%;
   margin-top: .25rem;
@@ -261,6 +310,35 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 .admin-optional > summary::after { content: "+"; color: var(--admin-red); font-size: 1.1rem; }
 .admin-optional[open] > summary::after { content: "−"; }
 .admin-optional-body { display: grid; gap: .65rem; padding: .4rem 0 .2rem; }
+
+.admin-movie-details {
+  display: grid;
+  gap: .35rem;
+  padding: .75rem .8rem;
+  border: 1px solid rgba(134, 205, 223, .72);
+  border-radius: 9px;
+  background: rgba(134, 205, 223, .12);
+}
+
+.admin-movie-details-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.admin-movie-details-heading .admin-eyebrow { margin: 0; }
+
+.admin-movie-details-heading a {
+  color: var(--admin-red);
+  font-size: .68rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.admin-movie-details-heading a:hover { text-decoration: underline; }
+
+.admin-movie-details p { margin: 0; line-height: 1.5; }
 
 .admin-config-intro {
   max-width: 70ch;
@@ -461,6 +539,7 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 
 .published-entry h3 { margin: 0; font-size: 1.15rem; }
 .published-entry p { margin: 0; color: var(--admin-muted); font-size: .78rem; line-height: 1.5; }
+.published-entry .published-entry-overview { color: var(--admin-ink); }
 .published-entry-actions { display: flex; gap: .75rem; margin-top: .4rem; }
 
 .admin-empty { color: var(--admin-muted); font-style: italic; }
@@ -520,4 +599,7 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   .admin-optional > summary { align-items: flex-start; flex-direction: column; gap: .25rem; }
   .admin-showtimes-picker { grid-template-columns: 1fr; }
   .admin-showtimes-picker .admin-button { width: 100%; }
+  .admin-bulk-search-body .admin-form-row { grid-template-columns: 1fr; }
+  .admin-bulk-search-body .admin-button { width: 100%; }
+  .admin-movie-details-heading { align-items: flex-start; flex-direction: column; gap: .3rem; }
 }

@@ -94,6 +94,9 @@
       ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Open trailer on YouTube <i class="fa-brands fa-youtube"></i></a>`
       : entry.fallbackAction ? fallbackLink : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
     const bodyCopy = entry.fallbackCopy || schedule;
+    const overview = entry.overview
+      ? `<p class="showtime-card-overview">${escapeHtml(entry.overview)}</p>`
+      : "";
 
     return `<article class="showtime-card ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
       ${media}
@@ -101,6 +104,7 @@
         <div class="showtime-card-meta"><span>${escapeHtml(screen)}</span><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>
         <h3>${title}</h3>
         <p class="showtime-card-schedule">${escapeHtml(bodyCopy)}</p>
+        ${overview}
         ${entry.fallbackCopy ? "" : (entry.notes ? `<p class="showtime-card-note">${escapeHtml(entry.notes)}</p>` : "")}
         ${trailerLink}
       </div>

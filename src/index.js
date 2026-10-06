@@ -374,14 +374,17 @@ function normalizeEntry(input, index) {
   const trailerUrl = trailerId
     ? `https://www.youtube.com/watch?v=${trailerId}`
     : safeExternalUrl(input?.trailerUrl);
+  const tmdbId = Number(input?.tmdbId);
 
   return {
     id: cleanText(input?.id, 80) || `${slugify(screen)}-${slugify(title)}-${index + 1}`,
     screen,
     title,
+    tmdbId: Number.isInteger(tmdbId) && tmdbId > 0 ? tmdbId : null,
     rating: cleanText(input?.rating, 16),
     runtime: cleanText(input?.runtime, 32),
     date: cleanText(input?.date, 32),
+    overview: cleanText(input?.overview, 500),
     showtimes,
     trailerId,
     trailerUrl,

@@ -7,7 +7,14 @@
     noticeTitle: "Confirm today’s film and start time.",
     noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
   };
-  const state = { entries: [], trailerResults: [], movieResults: [], editingId: "", config: { ...DEFAULT_CONFIG } };
+  const state = {
+    entries: [],
+    trailerResults: [],
+    movieResults: [],
+    bulkMovieResults: { "Screen 1": [], "Screen 2": [] },
+    editingId: "",
+    config: { ...DEFAULT_CONFIG }
+  };
 
   const loginView = $("#login-view");
   const appView = $("#app-view");
@@ -139,6 +146,52 @@
     setMessage(configMessage, "Form reset to the default theatre settings.", false);
   }
 
+  function movieResultListSelector(screen) {
+    return screen === "Screen 2" ? "#screen2-movie-results" : "#screen1-movie-results";
+  }
+
+  function updateMovieDetailsPanel(details, fallbackTitle = "") {
+    const title = details.title || fallbackTitle;
+    const release = details.releaseDate ? `Released ${details.releaseDate}` : "";
+    const summary = [
+      release,
+      details.rating ? `Rating ${details.rating}` : "",
+      details.runtime ? `Runtime ${details.runtime}` : ""
+    ].filter(Boolean).join(" • ");
+
+    $("#tmdb-id").value = details.id ? String(details.id) : "";
+    $("#title").value = title;
+    $("#date").value = release;
+    $("#rating").value = details.rating || "";
+    $("#runtime").value = details.runtime || "";
+    $("#overview").value = details.overview || "";
+
+    const panel = $("#movie-details");
+    panel.hidden = !summary && !details.overview;
+    $("#movie-details-summary").textContent = summary || "TMDB details loaded. Review the description before publishing.";
+
+    const sourceLink = $("#movie-source-link");
+    if (details.sourceUrl) {
+      sourceLink.href = details.sourceUrl;
+      sourceLink.hidden = false;
+    } else {
+      sourceLink.removeAttribute("href");
+      sourceLink.hidden = true;
+    }
+
+    const optional = document.querySelector(".admin-optional");
+    if (optional) optional.open = true;
+  }
+
+  function clearMovieDetailsPanel() {
+    $("#tmdb-id").value = "";
+    $("#movie-details").hidden = true;
+    $("#movie-details-summary").textContent = "Choose a movie result to load its release information.";
+    const sourceLink = $("#movie-source-link");
+    sourceLink.removeAttribute("href");
+    sourceLink.hidden = true;
+  }
+
   function renderMovieResults(results) {
     state.movieResults = results;
     const list = $("#movie-results");
@@ -152,6 +205,22 @@
     </button>`).join("");
     list.querySelectorAll("[data-movie-index]").forEach((button) => {
       button.addEventListener("click", () => selectMovie(Number(button.dataset.movieIndex)));
+    });
+  }
+
+  function renderBulkMovieResults(screen, results) {
+    state.bulkMovieResults[screen] = results;
+    const list = $(movieResultListSelector(screen));
+    if (!results.length) {
+      list.replaceChildren();
+      return;
+    }
+    list.innerHTML = results.map((result, index) => `<button type="button" class="movie-result" data-bulk-screen="${escapeHtml(screen)}" data-bulk-movie-index="${index}">
+      <strong>${escapeHtml(result.title)}</strong>
+      <span>${escapeHtml(result.releaseDate || "Release date unavailable")}${result.overview ? ` · ${escapeHtml(result.overview)}` : ""}</span>
+    </button>`).join("");
+    list.querySelectorAll("[data-bulk-movie-index]").forEach((button) => {
+      button.addEventListener("click", () => selectBulkMovie(button.dataset.bulkScreen, Number(button.dataset.bulkMovieIndex)));
     });
   }
 
@@ -192,12 +261,7 @@
         method: "POST",
         body: JSON.stringify({ tmdbId: result.id })
       });
-      $("#title").value = details.title || result.title;
-      if (details.releaseDate) $("#date").value = `Released ${details.releaseDate}`;
-      if (details.rating) $("#rating").value = details.rating;
-      if (details.runtime) $("#runtime").value = details.runtime;
-      const optional = document.querySelector(".admin-optional");
-      if (optional) optional.open = true;
+      updateMovieDetailsPanel(details, result.title);
       renderMovieResults([]);
       setMessage(formMessage, `${details.title || result.title} details filled. Add showtimes, then publish.`, false);
     } catch (error) {
@@ -205,6 +269,63 @@
     } finally {
       button.disabled = false;
       button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find movie data';
+    }
+  }
+
+  async function findBothMovies() {
+    const titles = {
+      "Screen 1": $("#screen1-search-title").value.trim(),
+      "Screen 2": $("#screen2-search-title").value.trim()
+    };
+    if (!titles["Screen 1"] || !titles["Screen 2"]) {
+      setMessage($("#bulk-movie-message"), "Enter a movie title for both Screen 1 and Screen 2.");
+      return;
+    }
+
+    const button = $("#find-both-movies");
+    button.disabled = true;
+    button.textContent = "Searching both screens…";
+    setMessage($("#bulk-movie-message"), "Searching TMDB for both movies…", false);
+    try {
+      const results = await Promise.all(Object.entries(titles).map(async ([screen, title]) => {
+        const data = await api("/api/admin/movie-search", {
+          method: "POST",
+          body: JSON.stringify({ title })
+        });
+        return [screen, data.results || []];
+      }));
+      results.forEach(([screen, matches]) => renderBulkMovieResults(screen, matches));
+      const total = results.reduce((count, [, matches]) => count + matches.length, 0);
+      setMessage($("#bulk-movie-message"), total ? "Choose a matching result. It will load into the listing form for that screen." : "No movie matches found for either screen.", !total);
+    } catch (error) {
+      setMessage($("#bulk-movie-message"), error.message);
+    } finally {
+      button.disabled = false;
+      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find both movies';
+    }
+  }
+
+  async function selectBulkMovie(screen, index) {
+    const result = state.bulkMovieResults[screen]?.[index];
+    if (!result) return;
+    const button = $("#find-both-movies");
+    button.disabled = true;
+    setMessage($("#bulk-movie-message"), `Loading ${result.title} for ${screen}…`, false);
+    try {
+      const details = await api("/api/admin/movie-details", {
+        method: "POST",
+        body: JSON.stringify({ tmdbId: result.id })
+      });
+      $("#screen").value = screen;
+      updateMovieDetailsPanel(details, result.title);
+      renderBulkMovieResults(screen, []);
+      $("#two-screen-search").open = false;
+      setMessage(formMessage, `${details.title || result.title} loaded for ${screen}. Add showtimes, then publish.`, false);
+    } catch (error) {
+      setMessage($("#bulk-movie-message"), error.message);
+    } finally {
+      button.disabled = false;
+      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find both movies';
     }
   }
 
@@ -235,6 +356,7 @@
         <p><strong>${escapeHtml(entry.screen)}</strong>${entry.date ? ` · ${escapeHtml(entry.date)}` : ""}</p>
         <p>${escapeHtml(times)}</p>
         <p>${escapeHtml([entry.rating, entry.runtime, trailer].filter(Boolean).join(" · "))}</p>
+        ${entry.overview ? `<p class="published-entry-overview">${escapeHtml(entry.overview)}</p>` : ""}
         <div class="published-entry-actions">
           <button class="admin-text-button" type="button" data-edit="${escapeHtml(entry.id)}">Edit</button>
           <button class="admin-text-button" type="button" data-delete="${escapeHtml(entry.id)}">Remove</button>
@@ -257,8 +379,15 @@
     $("#trailer-id").value = "";
     $("#trailer-results").replaceChildren();
     $("#movie-results").replaceChildren();
+    $("#screen1-search-title").value = "";
+    $("#screen2-search-title").value = "";
+    $("#bulk-movie-message").textContent = "";
+    $("#two-screen-search").open = false;
     state.trailerResults = [];
     state.movieResults = [];
+    renderBulkMovieResults("Screen 1", []);
+    renderBulkMovieResults("Screen 2", []);
+    clearMovieDetailsPanel();
     state.editingId = "";
     setMessage(formMessage, "", true);
   }
@@ -282,13 +411,32 @@
     $("#screen").value = entry.screen;
     $("#date").value = entry.date || "";
     $("#title").value = entry.title || "";
+    $("#tmdb-id").value = entry.tmdbId ? String(entry.tmdbId) : "";
     $("#rating").value = entry.rating || "";
     $("#runtime").value = entry.runtime || "";
+    $("#overview").value = entry.overview || "";
     $("#showtimes").value = (entry.showtimes || []).join(", ");
     $("#trailer-id").value = entry.trailerId || "";
     $("#trailer-url").value = entry.trailerUrl || "";
     $("#poster-url").value = entry.posterUrl || "";
     $("#notes").value = entry.notes || "";
+    const savedDetails = Boolean(entry.tmdbId || entry.overview || entry.rating || entry.runtime);
+    $("#movie-details").hidden = !savedDetails;
+    $("#movie-details-summary").textContent = [
+      entry.date,
+      entry.rating ? `Rating ${entry.rating}` : "",
+      entry.runtime ? `Runtime ${entry.runtime}` : ""
+    ].filter(Boolean).join(" • ") || "Saved movie details.";
+    const sourceLink = $("#movie-source-link");
+    if (entry.tmdbId) {
+      sourceLink.href = `https://www.themoviedb.org/movie/${encodeURIComponent(entry.tmdbId)}`;
+      sourceLink.hidden = false;
+    } else {
+      sourceLink.removeAttribute("href");
+      sourceLink.hidden = true;
+    }
+    const optional = document.querySelector(".admin-optional");
+    if (optional && savedDetails) optional.open = true;
     setMessage(formMessage, `Editing ${entry.title}. Publish when ready.`, false);
     $("#title").focus();
   }
@@ -362,8 +510,10 @@
       screen: $("#screen").value,
       date: $("#date").value.trim(),
       title: $("#title").value.trim(),
+      tmdbId: Number($("#tmdb-id").value) || null,
       rating: $("#rating").value.trim(),
       runtime: $("#runtime").value.trim(),
+      overview: $("#overview").value.trim(),
       showtimes: $("#showtimes").value.split(",").map((time) => time.trim()).filter(Boolean),
       trailerId: $("#trailer-id").value.trim(),
       trailerUrl: $("#trailer-url").value.trim(),
@@ -413,6 +563,7 @@
 
   $("#movie-form").addEventListener("submit", publish);
   $("#find-movie").addEventListener("click", findMovie);
+  $("#find-both-movies").addEventListener("click", findBothMovies);
   $("#find-trailer").addEventListener("click", findTrailer);
   $("#add-showtime").addEventListener("click", addShowtime);
   $("#reset-form").addEventListener("click", resetForm);

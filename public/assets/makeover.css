@@ -706,6 +706,12 @@ html.dark #showtimes .grid > div > div:last-child {
   line-height: 1.6;
 }
 
+#showtimes .showtime-card-overview {
+  margin-top: -.65rem;
+  color: rgba(20, 23, 26, .66);
+  font-size: .76rem;
+}
+
 #showtimes .showtime-card-link {
   display: inline-flex;
   align-items: center;
@@ -764,7 +770,8 @@ html.dark #showtimes .grid > div > div:last-child {
 html.dark #showtimes .showtimes-intro-copy,
 html.dark #showtimes .showtimes-footnote,
 html.dark #showtimes .showtimes-attribution,
-html.dark #showtimes .showtime-card-content p {
+html.dark #showtimes .showtime-card-content p,
+html.dark #showtimes .showtime-card-overview {
   color: rgba(255, 255, 255, .72);
 }
 

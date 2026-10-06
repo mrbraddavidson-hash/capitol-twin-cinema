@@ -54,8 +54,35 @@
             <button id="reset-form" class="admin-text-button" type="button">Clear form</button>
           </div>
 
+          <details id="two-screen-search" class="admin-bulk-search">
+            <summary>
+              <span class="admin-bulk-search-summary">
+                <strong>Search both screens together</strong>
+                <span class="admin-help">Find Screen 1 and Screen 2 movie data in one step.</span>
+              </span>
+              <span class="admin-bulk-search-toggle">Open</span>
+            </summary>
+            <div class="admin-bulk-search-body">
+              <div class="admin-form-row">
+                <div>
+                  <label for="screen1-search-title">Screen 1 movie</label>
+                  <input id="screen1-search-title" type="text" maxlength="120" placeholder="e.g. The Wild Robot">
+                  <div id="screen1-movie-results" class="movie-results" aria-live="polite"></div>
+                </div>
+                <div>
+                  <label for="screen2-search-title">Screen 2 movie</label>
+                  <input id="screen2-search-title" type="text" maxlength="120" placeholder="e.g. Gladiator II">
+                  <div id="screen2-movie-results" class="movie-results" aria-live="polite"></div>
+                </div>
+              </div>
+              <button id="find-both-movies" class="admin-button admin-button--quiet" type="button"><i class="fa-solid fa-magnifying-glass"></i> Find both movies</button>
+              <p id="bulk-movie-message" class="admin-message" role="status" aria-live="polite"></p>
+            </div>
+          </details>
+
           <form id="movie-form" class="admin-form">
             <input id="entry-id" type="hidden">
+            <input id="tmdb-id" type="hidden">
             <div class="admin-form-row">
               <div>
                 <label for="screen">Screen</label>
@@ -120,8 +147,16 @@
             <div id="trailer-results" class="trailer-results" aria-live="polite"></div>
 
             <details class="admin-optional">
-              <summary>Optional movie details <span class="admin-help">rating, runtime, poster, notes</span></summary>
+              <summary>Movie details <span class="admin-help">TMDB rating, runtime, description, poster, notes</span></summary>
               <div class="admin-optional-body">
+                <div id="movie-details" class="admin-movie-details" hidden>
+                  <div class="admin-movie-details-heading">
+                    <span class="admin-eyebrow">TMDB details</span>
+                    <a id="movie-source-link" href="#" target="_blank" rel="noopener noreferrer" hidden>View TMDB record <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  </div>
+                  <p id="movie-details-summary" class="admin-help">Choose a movie result to load its release information.</p>
+                </div>
+
                 <div class="admin-form-row">
                   <div>
                     <label for="rating">Rating</label>
@@ -132,6 +167,9 @@
                     <input id="runtime" type="text" maxlength="32" placeholder="1h 42m">
                   </div>
                 </div>
+
+                <label for="overview">Description <span class="admin-help">from TMDB; editable</span></label>
+                <textarea id="overview" rows="4" maxlength="500" placeholder="Movie description"></textarea>
 
                 <label for="poster-url">Poster image URL</label>
                 <input id="poster-url" type="url" placeholder="https://...">
@@ -229,6 +267,6 @@
     </section>
   </main>
 
-  <script src="/admin/admin.js?v=admin-panel5" defer></script>
+  <script src="/admin/admin.js?v=admin-panel6" defer></script>
 </body>
 </html>
