@@ -3,7 +3,7 @@
 The public `/showtimes` section now reads a small published record from the `NOW_SHOWING` Worker KV namespace. The private `/admin/` panel can:
 
 - add or edit a Screen 1 or Screen 2 movie;
-- search both screens together and choose a matching result for either screen;
+- enter both screen titles once and automatically load the top TMDB match plus the top YouTube trailer candidate for each screen;
 - store a run/date note, rating, runtime, and comma-separated showtimes;
 - search TMDB for a matching movie and fill its release date, certification, runtime, and description when `TMDB_API_KEY` is configured;
 - search YouTube for Canadian official-trailer candidates when `YOUTUBE_API_KEY` is configured;

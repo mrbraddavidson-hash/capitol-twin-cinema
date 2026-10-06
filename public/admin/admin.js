@@ -11,7 +11,7 @@
     entries: [],
     trailerResults: [],
     movieResults: [],
-    bulkMovieResults: { "Screen 1": [], "Screen 2": [] },
+    bulkPrepared: { "Screen 1": null, "Screen 2": null },
     editingId: "",
     config: { ...DEFAULT_CONFIG }
   };
@@ -208,20 +208,38 @@
     });
   }
 
-  function renderBulkMovieResults(screen, results) {
-    state.bulkMovieResults[screen] = results;
+  function renderPreparedMovie(screen, prepared) {
+    state.bulkPrepared[screen] = prepared;
     const list = $(movieResultListSelector(screen));
-    if (!results.length) {
+    if (!prepared) {
       list.replaceChildren();
       return;
     }
-    list.innerHTML = results.map((result, index) => `<button type="button" class="movie-result" data-bulk-screen="${escapeHtml(screen)}" data-bulk-movie-index="${index}">
-      <strong>${escapeHtml(result.title)}</strong>
-      <span>${escapeHtml(result.releaseDate || "Release date unavailable")}${result.overview ? ` · ${escapeHtml(result.overview)}` : ""}</span>
-    </button>`).join("");
-    list.querySelectorAll("[data-bulk-movie-index]").forEach((button) => {
-      button.addEventListener("click", () => selectBulkMovie(button.dataset.bulkScreen, Number(button.dataset.bulkMovieIndex)));
-    });
+
+    if (prepared.error) {
+      list.innerHTML = `<div class="movie-prepared is-error">
+        <div class="movie-prepared-heading"><strong>${escapeHtml(prepared.title)}</strong><span>Needs review</span></div>
+        <p>${escapeHtml(prepared.error)}</p>
+      </div>`;
+      return;
+    }
+
+    const details = prepared.details || {};
+    const trailer = prepared.trailer;
+    const metadata = [
+      details.releaseDate ? `Released ${details.releaseDate}` : "Release date unavailable",
+      details.rating ? `Rating ${details.rating}` : "",
+      details.runtime ? `Runtime ${details.runtime}` : ""
+    ].filter(Boolean).join(" • ");
+    const trailerText = trailer ? `Trailer: ${trailer.title}` : `Trailer: ${prepared.trailerError || "No trailer match found"}`;
+    list.innerHTML = `<div class="movie-prepared">
+      <div class="movie-prepared-heading"><strong>${escapeHtml(details.title || prepared.title)}</strong><span>Ready</span></div>
+      <p>${escapeHtml(metadata)}</p>
+      <p>${escapeHtml(trailerText)}</p>
+      ${details.overview ? `<p>${escapeHtml(details.overview)}</p>` : ""}
+      <button class="admin-text-button" type="button" data-use-prepared="${escapeHtml(screen)}">Use for ${escapeHtml(screen)}</button>
+    </div>`;
+    list.querySelector("[data-use-prepared]").addEventListener("click", () => usePreparedMovie(screen));
   }
 
   async function findMovie() {
@@ -284,49 +302,65 @@
 
     const button = $("#find-both-movies");
     button.disabled = true;
-    button.textContent = "Searching both screens…";
-    setMessage($("#bulk-movie-message"), "Searching TMDB for both movies…", false);
+    button.textContent = "Preparing both listings…";
+    setMessage($("#bulk-movie-message"), "Finding TMDB details and trailer matches for both movies…", false);
     try {
-      const results = await Promise.all(Object.entries(titles).map(async ([screen, title]) => {
-        const data = await api("/api/admin/movie-search", {
-          method: "POST",
-          body: JSON.stringify({ title })
-        });
-        return [screen, data.results || []];
+      const prepared = await Promise.all(Object.entries(titles).map(async ([screen, title]) => {
+        try {
+          const search = await api("/api/admin/movie-search", {
+            method: "POST",
+            body: JSON.stringify({ title })
+          });
+          const match = search.results?.[0];
+          if (!match) return [screen, { title, error: "No TMDB match found. Try a fuller title." }];
+
+          const details = await api("/api/admin/movie-details", {
+            method: "POST",
+            body: JSON.stringify({ tmdbId: match.id })
+          });
+          let trailer = null;
+          let trailerError = "";
+          try {
+            const trailerSearch = await api("/api/admin/trailer-search", {
+              method: "POST",
+              body: JSON.stringify({ title: details.title || match.title })
+            });
+            trailer = trailerSearch.results?.[0] || null;
+            if (!trailer) trailerError = "No YouTube trailer match found.";
+          } catch (error) {
+            trailerError = error.message;
+          }
+          return [screen, { title, match, details, trailer, trailerError }];
+        } catch (error) {
+          return [screen, { title, error: error.message }];
+        }
       }));
-      results.forEach(([screen, matches]) => renderBulkMovieResults(screen, matches));
-      const total = results.reduce((count, [, matches]) => count + matches.length, 0);
-      setMessage($("#bulk-movie-message"), total ? "Choose a matching result. It will load into the listing form for that screen." : "No movie matches found for either screen.", !total);
+      prepared.forEach(([screen, data]) => renderPreparedMovie(screen, data));
+      const ready = prepared.filter(([, data]) => !data.error).length;
+      setMessage($("#bulk-movie-message"), ready === 2
+        ? "Both listings are prepared. Use each screen button, add local showtimes, then publish."
+        : `${ready} of 2 listings prepared. Review the item marked Needs review.`, ready !== 2);
     } catch (error) {
       setMessage($("#bulk-movie-message"), error.message);
     } finally {
       button.disabled = false;
-      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find both movies';
+      button.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Prepare both listings';
     }
   }
 
-  async function selectBulkMovie(screen, index) {
-    const result = state.bulkMovieResults[screen]?.[index];
-    if (!result) return;
-    const button = $("#find-both-movies");
-    button.disabled = true;
-    setMessage($("#bulk-movie-message"), `Loading ${result.title} for ${screen}…`, false);
-    try {
-      const details = await api("/api/admin/movie-details", {
-        method: "POST",
-        body: JSON.stringify({ tmdbId: result.id })
-      });
-      $("#screen").value = screen;
-      updateMovieDetailsPanel(details, result.title);
-      renderBulkMovieResults(screen, []);
-      $("#two-screen-search").open = false;
-      setMessage(formMessage, `${details.title || result.title} loaded for ${screen}. Add showtimes, then publish.`, false);
-    } catch (error) {
-      setMessage($("#bulk-movie-message"), error.message);
-    } finally {
-      button.disabled = false;
-      button.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find both movies';
-    }
+  function usePreparedMovie(screen) {
+    const prepared = state.bulkPrepared[screen];
+    if (!prepared || prepared.error) return;
+    const details = prepared.details || {};
+    $("#screen").value = screen;
+    updateMovieDetailsPanel(details, prepared.title);
+    $("#trailer-id").value = prepared.trailer?.videoId || "";
+    $("#trailer-url").value = prepared.trailer?.videoId
+      ? `https://www.youtube.com/watch?v=${prepared.trailer.videoId}`
+      : "";
+    if (prepared.trailer?.thumbnail) $("#poster-url").value = prepared.trailer.thumbnail;
+    $("#two-screen-search").open = false;
+    setMessage(formMessage, `${details.title || prepared.title} loaded for ${screen}. Add showtimes, then publish.`, false);
   }
 
   async function copyCommand(button) {
@@ -387,8 +421,8 @@
     if (optional) optional.open = false;
     state.trailerResults = [];
     state.movieResults = [];
-    renderBulkMovieResults("Screen 1", []);
-    renderBulkMovieResults("Screen 2", []);
+    renderPreparedMovie("Screen 1", null);
+    renderPreparedMovie("Screen 2", null);
     clearMovieDetailsPanel();
     state.editingId = "";
     setMessage(formMessage, "", true);
