@@ -241,17 +241,13 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   background: var(--admin-paper-warm);
 }
 
-.admin-bulk-search > summary {
+.admin-bulk-search-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: .85rem 1rem;
-  cursor: pointer;
-  list-style: none;
 }
-
-.admin-bulk-search > summary::-webkit-details-marker { display: none; }
 
 .admin-bulk-search-summary {
   display: grid;
@@ -259,18 +255,6 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 }
 
 .admin-bulk-search-summary strong { font-size: .82rem; }
-
-.admin-bulk-search-toggle {
-  flex: 0 0 auto;
-  color: var(--admin-red);
-  font-size: .68rem;
-  font-weight: 900;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.admin-bulk-search-toggle::after { content: " +"; }
-.admin-bulk-search[open] .admin-bulk-search-toggle::after { content: " −"; }
 
 .admin-bulk-search-body {
   display: grid;

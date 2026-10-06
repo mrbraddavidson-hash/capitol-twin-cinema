@@ -54,14 +54,13 @@
             <button id="reset-form" class="admin-text-button" type="button">Clear form</button>
           </div>
 
-          <details id="two-screen-search" class="admin-bulk-search" open>
-            <summary>
-              <span class="admin-bulk-search-summary">
-                <strong>Prepare both listings</strong>
+          <section id="two-screen-search" class="admin-bulk-search" aria-labelledby="two-screen-search-heading">
+            <div class="admin-bulk-search-heading">
+              <div class="admin-bulk-search-summary">
+                <strong id="two-screen-search-heading">Prepare both listings</strong>
                 <span class="admin-help">Enter two titles and load TMDB details plus the top trailer matches.</span>
-              </span>
-              <span class="admin-bulk-search-toggle">Open</span>
-            </summary>
+              </div>
+            </div>
             <div class="admin-bulk-search-body">
               <div class="admin-form-row">
                 <div>
@@ -78,7 +77,7 @@
               <button id="find-both-movies" class="admin-button admin-button--quiet" type="button"><i class="fa-solid fa-wand-magic-sparkles"></i> Prepare both listings</button>
               <p id="bulk-movie-message" class="admin-message" role="status" aria-live="polite"></p>
             </div>
-          </details>
+          </section>
 
           <form id="movie-form" class="admin-form">
             <input id="entry-id" type="hidden">
@@ -267,6 +266,6 @@
     </section>
   </main>
 
-  <script src="/admin/admin.js?v=admin-panel8" defer></script>
+  <script src="/admin/admin.js?v=admin-panel9" defer></script>
 </body>
 </html>

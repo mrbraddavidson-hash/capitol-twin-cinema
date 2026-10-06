@@ -359,7 +359,6 @@
       ? `https://www.youtube.com/watch?v=${prepared.trailer.videoId}`
       : "";
     if (prepared.trailer?.thumbnail) $("#poster-url").value = prepared.trailer.thumbnail;
-    $("#two-screen-search").open = false;
     setMessage(formMessage, `${details.title || prepared.title} loaded for ${screen}. Add showtimes, then publish.`, false);
   }
 
@@ -416,7 +415,6 @@
     $("#screen1-search-title").value = "";
     $("#screen2-search-title").value = "";
     $("#bulk-movie-message").textContent = "";
-    $("#two-screen-search").open = true;
     const optional = document.querySelector(".admin-optional");
     if (optional) optional.open = false;
     state.trailerResults = [];
