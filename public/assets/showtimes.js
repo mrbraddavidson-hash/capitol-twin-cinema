@@ -121,7 +121,7 @@
       ? `<p class="showtime-card-overview">${escapeHtml(entry.overview)}</p>`
       : "";
 
-    return `<article class="showtime-card ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
+    return `<article class="showtime-card showtime-card--poster ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
       ${media}
       <div class="showtime-card-content">
         <div class="showtime-card-meta"><span>${escapeHtml(screen)}</span><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>

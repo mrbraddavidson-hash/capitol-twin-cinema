@@ -1468,3 +1468,207 @@ html.dark #concessions {
     grid-template-columns: 1fr;
   }
 }
+
+/* Poster treatment: turn each live listing into a compact cinema one-sheet.
+   The trailer remains playable, while the title, rating, runtime, synopsis,
+   and showtimes read like the billing block on a printed movie poster. */
+#showtimes .showtime-card--poster {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-top: 0;
+  border-radius: 8px;
+  background: var(--ctc-ink);
+  box-shadow: 8px 8px 0 var(--ctc-gold);
+  color: #fff;
+}
+
+#showtimes .showtime-card--poster::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--ctc-red);
+  content: "";
+}
+
+#showtimes .showtime-card--poster.showtime-card--gold::before {
+  background: var(--ctc-gold);
+}
+
+#showtimes .showtime-card--poster .showtime-card-media {
+  aspect-ratio: 5 / 4;
+  border-bottom: 1px solid rgba(255, 209, 102, .42);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 209, 102, .16), transparent 35%),
+    #090a0b;
+}
+
+#showtimes .showtime-card--poster .showtime-card-media--trailer {
+  padding: 0;
+}
+
+#showtimes .showtime-card--poster .showtime-card-trailer-preview,
+#showtimes .showtime-card--poster .showtime-card-trailer-frame {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+#showtimes .showtime-card--poster .showtime-card-trailer-preview::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(9, 10, 11, .08) 38%, rgba(9, 10, 11, .88) 100%),
+    linear-gradient(90deg, rgba(211, 39, 52, .15), transparent 30%, transparent 70%, rgba(255, 209, 102, .14));
+  content: "";
+  pointer-events: none;
+}
+
+#showtimes .showtime-card--poster .showtime-card-trailer-preview img {
+  filter: saturate(.94) contrast(1.04) brightness(.78);
+  object-fit: cover;
+  transition: filter 180ms ease, transform 300ms ease;
+}
+
+#showtimes .showtime-card--poster:hover .showtime-card-trailer-preview img {
+  filter: saturate(1.05) contrast(1.04) brightness(.88);
+  transform: scale(1.025);
+}
+
+#showtimes .showtime-card--poster .showtime-card-trailer-play {
+  z-index: 1;
+  bottom: 1rem;
+  top: auto;
+  left: 1rem;
+  min-height: 2rem;
+  padding: .4rem .7rem;
+  border-color: rgba(255, 255, 255, .72);
+  background: rgba(20, 23, 26, .82);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .34);
+  transform: none;
+}
+
+#showtimes .showtime-card--poster .showtime-card-trailer-play:hover,
+#showtimes .showtime-card--poster .showtime-card-trailer-play:focus-visible {
+  background: var(--ctc-red);
+  transform: translateY(-2px);
+}
+
+#showtimes .showtime-card--poster .showtime-card-index {
+  z-index: 1;
+  top: 1.05rem;
+  left: 1.05rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-color: var(--ctc-gold);
+  background: rgba(20, 23, 26, .84);
+  font-size: 1.15rem;
+}
+
+#showtimes .showtime-card--poster .showtime-card-caption {
+  z-index: 1;
+  right: 1rem;
+  bottom: 1rem;
+  background: rgba(20, 23, 26, .78);
+  color: var(--ctc-gold);
+  font-size: .58rem;
+}
+
+#showtimes .showtime-card--poster .showtime-card-content {
+  min-height: 16rem;
+  padding: 1.15rem 1.3rem 1.25rem;
+  background:
+    linear-gradient(135deg, rgba(211, 39, 52, .08), transparent 32%),
+    var(--ctc-ink);
+}
+
+#showtimes .showtime-card--poster.showtime-card--gold .showtime-card-content {
+  background:
+    linear-gradient(135deg, rgba(255, 209, 102, .1), transparent 32%),
+    var(--ctc-ink);
+}
+
+#showtimes .showtime-card--poster .showtime-card-meta {
+  margin-bottom: .65rem;
+  color: var(--ctc-gold);
+}
+
+#showtimes .showtime-card--poster .showtime-card-meta span:last-child {
+  color: rgba(255, 255, 255, .72);
+}
+
+#showtimes .showtime-card--poster .showtime-card-content h3 {
+  max-width: 100%;
+  color: #fff !important;
+  font-size: clamp(1.8rem, 3.4vw, 2.55rem) !important;
+  letter-spacing: .035em;
+  line-height: .98;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, .24);
+}
+
+#showtimes .showtime-card--poster .showtime-card-content p {
+  color: rgba(255, 255, 255, .78);
+}
+
+#showtimes .showtime-card--poster .showtime-card-schedule {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  margin-top: .8rem;
+  margin-bottom: .9rem;
+  color: #fff;
+  font-size: .86rem;
+  font-weight: 800;
+}
+
+#showtimes .showtime-card--poster .showtime-card-schedule::before {
+  flex: 0 0 auto;
+  color: var(--ctc-gold);
+  content: "SHOWTIMES";
+  font-size: .58rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+#showtimes .showtime-card--poster .showtime-card-overview {
+  margin-top: 0;
+  padding-left: .75rem;
+  border-left: 2px solid var(--ctc-red);
+  color: rgba(255, 255, 255, .7);
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
+#showtimes .showtime-card--poster.showtime-card--gold .showtime-card-overview {
+  border-left-color: var(--ctc-gold);
+}
+
+#showtimes .showtime-card--poster .showtime-card-link {
+  width: 100%;
+  padding-top: .85rem;
+  border-top: 1px solid rgba(255, 255, 255, .16);
+  color: var(--ctc-gold);
+  font-size: .64rem;
+  letter-spacing: .1em;
+}
+
+#showtimes .showtime-card--poster .showtime-card-link:hover {
+  color: #fff;
+}
+
+@media (max-width: 35.99rem) {
+  #showtimes .showtime-card--poster {
+    box-shadow: 5px 5px 0 var(--ctc-gold);
+  }
+
+  #showtimes .showtime-card--poster .showtime-card-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  #showtimes .showtime-card--poster .showtime-card-content {
+    min-height: 0;
+  }
+}
