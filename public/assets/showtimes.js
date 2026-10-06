@@ -68,7 +68,7 @@
   function trailerPreviewUrl(entry, trailerId, screen) {
     const poster = String(entry?.posterUrl || "").trim();
     if (poster.startsWith("/assets/") || poster.startsWith("https://")) return poster;
-    return `https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg`;
+    return `https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/maxresdefault.jpg`;
   }
 
   function activateTrailer(button) {
@@ -95,7 +95,7 @@
     const media = trailerId
       ? `<div class="showtime-card-media showtime-card-media--trailer">
         <div class="showtime-card-trailer-preview">
-          <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId, screen))}" alt="${title} official trailer preview" loading="lazy" decoding="async">
+          <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId, screen))}" alt="${title} official trailer preview" width="1280" height="720" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg'">
           <button type="button" class="showtime-card-trailer-play" data-trailer-id="${escapeHtml(trailerId)}" data-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
         </div>
         <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>

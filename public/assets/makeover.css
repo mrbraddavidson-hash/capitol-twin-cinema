@@ -1540,20 +1540,21 @@ html.dark #concessions {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(9, 10, 11, .08) 38%, rgba(9, 10, 11, .88) 100%),
+    linear-gradient(180deg, rgba(9, 10, 11, .02) 42%, rgba(9, 10, 11, .62) 100%),
     linear-gradient(90deg, rgba(211, 39, 52, .15), transparent 30%, transparent 70%, rgba(255, 209, 102, .14));
   content: "";
   pointer-events: none;
 }
 
 #showtimes .showtime-card--poster .showtime-card-trailer-preview img {
-  filter: saturate(.94) contrast(1.04) brightness(.78);
+  filter: saturate(1.04) contrast(1.08) brightness(.92);
+  image-rendering: auto;
   object-fit: cover;
   transition: filter 180ms ease, transform 300ms ease;
 }
 
 #showtimes .showtime-card--poster:hover .showtime-card-trailer-preview img {
-  filter: saturate(1.05) contrast(1.04) brightness(.88);
+  filter: saturate(1.08) contrast(1.1) brightness(.98);
   transform: scale(1.025);
 }
 
