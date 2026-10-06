@@ -65,6 +65,28 @@
     }
   }
 
+  function trailerPreviewUrl(entry, trailerId, screen) {
+    const poster = String(entry?.posterUrl || "").trim();
+    if (poster.startsWith("/assets/") || poster.startsWith("https://")) return poster;
+    return `https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg`;
+  }
+
+  function activateTrailer(button) {
+    const trailerId = button.dataset.trailerId;
+    const title = button.dataset.trailerTitle || "Movie";
+    const preview = button.closest(".showtime-card-trailer-preview");
+    if (!preview || !/^[A-Za-z0-9_-]{6,20}$/.test(trailerId || "")) return;
+    preview.outerHTML = `<div class="showtime-card-trailer-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="${escapeHtml(title)} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>`;
+  }
+
+  function bindTrailerPreviews(scope) {
+    scope.querySelectorAll("[data-trailer-id]").forEach((button) => {
+      button.addEventListener("click", () => activateTrailer(button));
+    });
+  }
+
   function renderEntry(entry, index) {
     const screen = entry.screen === "Screen 2" ? "Screen 2" : "Screen 1";
     const title = escapeHtml(entry.title);
@@ -72,8 +94,9 @@
     const trailerId = trailerIdFor(entry);
     const media = trailerId
       ? `<div class="showtime-card-media showtime-card-media--trailer">
-        <div class="showtime-card-trailer-frame">
-          <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?rel=0&modestbranding=1" title="${title} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="showtime-card-trailer-preview">
+          <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId, screen))}" alt="${title} official trailer preview" loading="lazy" decoding="async">
+          <button type="button" class="showtime-card-trailer-play" data-trailer-id="${escapeHtml(trailerId)}" data-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
         </div>
         <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
         <span class="showtime-card-caption">Official trailer</span>
@@ -177,6 +200,7 @@
 
       const entries = screenOrder.map((screen) => data.entries.find((entry) => entry.screen === screen) || fallbackEntry(screen));
       grid.innerHTML = entries.map(renderEntry).join("");
+      bindTrailerPreviews(grid);
     } catch {
       // The static movie-line/Facebook fallback remains visible when the feed is unavailable.
     }

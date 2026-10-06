@@ -1387,6 +1387,56 @@ html.dark #concessions {
   background: #000;
 }
 
+#showtimes .showtime-card-trailer-preview {
+  position: relative;
+  width: min(100%, 42rem);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #101214;
+}
+
+#showtimes .showtime-card-trailer-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.88) brightness(.82);
+}
+
+#showtimes .showtime-card-trailer-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 2.2rem;
+  padding: .45rem .75rem;
+  border: 1px solid rgba(255, 255, 255, .62);
+  border-radius: 999px;
+  background: rgba(211, 39, 52, .94);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .32);
+  color: #fff;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+#showtimes .showtime-card-trailer-play:hover,
+#showtimes .showtime-card-trailer-play:focus-visible {
+  background: var(--ctc-red-deep);
+  outline: 3px solid rgba(255, 209, 102, .72);
+  outline-offset: 2px;
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+#showtimes .showtime-card-trailer-play i { font-size: .62rem; }
+
 #showtimes .showtime-card-media--trailer iframe {
   width: 100%;
   height: 100%;
@@ -1398,6 +1448,10 @@ html.dark #concessions {
   }
 
   #showtimes .showtime-card-trailer-frame {
+    width: 100%;
+  }
+
+  #showtimes .showtime-card-trailer-preview {
     width: 100%;
   }
 }
