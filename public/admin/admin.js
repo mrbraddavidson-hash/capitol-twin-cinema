@@ -416,7 +416,7 @@
     $("#screen1-search-title").value = "";
     $("#screen2-search-title").value = "";
     $("#bulk-movie-message").textContent = "";
-    $("#two-screen-search").open = false;
+    $("#two-screen-search").open = true;
     const optional = document.querySelector(".admin-optional");
     if (optional) optional.open = false;
     state.trailerResults = [];
