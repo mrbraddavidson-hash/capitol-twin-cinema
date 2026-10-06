@@ -15,7 +15,6 @@
   const formMessage = $("#form-message");
   const statusMessage = $("#admin-status");
   const configMessage = $("#config-message");
-  const facebookMessage = $("#facebook-message");
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -52,8 +51,6 @@
     renderEntries();
     loadAdminStatus();
     loadConfig();
-    loadFacebookStatus();
-    showFacebookQueryMessage();
   }
 
   function showLogin(message = "") {
@@ -73,103 +70,6 @@
         : "Listings storage is ready. Trailer lookup needs the YOUTUBE_API_KEY Worker secret before it can search YouTube.";
     } catch (error) {
       statusMessage.textContent = error.message;
-    }
-  }
-
-  async function loadFacebookStatus() {
-    try {
-      const status = await api("/api/admin/facebook/status", { method: "GET", headers: {} });
-      const badge = $("#status-facebook");
-      const pageName = $("#facebook-page-name");
-      const connect = $("#connect-facebook");
-      const refresh = $("#refresh-facebook");
-      const disconnect = $("#disconnect-facebook");
-      const redirectHelp = $("#facebook-redirect-help");
-
-      badge.textContent = !status.configured ? "Needs Meta setup" : status.connected ? "Connected" : "Not connected";
-      badge.dataset.ready = status.connected ? "true" : "false";
-      pageName.textContent = status.connected ? `Connected Page: ${status.pageName}` : "";
-      connect.disabled = !status.configured;
-      refresh.disabled = !status.connected;
-      disconnect.hidden = !status.connected;
-      redirectHelp.textContent = status.configured
-        ? `Meta callback URL: ${status.redirectUri}`
-        : "Add META_APP_ID and META_APP_SECRET in Worker secrets, then reload this panel.";
-    } catch (error) {
-      setMessage(facebookMessage, error.message);
-    }
-  }
-
-  function showFacebookQueryMessage() {
-    const params = new URLSearchParams(window.location.search);
-    const result = params.get("facebook");
-    if (result === "connected") {
-      setMessage(facebookMessage, "Facebook Page connected. Check the latest posts when you are ready.", false);
-    } else if (result === "error") {
-      setMessage(facebookMessage, params.get("message") || "Facebook connection failed.");
-    }
-    if (result) window.history.replaceState({}, "", "/admin/");
-  }
-
-  async function connectFacebook() {
-    const button = $("#connect-facebook");
-    button.disabled = true;
-    button.textContent = "Opening Facebook…";
-    try {
-      const data = await api("/api/admin/facebook/start", { method: "GET", headers: {} });
-      window.location.assign(data.url);
-    } catch (error) {
-      setMessage(facebookMessage, error.message);
-      button.disabled = false;
-      button.textContent = "Connect Facebook";
-    }
-  }
-
-  function renderFacebookPosts(posts) {
-    const list = $("#facebook-posts");
-    if (!posts.length) {
-      list.innerHTML = '<p class="admin-help">No recent Page posts were returned.</p>';
-      return;
-    }
-    list.innerHTML = posts.map((post) => {
-      const date = post.createdAt ? new Date(post.createdAt).toLocaleString() : "Date unavailable";
-      const message = post.message || "This post has no text. Open it on Facebook to review the media.";
-      const link = post.permalinkUrl
-        ? `<a href="${escapeHtml(post.permalinkUrl)}" target="_blank" rel="noopener noreferrer">Open Facebook post <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
-        : "";
-      return `<article class="facebook-post">
-        <time datetime="${escapeHtml(post.createdAt || "")}">${escapeHtml(date)}</time>
-        <p>${escapeHtml(message)}</p>
-        ${link}
-      </article>`;
-    }).join("");
-  }
-
-  async function loadFacebookPosts() {
-    const button = $("#refresh-facebook");
-    button.disabled = true;
-    button.textContent = "Checking Facebook…";
-    try {
-      const data = await api("/api/admin/facebook/posts", { method: "GET", headers: {} });
-      renderFacebookPosts(data.posts || []);
-      setMessage(facebookMessage, `Loaded ${data.posts?.length || 0} recent posts from ${data.pageName}.`, false);
-    } catch (error) {
-      setMessage(facebookMessage, error.message);
-    } finally {
-      button.disabled = false;
-      button.textContent = "Check latest posts";
-    }
-  }
-
-  async function disconnectFacebook() {
-    if (!window.confirm("Disconnect the saved Facebook Page from this admin panel?")) return;
-    try {
-      await api("/api/admin/facebook/disconnect", { method: "POST" });
-      $("#facebook-posts").replaceChildren();
-      setMessage(facebookMessage, "Facebook Page disconnected from this site.", false);
-      await loadFacebookStatus();
-    } catch (error) {
-      setMessage(facebookMessage, error.message);
     }
   }
 
@@ -428,9 +328,6 @@
   $("#reset-form").addEventListener("click", resetForm);
   $("#config-form").addEventListener("submit", saveConfig);
   $("#reset-config").addEventListener("click", resetConfig);
-  $("#connect-facebook").addEventListener("click", connectFacebook);
-  $("#refresh-facebook").addEventListener("click", loadFacebookPosts);
-  $("#disconnect-facebook").addEventListener("click", disconnectFacebook);
   document.querySelectorAll("[data-copy-command]").forEach((button) => {
     button.addEventListener("click", () => copyCommand(button));
   });

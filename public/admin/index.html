@@ -128,7 +128,7 @@
           <span class="admin-advanced-summary-copy">
             <span class="admin-eyebrow">Advanced</span>
             <strong>Settings &amp; connections</strong>
-            <span class="admin-help">Public text, Worker status, and Facebook</span>
+            <span class="admin-help">Public text and Worker status</span>
           </span>
           <span class="admin-advanced-toggle">Open</span>
         </summary>
@@ -183,24 +183,6 @@
             <div class="admin-command-list">
               <div class="admin-command"><code>npx wrangler secret put ADMIN_PASSWORD</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put ADMIN_PASSWORD">Copy</button></div>
               <div class="admin-command"><code>npx wrangler secret put YOUTUBE_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put YOUTUBE_API_KEY">Copy</button></div>
-              <div class="admin-command"><code>npx wrangler secret put META_APP_ID</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put META_APP_ID">Copy</button></div>
-              <div class="admin-command"><code>npx wrangler secret put META_APP_SECRET</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put META_APP_SECRET">Copy</button></div>
-            </div>
-
-            <div class="admin-facebook-connect">
-              <p class="admin-eyebrow">Facebook source</p>
-              <h3>Connect the theatre Page</h3>
-              <p class="admin-help">The Page owner signs in through Facebook and approves read-only access. The password never enters this website.</p>
-              <div class="admin-connection-row"><span>Facebook Page</span><strong id="status-facebook">Checking…</strong></div>
-              <p id="facebook-page-name" class="admin-help"></p>
-              <div class="admin-config-actions">
-                <button id="connect-facebook" class="admin-button admin-button--primary" type="button">Connect Facebook</button>
-                <button id="refresh-facebook" class="admin-button admin-button--quiet" type="button" disabled>Check latest posts</button>
-                <button id="disconnect-facebook" class="admin-text-button" type="button" hidden>Disconnect</button>
-              </div>
-              <p id="facebook-redirect-help" class="admin-help"></p>
-              <div id="facebook-posts" class="facebook-posts" aria-live="polite"></div>
-              <p id="facebook-message" class="admin-message" role="status" aria-live="polite"></p>
             </div>
             </aside>
           </div>
