@@ -106,14 +106,11 @@
         <span class="showtime-card-caption">${escapeHtml(screen)}</span>
       </div>`;
     const schedule = entry.showtimes?.length ? entry.showtimes.join(" • ") : "Call the movie line for today’s times.";
-    const trailer = trailerId
-      ? `https://www.youtube.com/watch?v=${encodeURIComponent(trailerId)}`
-      : entry.trailerUrl || "";
     const fallbackLink = entry.fallbackAction === "facebook"
       ? `<a class="showtime-card-link" href="${escapeHtml(currentConfig.facebookUrl)}" target="_blank" rel="noopener noreferrer">Open Facebook updates <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
       : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for Screen ${screen === "Screen 2" ? "2" : "1"} <i class="fa-solid fa-arrow-right"></i></a>`;
-    const trailerLink = trailer
-      ? `<a class="showtime-card-link" href="${escapeHtml(trailer)}" target="_blank" rel="noopener noreferrer">Open trailer on YouTube <i class="fa-brands fa-youtube"></i></a>`
+    const cardLink = trailerId
+      ? ""
       : entry.fallbackAction ? fallbackLink : `<a class="showtime-card-link" href="${escapeHtml(currentConfig.phoneHref)}">Call for showtimes <i class="fa-solid fa-arrow-right"></i></a>`;
     const bodyCopy = entry.fallbackCopy || schedule;
     const overview = entry.overview
@@ -128,7 +125,7 @@
         <p class="showtime-card-schedule">${escapeHtml(bodyCopy)}</p>
         ${overview}
         ${entry.fallbackCopy ? "" : (entry.notes ? `<p class="showtime-card-note">${escapeHtml(entry.notes)}</p>` : "")}
-        ${trailerLink}
+        ${cardLink}
       </div>
     </article>`;
   }
