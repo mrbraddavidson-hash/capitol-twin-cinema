@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="assets/fontawesome/all.min.css">
 
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/makeover.css?v=showtimes-hero1">
+  <link rel="stylesheet" href="assets/makeover.css?v=showtimes-hero2">
   <style>
     .header-logo-dark {
       display: none;
@@ -185,16 +185,21 @@
     <section id="showtimes" class="showtimes-hero py-16 bg-white dark:bg-cinema-darkCard border-y border-slate-200 dark:border-cinema-border">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="showtimes-intro">
-          <div>
+        <div class="showtimes-intro showtimes-intro--fancy">
+          <div class="showtimes-now-badge" aria-label="Now playing">
+            <span class="showtimes-live-dot" aria-hidden="true"></span>
+            <span>Now playing</span>
+          </div>
+          <div class="showtimes-title-lockup">
             <span class="showtimes-eyebrow">
-              <i class="fa-solid fa-clapperboard"></i> Now showing
+              <i class="fa-solid fa-clapperboard"></i> Capitol Twin Cinema
             </span>
             <h1 class="text-3xl sm:text-4xl font-extrabold text-cinema-red dark:text-white">Now Showing</h1>
+            <span class="showtimes-title-rule" aria-hidden="true"></span>
           </div>
-          <p class="showtimes-intro-copy">
-            Big Screen. Big Sound. Small Prices. See the current films, trailers, details, and showtimes for both screens.
-          </p>
+          <div class="showtimes-screen-signal" aria-hidden="true">
+            <span>SCREEN 01</span><span>•</span><span>SCREEN 02</span>
+          </div>
         </div>
 
         <div id="showtimes-grid" class="showtimes-grid">
