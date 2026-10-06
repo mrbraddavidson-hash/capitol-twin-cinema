@@ -2,7 +2,7 @@
   const defaultConfig = {
     movieLinePhone: "(519) 291-6000",
     facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
-    introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
+    introCopy: "Big Screen. Big Sound. Small Prices. See the current films, trailers, details, and showtimes for both screens.",
     noticeTitle: "Confirm today’s film and start time.",
     noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
   };
