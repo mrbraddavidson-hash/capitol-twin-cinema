@@ -77,7 +77,7 @@
     const preview = button.closest(".showtime-card-trailer-preview");
     if (!preview || !/^[A-Za-z0-9_-]{6,20}$/.test(trailerId || "")) return;
     preview.outerHTML = `<div class="showtime-card-trailer-frame">
-      <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?autoplay=1&playsinline=1&rel=0&modestbranding=1" title="${escapeHtml(title)} official trailer" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?playsinline=1&rel=0&modestbranding=1" title="${escapeHtml(title)} official trailer" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>`;
   }
 
