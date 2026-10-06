@@ -1296,6 +1296,17 @@ html.dark #concessions {
   border-radius: 12px !important;
 }
 
+/* Keep the rentals eyebrow clear of the headline below it. The inline badge
+   otherwise lets its vertical padding overlap the first heading line. */
+#rentals .lg\:col-span-8 > span:first-child {
+  display: inline-flex;
+  margin-bottom: .9rem !important;
+}
+
+#rentals .lg\:col-span-8 > h2 {
+  margin-top: 0 !important;
+}
+
 #image-lightbox > div > div {
   border-radius: 16px !important;
 }
