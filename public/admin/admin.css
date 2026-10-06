@@ -172,6 +172,20 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 
 .admin-form-row > div { display: grid; gap: .65rem; }
 
+.admin-showtimes-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .65rem;
+}
+
+.admin-showtimes-picker select {
+  min-width: 0;
+}
+
+.admin-showtimes-picker .admin-button {
+  white-space: nowrap;
+}
+
 .admin-button {
   display: inline-flex;
   min-height: 42px;
@@ -476,4 +490,6 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   .admin-config-layout { grid-template-columns: 1fr; }
   .admin-command { align-items: flex-start; flex-direction: column; }
   .admin-optional > summary { align-items: flex-start; flex-direction: column; gap: .25rem; }
+  .admin-showtimes-picker { grid-template-columns: 1fr; }
+  .admin-showtimes-picker .admin-button { width: 100%; }
 }

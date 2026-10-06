@@ -186,6 +186,17 @@
     setMessage(formMessage, "", true);
   }
 
+  function addShowtime() {
+    const value = $("#showtime-preset").value.trim();
+    if (!value) return;
+    const current = $("#showtimes").value.split(",").map((time) => time.trim()).filter(Boolean);
+    if (!current.some((time) => time.toLowerCase() === value.toLowerCase())) current.push(value);
+    $("#showtimes").value = current.join(", ");
+    $("#showtime-preset").value = "";
+    $("#showtimes").focus();
+    setMessage(formMessage, `${value} added.`, false);
+  }
+
   function editEntry(id) {
     const entry = state.entries.find((item) => item.id === id);
     if (!entry) return;
@@ -325,6 +336,7 @@
 
   $("#movie-form").addEventListener("submit", publish);
   $("#find-trailer").addEventListener("click", findTrailer);
+  $("#add-showtime").addEventListener("click", addShowtime);
   $("#reset-form").addEventListener("click", resetForm);
   $("#config-form").addEventListener("submit", saveConfig);
   $("#reset-config").addEventListener("click", resetConfig);
