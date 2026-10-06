@@ -1507,7 +1507,9 @@ html.dark #concessions {
 }
 
 #showtimes .showtime-card--poster .showtime-card-media--trailer {
+  display: block;
   padding: 0;
+  aspect-ratio: 16 / 9;
 }
 
 #showtimes .showtime-card--poster .showtime-card-trailer-preview {
