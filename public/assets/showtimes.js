@@ -99,7 +99,6 @@
           <button type="button" class="showtime-card-trailer-play" data-trailer-id="${escapeHtml(trailerId)}" data-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
         </div>
         <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
-        <span class="showtime-card-caption">Official trailer</span>
       </div>`
       : `<div class="showtime-card-media">
         <img src="${escapeHtml(safeImage(entry.posterUrl, screen))}" alt="${title} reference image for ${screen}" width="1600" height="900" loading="lazy" decoding="async" class="showtime-card-image" onerror="this.src='${fallbackImage[screen]}'">

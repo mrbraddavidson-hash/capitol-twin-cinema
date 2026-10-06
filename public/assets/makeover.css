@@ -1819,22 +1819,6 @@ html.dark #concessions {
   animation: ctc-live-pulse 1.35s ease-in-out infinite;
 }
 
-#showtimes.showtimes-hero .showtimes-screen-signal {
-  display: inline-flex;
-  justify-self: end;
-  align-items: center;
-  gap: .55rem;
-  color: rgba(255, 255, 255, .58);
-  font-size: .58rem;
-  font-weight: 900;
-  letter-spacing: .16em;
-}
-
-#showtimes.showtimes-hero .showtimes-screen-signal span:nth-child(2) {
-  color: var(--ctc-gold);
-  font-size: .8rem;
-}
-
 @keyframes ctc-live-pulse {
   0%, 100% {
     opacity: 1;
@@ -1867,12 +1851,6 @@ html.dark #concessions {
     grid-column: 1;
     grid-row: 2;
     justify-self: start;
-  }
-
-  #showtimes.showtimes-hero .showtimes-screen-signal {
-    grid-column: 2;
-    grid-row: 2;
-    justify-self: end;
   }
 
   #showtimes.showtimes-hero .showtimes-title-lockup h1 {
