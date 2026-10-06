@@ -67,7 +67,16 @@
 
   function trailerPreviewUrl(entry, trailerId, screen) {
     const poster = String(entry?.posterUrl || "").trim();
-    if (poster.startsWith("/assets/") || poster.startsWith("https://")) return poster;
+    if (poster.startsWith("https://")) {
+      try {
+        const url = new URL(poster);
+        if (!["i.ytimg.com", "img.youtube.com"].includes(url.hostname)) return poster;
+      } catch {
+        return poster;
+      }
+    } else if (poster.startsWith("/assets/")) {
+      return poster;
+    }
     return `https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/maxresdefault.jpg`;
   }
 
