@@ -102,16 +102,16 @@
     const details = [entry.date, entry.rating, entry.runtime].filter(Boolean).join(" • ");
     const trailerId = trailerIdFor(entry);
     const media = trailerId
-      ? `<div class="showtime-card-media showtime-card-media--trailer">
+      ? `<div class="showtime-card-screen-label">${escapeHtml(screen)}</div>
+        <div class="showtime-card-media showtime-card-media--trailer">
         <div class="showtime-card-trailer-preview">
           <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId, screen))}" alt="${title} official trailer preview" width="1280" height="720" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg'">
           <button type="button" class="showtime-card-trailer-play" data-trailer-id="${escapeHtml(trailerId)}" data-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
         </div>
-        <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
       </div>`
-      : `<div class="showtime-card-media">
+      : `<div class="showtime-card-screen-label">${escapeHtml(screen)}</div>
+        <div class="showtime-card-media">
         <img src="${escapeHtml(safeImage(entry.posterUrl, screen))}" alt="${title} reference image for ${screen}" width="1600" height="900" loading="lazy" decoding="async" class="showtime-card-image" onerror="this.src='${fallbackImage[screen]}'">
-        <span class="showtime-card-index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
         <span class="showtime-card-caption">${escapeHtml(screen)}</span>
       </div>`;
     const schedule = entry.showtimes?.length ? entry.showtimes.join(" • ") : "Call the movie line for today’s times.";
@@ -129,7 +129,7 @@
     return `<article class="showtime-card showtime-card--poster ${index % 2 ? "showtime-card--gold" : "showtime-card--ruby"}">
       ${media}
       <div class="showtime-card-content">
-        <div class="showtime-card-meta"><span>${escapeHtml(screen)}</span><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>
+        <div class="showtime-card-meta"><span><i class="fa-solid fa-film"></i> ${escapeHtml(details || "Current listing")}</span></div>
         <h3>${title}</h3>
         <p class="showtime-card-schedule">${escapeHtml(bodyCopy)}</p>
         ${overview}

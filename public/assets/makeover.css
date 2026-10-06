@@ -622,23 +622,6 @@ html.dark #showtimes .grid > div > div:last-child {
   transform: scale(1.035);
 }
 
-#showtimes .showtime-card-index {
-  position: absolute;
-  top: .85rem;
-  left: .85rem;
-  display: grid;
-  place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 2px solid var(--ctc-gold);
-  border-radius: 50%;
-  background: rgba(20, 23, 26, .88);
-  color: var(--ctc-gold);
-  font-family: "Bebas Neue", "Inter", sans-serif;
-  font-size: 1.35rem;
-  line-height: 1;
-}
-
 #showtimes .showtime-card-caption {
   position: absolute;
   right: .85rem;
@@ -1249,11 +1232,6 @@ html.dark #concessions {
   box-shadow: var(--ctc-shadow-soft) !important;
 }
 
-#showtimes .showtime-card-index {
-  width: 2.35rem;
-  height: 2.35rem;
-}
-
 #pricing .grid > div,
 #contact .space-y-4 > div,
 #contact .lg\:col-span-6 > div {
@@ -1509,6 +1487,31 @@ html.dark #concessions {
   background: var(--ctc-gold);
 }
 
+#showtimes .showtime-card-screen-label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .82rem 1.3rem .66rem;
+  background: var(--ctc-ink);
+  color: var(--ctc-red);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+#showtimes .showtime-card-screen-label::before {
+  width: 1.5rem;
+  height: 2px;
+  background: currentColor;
+  content: "";
+}
+
+#showtimes .showtime-card--gold .showtime-card-screen-label {
+  color: var(--ctc-gold);
+}
+
 #showtimes .showtime-card--poster .showtime-card-media {
   aspect-ratio: 5 / 4;
   border-bottom: 1px solid rgba(255, 209, 102, .42);
@@ -1575,17 +1578,6 @@ html.dark #concessions {
 #showtimes .showtime-card--poster .showtime-card-trailer-play:focus-visible {
   background: var(--ctc-red);
   transform: translateY(-2px);
-}
-
-#showtimes .showtime-card--poster .showtime-card-index {
-  z-index: 1;
-  top: 1.05rem;
-  left: 1.05rem;
-  width: 2.35rem;
-  height: 2.35rem;
-  border-color: var(--ctc-gold);
-  background: rgba(20, 23, 26, .84);
-  font-size: 1.15rem;
 }
 
 #showtimes .showtime-card--poster .showtime-card-caption {
