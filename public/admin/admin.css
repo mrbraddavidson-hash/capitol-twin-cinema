@@ -232,6 +232,119 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   gap: 1.25rem;
 }
 
+.admin-brand-kit {
+  max-width: 1120px;
+  margin: 1.25rem auto 0;
+}
+
+.admin-brand-kit-intro {
+  max-width: 70ch;
+  margin: .85rem 0 0;
+  color: var(--admin-muted);
+  line-height: 1.6;
+}
+
+.admin-brand-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.admin-brand-asset {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--admin-line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.admin-brand-preview {
+  display: flex;
+  min-height: 170px;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--admin-paper-warm);
+  border-bottom: 1px solid var(--admin-line);
+}
+
+.admin-brand-preview--dark { background: var(--admin-ink); }
+
+.admin-brand-preview--wide { min-height: 125px; }
+
+.admin-brand-preview img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+}
+
+.admin-brand-preview--wide img { height: 100px; }
+
+.admin-brand-asset-body {
+  display: grid;
+  align-content: start;
+  gap: .45rem;
+  padding: .9rem;
+}
+
+.admin-brand-asset-body h3 {
+  margin: 0;
+  font-size: .98rem;
+}
+
+.admin-brand-asset-body p {
+  min-height: 3.15em;
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: .74rem;
+  line-height: 1.5;
+}
+
+.admin-brand-asset-body a {
+  color: var(--admin-red);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.admin-brand-asset-body a:hover { text-decoration: underline; }
+
+.admin-brand-downloads {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(134, 205, 223, .72);
+  border-radius: 10px;
+  background: rgba(134, 205, 223, .12);
+}
+
+.admin-brand-downloads > div:first-child {
+  display: grid;
+  gap: .2rem;
+}
+
+.admin-brand-downloads strong { font-size: .82rem; }
+.admin-brand-downloads span { color: var(--admin-muted); font-size: .72rem; }
+
+.admin-brand-download-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+
+.admin-brand-download-links .admin-button {
+  white-space: nowrap;
+  text-decoration: none;
+}
+
 .admin-config-card { margin-top: 1.25rem; }
 
 .admin-bulk-search {
@@ -609,4 +722,8 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   .admin-bulk-search-body .admin-form-row { grid-template-columns: 1fr; }
   .admin-bulk-search-body .admin-button { width: 100%; }
   .admin-movie-details-heading { align-items: flex-start; flex-direction: column; gap: .3rem; }
+  .admin-brand-grid { grid-template-columns: 1fr; }
+  .admin-brand-downloads { align-items: stretch; flex-direction: column; }
+  .admin-brand-download-links { justify-content: stretch; }
+  .admin-brand-download-links .admin-button { flex: 1 1 100%; }
 }
