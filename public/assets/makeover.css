@@ -804,9 +804,54 @@ html.dark #contact .lg\:col-span-6 > div {
 }
 
 #pricing .grid > div h3 {
-  font-size: 1.65rem !important;
-  line-height: .95 !important;
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
   text-transform: uppercase;
+}
+
+/* Compact pricing cards keep the four choices easy to scan without making the
+   pricing section dominate the page. */
+#pricing .grid {
+  gap: 1rem;
+}
+
+#pricing .grid > div {
+  padding: 1.1rem !important;
+}
+
+#pricing .grid > div > div:first-of-type > div:first-child {
+  margin-bottom: .35rem !important;
+}
+
+#pricing .grid > div > div:first-of-type > p {
+  margin-top: .25rem !important;
+  margin-bottom: .7rem !important;
+  font-size: .7rem;
+  line-height: 1.35;
+}
+
+#pricing .grid > div > div:first-of-type > .mb-4 {
+  margin-bottom: .7rem !important;
+}
+
+#pricing .grid > div .text-3xl {
+  font-size: 1.85rem !important;
+  line-height: .95 !important;
+}
+
+#pricing .grid > div > div:first-of-type > ul > li + li {
+  margin-top: .3rem;
+}
+
+#pricing .grid > div > div:last-child {
+  padding-top: .85rem;
+}
+
+#pricing .grid > div > div:last-child > a,
+#pricing .grid > div > div:last-child > span {
+  border-radius: .65rem;
+  padding-top: .55rem;
+  padding-bottom: .55rem;
 }
 
 #pricing .grid > div:nth-child(4) {
