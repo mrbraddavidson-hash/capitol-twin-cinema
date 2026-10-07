@@ -49,7 +49,7 @@ for (const fragment of [
   }
 }
 
-for (const fragment of ["showtimes-notice", "showtimes-grid", "showtime-card", "Call movie line", "Facebook updates"]) {
+for (const fragment of ["showtimes-grid", "showtime-card", "showtime-card-screen-label"]) {
   if (!html.includes(fragment)) {
     throw new Error(`Missing current-listings treatment: ${fragment}`);
   }
