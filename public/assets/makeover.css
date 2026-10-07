@@ -1610,6 +1610,10 @@ html.dark #concessions {
 
 #showtimes .showtime-card--poster .showtime-card-meta span:last-child {
   color: rgba(255, 255, 255, .72);
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1.25;
 }
 
 #showtimes .showtime-card--poster .showtime-card-content h3 {
