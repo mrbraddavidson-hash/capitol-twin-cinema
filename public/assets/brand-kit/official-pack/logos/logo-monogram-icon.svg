@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <filter id="subtle-shadow-i" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.20" />
+    </filter>
+    <linearGradient id="star-gold-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF73" />
+      <stop offset="50%" stop-color="#E2A624" />
+      <stop offset="100%" stop-color="#9C6B0D" />
+    </linearGradient>
+    <linearGradient id="facet-light-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E63946" />
+      <stop offset="100%" stop-color="#C1121F" />
+    </linearGradient>
+    <linearGradient id="facet-dark-i" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B7091B" />
+      <stop offset="100%" stop-color="#780000" />
+    </linearGradient>
+    <linearGradient id="cyan-cell-i" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8EDBE9" />
+      <stop offset="100%" stop-color="#55B5C9" />
+    </linearGradient>
+
+    <g id="single-film-wing-i">
+      <path d="M 110,285 C 190,340 280,350 350,345 L 340,435 C 255,438 175,410 110,355 Z" fill="#181B1E" />
+      <path d="M 125,302 C 162,323 186,331 202,335 L 197,414 C 178,409 157,398 125,370 Z" fill="url(#cyan-cell-i)" stroke="#181B1E" stroke-width="3" />
+      <path d="M 218,338 C 255,344 278,346 298,347 L 293,425 C 273,424 251,422 213,416 Z" fill="url(#cyan-cell-i)" stroke="#181B1E" stroke-width="3" />
+    </g>
+  </defs>
+
+  <g transform="translate(0, 10)">
+    <g filter="url(#subtle-shadow-i)">
+      <use href="#single-film-wing-i" />
+      <use href="#single-film-wing-i" transform="translate(800, 0) scale(-1, 1)" />
+    </g>
+
+    <g filter="url(#subtle-shadow-i)">
+      <polygon points="
+        400,135 440,258 570,258 465,335 505,458
+        400,382 295,458 335,335 230,258 360,258
+      " fill="url(#star-gold-i)" stroke="#8A5B04" stroke-width="2" stroke-linejoin="round" />
+      <g transform="translate(400, 312) scale(0.925) translate(-400, -312)">
+        <polygon points="400,135 400,312 360,258" fill="url(#facet-light-i)" />
+        <polygon points="400,135 440,258 400,312" fill="url(#facet-dark-i)" />
+        <polygon points="570,258 400,312 440,258" fill="url(#facet-light-i)" />
+        <polygon points="570,258 465,335 400,312" fill="url(#facet-dark-i)" />
+        <polygon points="505,458 400,312 465,335" fill="url(#facet-light-i)" />
+        <polygon points="505,458 400,382 400,312" fill="url(#facet-dark-i)" />
+        <polygon points="295,458 400,312 400,382" fill="url(#facet-light-i)" />
+        <polygon points="295,458 335,335 400,312" fill="url(#facet-dark-i)" />
+        <polygon points="230,258 400,312 335,335" fill="url(#facet-light-i)" />
+        <polygon points="230,258 360,258 400,312" fill="url(#facet-dark-i)" />
+        <circle cx="400" cy="312" r="8" fill="url(#star-gold-i)" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" width="100%" height="100%">
+  <defs>
+    
+    <linearGradient id="star-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF73" />
+      <stop offset="50%" stop-color="#E2A624" />
+      <stop offset="100%" stop-color="#9C6B0D" />
+    </linearGradient>
+    <linearGradient id="text-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFDE69" />
+      <stop offset="100%" stop-color="#F5A914" />
+    </linearGradient>
+    <linearGradient id="facet-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E63946" />
+      <stop offset="100%" stop-color="#C1121F" />
+    </linearGradient>
+    <linearGradient id="facet-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B7091B" />
+      <stop offset="100%" stop-color="#780000" />
+    </linearGradient>
+    <linearGradient id="cyan-cell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8EDBE9" />
+      <stop offset="100%" stop-color="#55B5C9" />
+    </linearGradient>
+    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+    <g id="single-film-wing">
+      <path d="M 110,285 C 190,340 280,350 350,345 L 340,435 C 255,438 175,410 110,355 Z" fill="#181B1E" />
+      <path d="M 125,302 C 162,323 186,331 202,335 L 197,414 C 178,409 157,398 125,370 Z" fill="url(#cyan-cell)" stroke="#181B1E" stroke-width="3" />
+      <path d="M 218,338 C 255,344 278,346 298,347 L 293,425 C 273,424 251,422 213,416 Z" fill="url(#cyan-cell)" stroke="#181B1E" stroke-width="3" />
+    </g>
+
+    <linearGradient id="cs-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14171A" />
+      <stop offset="100%" stop-color="#0F1113" />
+    </linearGradient>
+  </defs>
+  <g filter="url(#subtle-shadow)">
+    <rect x="15" y="14" width="570" height="222" rx="18" fill="url(#cs-bg)" stroke="url(#cyan-cell)" stroke-width="4" />
+    <rect x="25" y="24" width="550" height="202" rx="12" fill="none" stroke="url(#star-gold)" stroke-width="1.5" opacity="0.6" />
+    
+    <!-- Star Wings Mark: center y=82 -->
+    <g transform="translate(300, 82)">
+      
+    <g transform="scale(0.28) translate(-400, -315)">
+      <use href="#single-film-wing" />
+      <use href="#single-film-wing" transform="translate(800, 0) scale(-1, 1)" />
+      <polygon points="400,135 440,258 570,258 465,335 505,458 400,382 295,458 335,335 230,258 360,258" fill="url(#star-gold)" stroke="#8A5B04" stroke-width="2" />
+      <g transform="translate(400, 312) scale(0.925) translate(-400, -312)">
+        <polygon points="400,135 400,312 360,258" fill="url(#facet-light)" />
+        <polygon points="400,135 440,258 400,312" fill="url(#facet-dark)" />
+        <polygon points="570,258 400,312 440,258" fill="url(#facet-light)" />
+        <polygon points="570,258 465,335 400,312" fill="url(#facet-dark)" />
+        <polygon points="505,458 400,312 465,335" fill="url(#facet-light)" />
+        <polygon points="505,458 400,382 400,312" fill="url(#facet-dark)" />
+        <polygon points="295,458 400,312 400,382" fill="url(#facet-light)" />
+        <polygon points="295,458 335,335 400,312" fill="url(#facet-dark)" />
+        <polygon points="230,258 400,312 335,335" fill="url(#facet-light)" />
+        <polygon points="230,258 360,258 400,312" fill="url(#facet-dark)" />
+        <circle cx="400" cy="312" r="8" fill="url(#star-gold)" />
+      </g>
+    </g>
+    
+    </g>
+
+    <!-- Main Title -->
+    <text x="300" y="156" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="42" font-weight="900" letter-spacing="4" fill="#8EDBE9" stroke="#14171A" stroke-width="3" paint-order="stroke fill" text-anchor="middle">
+      COMING SOON
+    </text>
+
+    <!-- Subtitle Plaque -->
+    <g transform="translate(0, 178)">
+      <path d="M 65,16 L 82,0 L 518,0 L 535,16 L 518,32 L 82,32 Z" fill="url(#cyan-cell)" stroke="#181B1E" stroke-width="1.5" />
+      <text x="300" y="22" font-family="'Montserrat', 'Arial Black', sans-serif" font-size="13.5" font-weight="900" letter-spacing="2.5" fill="#14171A" text-anchor="middle">
+        ADVANCE SHOWTIMES &amp; PREMIERES
+      </text>
+    </g>
+  </g>
+</svg>

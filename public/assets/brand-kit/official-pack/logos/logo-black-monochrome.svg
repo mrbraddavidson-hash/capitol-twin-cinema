@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <g id="single-wing-black">
+      <path d="M 110,285 C 190,340 280,350 350,345 L 340,435 C 255,438 175,410 110,355 Z" fill="#000000" />
+      <path d="M 125,302 C 162,323 186,331 202,335 L 197,414 C 178,409 157,398 125,370 Z" fill="#FFFFFF" stroke="#000000" stroke-width="4" />
+      <path d="M 218,338 C 255,344 278,346 298,347 L 293,425 C 273,424 251,422 213,416 Z" fill="#FFFFFF" stroke="#000000" stroke-width="4" />
+    </g>
+  </defs>
+
+  <g id="filmstrip-wings-black">
+    <use href="#single-wing-black" />
+    <use href="#single-wing-black" transform="translate(800, 0) scale(-1, 1)" />
+  </g>
+
+  <g id="center-star-black">
+    <polygon points="
+      400,135 440,258 570,258 465,335 505,458
+      400,382 295,458 335,335 230,258 360,258
+    " fill="#000000" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
+    <g transform="translate(400, 312) scale(0.925) translate(-400, -312)">
+      <polygon points="400,135 400,312 360,258" fill="#FFFFFF" />
+      <polygon points="400,135 440,258 400,312" fill="#000000" />
+      <polygon points="570,258 400,312 440,258" fill="#FFFFFF" />
+      <polygon points="570,258 465,335 400,312" fill="#000000" />
+      <polygon points="505,458 400,312 465,335" fill="#FFFFFF" />
+      <polygon points="505,458 400,382 400,312" fill="#000000" />
+      <polygon points="295,458 400,312 400,382" fill="#FFFFFF" />
+      <polygon points="295,458 335,335 400,312" fill="#000000" />
+      <polygon points="230,258 400,312 335,335" fill="#FFFFFF" />
+      <polygon points="230,258 360,258 400,312" fill="#000000" />
+      <circle cx="400" cy="312" r="8" fill="#000000" />
+    </g>
+  </g>
+
+  <g id="typography-black" text-anchor="middle">
+    <text x="400" y="555" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="82" font-weight="900" letter-spacing="4" fill="#000000">
+      CAPITOL
+    </text>
+    <text x="400" y="622" font-family="'Montserrat', 'Arial Black', -apple-system, sans-serif" font-size="34" font-weight="800" letter-spacing="10" fill="#000000">
+      TWIN CINEMA
+    </text>
+    <g transform="translate(0, 646)">
+      <path d="M 315,22 L 332,6 L 468,6 L 485,22 L 468,38 L 332,38 Z" fill="#000000" />
+      <text x="400" y="27" font-family="'Montserrat', 'Arial', sans-serif" font-size="15" font-weight="800" letter-spacing="3" fill="#FFFFFF">
+        EST. 1956
+      </text>
+    </g>
+    <text x="400" y="722" font-family="'Montserrat', 'Arial', sans-serif" font-size="13" font-weight="700" letter-spacing="5" fill="#000000">
+      BIG SCREEN • BIG SOUND • SMALL PRICES
+    </text>
+  </g>
+</svg>
