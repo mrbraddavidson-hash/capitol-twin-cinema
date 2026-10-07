@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="assets/fontawesome/all.min.css">
 
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/makeover.css?v=pricing-compact1">
+  <link rel="stylesheet" href="assets/makeover.css?v=header-badge1">
   <style>
     .header-logo-dark {
       display: none;
@@ -126,17 +126,28 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Brand Logo Lockup -->
-        <a href="#showtimes" class="flex items-center group py-1 focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg">
-          <img src="assets/brand-kit/capitol_primary_stacked.svg"
-               alt="Capitol Twin Cinema primary stacked logo"
-               width="800" height="800"
-               class="header-logo-light h-12 sm:h-16 w-auto shrink-0 object-contain transition-transform group-hover:scale-105">
-          <img src="assets/brand-kit/capitol_primary_stacked.svg"
-               alt="Capitol Twin Cinema primary stacked logo"
-               width="800" height="800"
-               class="header-logo-dark h-12 sm:h-16 w-auto shrink-0 object-contain transition-transform group-hover:scale-105">
-        </a>
+        <!-- Brand Logo Lockup + current-film signal -->
+        <div class="header-brand-group flex items-center min-w-0">
+          <a href="#showtimes" class="flex items-center group py-1 focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg">
+            <img src="assets/brand-kit/capitol_primary_stacked.svg"
+                 alt="Capitol Twin Cinema primary stacked logo"
+                 width="800" height="800"
+                 class="header-logo-light h-12 sm:h-16 w-auto shrink-0 object-contain transition-transform group-hover:scale-105">
+            <img src="assets/brand-kit/capitol_primary_stacked.svg"
+                 alt="Capitol Twin Cinema primary stacked logo"
+                 width="800" height="800"
+                 class="header-logo-dark h-12 sm:h-16 w-auto shrink-0 object-contain transition-transform group-hover:scale-105">
+          </a>
+          <a href="#showtimes"
+             class="header-now-playing-link group focus:outline-none focus:ring-2 focus:ring-cinema-red rounded-lg"
+             aria-label="View now playing">
+            <img src="assets/badge-now-playing.png"
+                 alt="Now playing at Capitol Twin Cinema"
+                 width="1200" height="500"
+                 class="header-now-playing-badge transition-transform group-hover:scale-[1.02]"
+                 decoding="async">
+          </a>
+        </div>
 
         <!-- Desktop Navigation -->
         <nav aria-label="Main Navigation" class="header-desktop-nav hidden lg:flex items-center space-x-4 text-sm font-semibold">

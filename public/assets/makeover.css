@@ -99,6 +99,27 @@ header > div > div {
   height: 5.75rem !important;
 }
 
+header .header-brand-group {
+  gap: .8rem;
+}
+
+header .header-now-playing-link {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  width: clamp(9.5rem, 14vw, 12.5rem);
+  max-height: 4.35rem;
+  overflow: hidden;
+}
+
+header .header-now-playing-badge {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 4.35rem;
+  object-fit: contain;
+}
+
 header .header-logo-light,
 header .header-logo-dark {
   height: 5rem !important;
@@ -1060,6 +1081,16 @@ body > aside[aria-label="Mobile Quick Actions"] a {
     height: 4rem !important;
   }
 
+  header .header-brand-group {
+    gap: .55rem;
+  }
+
+  header .header-now-playing-link,
+  header .header-now-playing-badge {
+    width: 7.75rem;
+    max-height: 2.95rem;
+  }
+
   #hero {
     min-height: 0;
     scroll-margin-top: 4.75rem;
@@ -1376,6 +1407,12 @@ html.dark #concessions {
     width: 100% !important;
     min-height: 44px !important;
     padding: .65rem 1rem !important;
+  }
+}
+
+@media (max-width: 30rem) {
+  header .header-now-playing-link {
+    display: none;
   }
 }
 
