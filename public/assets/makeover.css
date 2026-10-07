@@ -96,14 +96,14 @@ html.dark header {
 }
 
 header > div > div {
-  height: 6.75rem !important;
+  height: 13rem !important;
 }
 
 header .header-logo-light,
 header .header-logo-dark {
-  height: 6.25rem !important;
+  height: 12rem !important;
   width: auto !important;
-  max-width: 20rem;
+  max-width: 36rem;
 }
 
 header .header-desktop-nav {
@@ -349,7 +349,7 @@ main > section h2::after {
 #showtimes {
   background: var(--ctc-blue) !important;
   border-block-color: rgba(20, 23, 26, .14) !important;
-  scroll-margin-top: 6.5rem;
+  scroll-margin-top: 13rem;
 }
 
 html.dark #showtimes {
@@ -1405,18 +1405,26 @@ html.dark #concessions {
 @media (min-width: 64rem) {
   header > div > div {
     position: relative;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    column-gap: 1rem;
   }
 
   header .header-desktop-nav {
-    position: absolute;
-    left: 50%;
-    gap: 1.55rem !important;
+    position: static;
+    justify-self: center;
+    gap: 1rem !important;
     margin: 0 !important;
-    transform: translateX(-50%);
+    transform: none;
   }
 
   header .header-desktop-nav > a {
     margin-left: 0 !important;
+  }
+
+  header .header-desktop-nav a {
+    font-size: .68rem !important;
+    letter-spacing: .045em;
   }
 }
 
