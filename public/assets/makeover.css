@@ -1436,7 +1436,7 @@ html.dark #concessions {
 /* On wide desktop, let the requested master mark become the full masthead. */
 @media (min-width: 80rem) {
   header > div > div {
-    height: 43rem !important;
+    height: 34rem !important;
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: 1fr auto;
     grid-template-areas:
@@ -1471,7 +1471,7 @@ html.dark #concessions {
 
   header .header-logo-stacked.header-logo-light {
     display: block !important;
-    width: min(40rem, 72vw) !important;
+    width: min(31rem, 72vw) !important;
     height: auto !important;
     max-width: none !important;
   }
@@ -1482,13 +1482,13 @@ html.dark #concessions {
 
   html.dark header .header-logo-stacked.header-logo-dark {
     display: block !important;
-    width: min(40rem, 72vw) !important;
+    width: min(31rem, 72vw) !important;
     height: auto !important;
     max-width: none !important;
   }
 
   #showtimes {
-    scroll-margin-top: 43rem;
+    scroll-margin-top: 34rem;
   }
 }
 
