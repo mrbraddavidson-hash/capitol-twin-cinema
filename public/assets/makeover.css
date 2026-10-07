@@ -1428,6 +1428,44 @@ html.dark #concessions {
   }
 }
 
+/* On wide desktop, let the requested master mark become the full masthead. */
+@media (min-width: 80rem) {
+  header > div > div {
+    height: 30rem !important;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "brand brand brand"
+      "spacer nav actions";
+    row-gap: .75rem;
+  }
+
+  header > div > div > a {
+    grid-area: brand;
+    justify-self: center;
+  }
+
+  header .header-desktop-nav {
+    grid-area: nav;
+  }
+
+  header > div > div > div {
+    grid-area: actions;
+    justify-self: end;
+  }
+
+  header .header-logo-light,
+  header .header-logo-dark {
+    width: min(72rem, 100%) !important;
+    height: auto !important;
+    max-width: none !important;
+  }
+
+  #showtimes {
+    scroll-margin-top: 30rem;
+  }
+}
+
 /* Keep utility amber accents aligned with the lighter marquee gold. */
 .text-amber-200,
 .text-amber-300,
