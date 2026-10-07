@@ -96,14 +96,14 @@ html.dark header {
 }
 
 header > div > div {
-  height: 5.75rem !important;
+  height: 6.75rem !important;
 }
 
 header .header-logo-light,
 header .header-logo-dark {
-  height: 5rem !important;
+  height: 6.25rem !important;
   width: auto !important;
-  max-width: 15rem;
+  max-width: 20rem;
 }
 
 header .header-desktop-nav {
@@ -1053,13 +1053,17 @@ body > aside[aria-label="Mobile Quick Actions"] a {
 
 @media (max-width: 63.99rem) {
   header > div > div {
-    height: 4.75rem !important;
+    height: 5.5rem !important;
   }
 
   header .header-logo-light,
   header .header-logo-dark {
-    height: 3rem !important;
-    max-width: 12rem;
+    height: 4.25rem !important;
+    max-width: 16rem;
+  }
+
+  #showtimes {
+    scroll-margin-top: 5.5rem;
   }
 
   #hero {
@@ -1382,10 +1386,18 @@ html.dark #concessions {
 }
 
 @media (max-width: 30rem) {
+  header > div > div {
+    height: 5rem !important;
+  }
+
   header .header-logo-light,
   header .header-logo-dark {
-    height: 2.65rem !important;
-    max-width: 10rem;
+    height: 3.25rem !important;
+    max-width: 12rem;
+  }
+
+  #showtimes {
+    scroll-margin-top: 5rem;
   }
 }
 
