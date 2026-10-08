@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/assets/fonts.css">
   <link rel="stylesheet" href="/assets/fontawesome/all.min.css">
   <link rel="stylesheet" href="/assets/makeover.css?v=theme-toggle1">
-  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel6">
+  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel7">
 </head>
 <body>
   <header class="admin-header">
@@ -43,6 +43,22 @@
       </div>
 
       <div id="admin-status" class="admin-status" role="status" aria-live="polite"></div>
+
+      <section class="admin-card admin-facebook-updates" aria-labelledby="facebook-updates-heading">
+        <div class="admin-card-heading">
+          <div>
+            <p class="admin-eyebrow">Source check</p>
+            <h2 id="facebook-updates-heading">Facebook updates</h2>
+          </div>
+          <div class="admin-facebook-actions">
+            <button id="scan-facebook" class="admin-button admin-button--quiet" type="button"><i class="fa-brands fa-facebook"></i> Check for new posts</button>
+            <a id="facebook-page-link" class="admin-text-button" href="https://www.facebook.com/CapitolTwinCinema/" target="_blank" rel="noopener noreferrer">Open page <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+        </div>
+        <p class="admin-facebook-intro">Checks the connected public Page feed for movie, showtime, and deal leads. Nothing is published automatically; review a post and apply it to the current draft first.</p>
+        <p id="facebook-scan-message" class="admin-message" role="status" aria-live="polite"></p>
+        <div id="facebook-results" class="facebook-results" aria-live="polite"></div>
+      </section>
 
       <div class="admin-grid">
         <section class="admin-card" aria-labelledby="entry-heading">
@@ -356,6 +372,9 @@
               </div>
             </div>
 
+            <label for="config-facebook-page-id">Facebook Page ID <span class="admin-help">numeric ID preferred; page username also works when Meta allows it</span></label>
+            <input id="config-facebook-page-id" type="text" maxlength="120" placeholder="CapitolTwinCinema" required>
+
             <label for="config-intro">Listings intro</label>
             <textarea id="config-intro" rows="2" maxlength="240" required></textarea>
 
@@ -380,12 +399,14 @@
               <div class="admin-connection-row"><span>Admin sign-in</span><strong id="status-password">Checking…</strong></div>
               <div class="admin-connection-row"><span>Movie data lookup</span><strong id="status-movie">Checking…</strong></div>
               <div class="admin-connection-row"><span>Trailer lookup</span><strong id="status-trailer">Checking…</strong></div>
+              <div class="admin-connection-row"><span>Facebook post checker</span><strong id="status-facebook">Checking…</strong></div>
             </div>
-            <p class="admin-help">Secrets stay in Cloudflare Worker configuration and are never stored in this editable panel.</p>
+            <p class="admin-help">Secrets stay in Cloudflare Worker configuration and are never stored in this editable panel. A Page access token is preferred; app credentials alone may still require Meta approval for Page public content.</p>
             <div class="admin-command-list">
               <div class="admin-command"><code>npx wrangler secret put ADMIN_PASSWORD</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put ADMIN_PASSWORD">Copy</button></div>
               <div class="admin-command"><code>npx wrangler secret put TMDB_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put TMDB_API_KEY">Copy</button></div>
               <div class="admin-command"><code>npx wrangler secret put YOUTUBE_API_KEY</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put YOUTUBE_API_KEY">Copy</button></div>
+              <div class="admin-command"><code>npx wrangler secret put FACEBOOK_PAGE_ACCESS_TOKEN</code><button class="admin-text-button" type="button" data-copy-command="npx wrangler secret put FACEBOOK_PAGE_ACCESS_TOKEN">Copy</button></div>
             </div>
             </aside>
           </div>
@@ -394,6 +415,6 @@
     </section>
   </main>
 
-  <script src="/admin/admin.js?v=admin-panel9" defer></script>
+  <script src="/admin/admin.js?v=admin-panel10" defer></script>
 </body>
 </html>

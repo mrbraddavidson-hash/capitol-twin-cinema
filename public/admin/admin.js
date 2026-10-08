@@ -3,6 +3,7 @@
   const DEFAULT_CONFIG = {
     movieLinePhone: "(519) 291-6000",
     facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
+    facebookPageId: "CapitolTwinCinema",
     introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
     noticeTitle: "Confirm today’s film and start time.",
     noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
@@ -12,6 +13,8 @@
     trailerResults: [],
     movieResults: [],
     bulkPrepared: { "Screen 1": null, "Screen 2": null },
+    facebookPosts: [],
+    facebookScan: null,
     editingId: "",
     config: { ...DEFAULT_CONFIG }
   };
@@ -22,6 +25,7 @@
   const formMessage = $("#form-message");
   const statusMessage = $("#admin-status");
   const configMessage = $("#config-message");
+  const facebookScanMessage = $("#facebook-scan-message");
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -41,6 +45,7 @@
     if (!response.ok) {
       const error = new Error(data.error || `Request failed (${response.status})`);
       error.status = response.status;
+      error.data = data;
       throw error;
     }
     return data;
@@ -73,6 +78,7 @@
       setConnectionStatus("#status-password", status.adminPasswordConfigured);
       setConnectionStatus("#status-movie", status.movieSearchConfigured);
       setConnectionStatus("#status-trailer", status.trailerSearchConfigured);
+      setConnectionStatus("#status-facebook", status.facebookScanConfigured && status.facebookPageConfigured);
       const messages = [];
       messages.push(status.movieSearchConfigured
         ? "Movie data lookup is ready."
@@ -80,6 +86,9 @@
       messages.push(status.trailerSearchConfigured
         ? "Trailer lookup is ready."
         : "Trailer lookup needs the YOUTUBE_API_KEY Worker secret.");
+      messages.push(status.facebookScanConfigured && status.facebookPageConfigured
+        ? "Facebook update checking is ready."
+        : "Facebook update checking needs a Page access token and Page ID in Advanced settings.");
       statusMessage.textContent = messages.join(" ");
     } catch (error) {
       statusMessage.textContent = error.message;
@@ -97,6 +106,7 @@
     state.config = { ...DEFAULT_CONFIG, ...config };
     $("#config-phone").value = state.config.movieLinePhone;
     $("#config-facebook").value = state.config.facebookUrl;
+    $("#config-facebook-page-id").value = state.config.facebookPageId;
     $("#config-intro").value = state.config.introCopy;
     $("#config-notice-title").value = state.config.noticeTitle;
     $("#config-notice-body").value = state.config.noticeBody;
@@ -111,16 +121,99 @@
     }
   }
 
+  function renderFacebookPosts(data) {
+    state.facebookScan = data;
+    const posts = Array.isArray(data.newPosts) && data.newPosts.length
+      ? data.newPosts
+      : (Array.isArray(data.posts) ? data.posts : []);
+    state.facebookPosts = posts;
+    const pageLink = $("#facebook-page-link");
+    if (data.pageUrl) {
+      pageLink.href = data.pageUrl;
+      pageLink.hidden = false;
+    }
+
+    if (!posts.length) {
+      $("#facebook-results").innerHTML = '<p class="admin-empty">No readable movie or deal posts were returned. Open Facebook to review the page directly.</p>';
+      return;
+    }
+
+    $("#facebook-results").innerHTML = posts.map((post, index) => {
+      const when = post.createdAt ? new Date(post.createdAt).toLocaleString() : "Date unavailable";
+      const source = post.sourceUrl
+        ? `<a href="${escapeHtml(post.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open post <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+        : "";
+      return `<article class="facebook-post">
+        <div class="facebook-post-heading">
+          <span class="facebook-post-kind facebook-post-kind--${escapeHtml(post.kind || "other")}">${escapeHtml(post.kindLabel || "Facebook update")}</span>
+          <time datetime="${escapeHtml(post.createdAt || "")}">${escapeHtml(when)}</time>
+        </div>
+        <p>${escapeHtml(post.message)}</p>
+        <div class="facebook-post-actions">
+          <button class="admin-text-button" type="button" data-apply-facebook="${index}">Apply to draft notes</button>
+          ${source}
+        </div>
+      </article>`;
+    }).join("");
+
+    $("#facebook-results").querySelectorAll("[data-apply-facebook]").forEach((button) => {
+      button.addEventListener("click", () => applyFacebookPost(Number(button.dataset.applyFacebook)));
+    });
+  }
+
+  function applyFacebookPost(index) {
+    const post = state.facebookPosts[index];
+    if (!post) return;
+    const prefix = post.kind === "deal" ? "Facebook deal lead" : post.kind === "movie" ? "Facebook movie/showtime lead" : "Facebook update";
+    const addition = `${prefix}: ${post.message}`.slice(0, 240);
+    const current = $("#notes").value.trim();
+    $("#notes").value = current ? `${current} ${addition}`.slice(0, 240) : addition;
+    const optional = document.querySelector(".admin-optional");
+    if (optional) optional.open = true;
+    setMessage(formMessage, "Facebook update added to the draft notes. Review it before publishing.", false);
+    $("#notes").focus();
+  }
+
+  async function scanFacebook() {
+    const button = $("#scan-facebook");
+    button.disabled = true;
+    button.textContent = "Checking Facebook…";
+    setMessage(facebookScanMessage, "Checking the latest public Page posts…", false);
+    try {
+      const data = await api("/api/admin/facebook-scan", { method: "POST", body: "{}" });
+      renderFacebookPosts(data);
+      const count = Number(data.newCount || 0);
+      const message = data.firstScan
+        ? `Found ${count} recent post${count === 1 ? "" : "s"}. Review any movie or deal lead below.`
+        : count
+          ? `${count} new post${count === 1 ? "" : "s"} since the last check. Review before applying.`
+          : "No new posts since the last check. Showing the latest readable posts.";
+      setMessage(facebookScanMessage, message, false);
+    } catch (error) {
+      setMessage(facebookScanMessage, error.message);
+      if (error.data?.pageUrl) {
+        const pageLink = $("#facebook-page-link");
+        pageLink.href = error.data.pageUrl;
+        pageLink.hidden = false;
+      }
+      $("#facebook-results").innerHTML = '<p class="admin-empty">Use the Facebook page link for a manual review until the Page access token is configured.</p>';
+    } finally {
+      button.disabled = false;
+      button.innerHTML = '<i class="fa-brands fa-facebook"></i> Check for new posts';
+    }
+  }
+
   async function saveConfig(event) {
     event.preventDefault();
     const config = {
       movieLinePhone: $("#config-phone").value.trim(),
       facebookUrl: $("#config-facebook").value.trim(),
+      facebookPageId: $("#config-facebook-page-id").value.trim(),
       introCopy: $("#config-intro").value.trim(),
       noticeTitle: $("#config-notice-title").value.trim(),
       noticeBody: $("#config-notice-body").value.trim()
     };
-    if (!config.movieLinePhone || !config.facebookUrl || !config.introCopy || !config.noticeTitle || !config.noticeBody) {
+    if (!config.movieLinePhone || !config.facebookUrl || !config.facebookPageId || !config.introCopy || !config.noticeTitle || !config.noticeBody) {
       setMessage(configMessage, "Complete every public settings field before saving.");
       return;
     }
@@ -599,6 +692,7 @@
   $("#find-movie").addEventListener("click", findMovie);
   $("#find-both-movies").addEventListener("click", findBothMovies);
   $("#find-trailer").addEventListener("click", findTrailer);
+  $("#scan-facebook").addEventListener("click", scanFacebook);
   $("#add-showtime").addEventListener("click", addShowtime);
   $("#reset-form").addEventListener("click", resetForm);
   $("#config-form").addEventListener("submit", saveConfig);

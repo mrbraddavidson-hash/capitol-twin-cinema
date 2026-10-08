@@ -1,6 +1,8 @@
 const STATE_KEY = "current";
 const CONFIG_KEY = "site-config";
+const FACEBOOK_SCAN_KEY = "facebook-scan";
 const TMDB_API_BASE = "https://api.themoviedb.org/3";
+const FACEBOOK_GRAPH_VERSION = "v24.0";
 const SESSION_COOKIE = "ctc_admin";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
 const MAX_BODY_BYTES = 24_000;
@@ -15,6 +17,7 @@ const DEFAULT_CONFIG = Object.freeze({
   version: 1,
   movieLinePhone: "(519) 291-6000",
   facebookUrl: "https://www.facebook.com/CapitolTwinCinema/",
+  facebookPageId: "CapitolTwinCinema",
   introCopy: "Movie titles and start times can change during the week. Use the movie line or Facebook before travelling.",
   noticeTitle: "Confirm today’s film and start time.",
   noticeBody: "Call the recorded movie line or check the theatre’s Facebook page for the latest update."
@@ -53,11 +56,18 @@ export default {
         }
 
         if (url.pathname === "/api/admin/status" && request.method === "GET") {
+          const config = await readConfig(env);
           return jsonResponse({
             storageConfigured: Boolean(env.NOW_SHOWING),
             trailerSearchConfigured: Boolean(env.YOUTUBE_API_KEY),
             adminPasswordConfigured: Boolean(env.ADMIN_PASSWORD),
-            movieSearchConfigured: Boolean(env.TMDB_API_KEY)
+            movieSearchConfigured: Boolean(env.TMDB_API_KEY),
+            facebookPageConfigured: Boolean(config.facebookPageId),
+            facebookScanConfigured: Boolean(
+              env.FACEBOOK_PAGE_ACCESS_TOKEN
+              || env.META_PAGE_ACCESS_TOKEN
+              || (env.META_APP_ID && env.META_APP_SECRET)
+            )
           });
         }
 
@@ -92,6 +102,10 @@ export default {
 
         if (url.pathname === "/api/admin/movie-details" && request.method === "POST") {
           return readMovieDetails(request, env);
+        }
+
+        if (url.pathname === "/api/admin/facebook-scan" && request.method === "POST") {
+          return scanFacebook(request, env);
         }
       }
 
@@ -398,6 +412,7 @@ function normalizeConfig(input) {
     version: 1,
     movieLinePhone: cleanText(input?.movieLinePhone, 40) || DEFAULT_CONFIG.movieLinePhone,
     facebookUrl: safeFacebookUrl(input?.facebookUrl) || DEFAULT_CONFIG.facebookUrl,
+    facebookPageId: cleanText(input?.facebookPageId, 120) || DEFAULT_CONFIG.facebookPageId,
     introCopy: cleanText(input?.introCopy, 240) || DEFAULT_CONFIG.introCopy,
     noticeTitle: cleanText(input?.noticeTitle, 120) || DEFAULT_CONFIG.noticeTitle,
     noticeBody: cleanText(input?.noticeBody, 240) || DEFAULT_CONFIG.noticeBody
@@ -426,12 +441,157 @@ function safeExternalUrl(value) {
 function safeFacebookUrl(value) {
   try {
     const url = new URL(String(value || ""));
-    return url.protocol === "https:" && ["facebook.com", "www.facebook.com"].includes(url.hostname)
+    return url.protocol === "https:" && ["facebook.com", "www.facebook.com", "m.facebook.com", "web.facebook.com"].includes(url.hostname)
       ? url.href.slice(0, 240)
       : "";
   } catch {
     return "";
   }
+}
+
+async function scanFacebook(request, env) {
+  const config = await readConfig(env);
+  const pageIdentifier = cleanText(config.facebookPageId, 120) || "CapitolTwinCinema";
+  const token = await resolveFacebookAccessToken(env);
+
+  if (!token) {
+    return jsonResponse({
+      configured: false,
+      pageUrl: config.facebookUrl,
+      error: "Facebook checking needs a Page access token. Set FACEBOOK_PAGE_ACCESS_TOKEN (preferred) or META_PAGE_ACCESS_TOKEN in Worker secrets. Anonymous Facebook HTML is not a reliable feed source."
+    }, 503);
+  }
+
+  if (!env.NOW_SHOWING) {
+    return jsonResponse({
+      configured: false,
+      pageUrl: config.facebookUrl,
+      error: "NOW_SHOWING storage is not configured, so new-post history cannot be saved."
+    }, 503);
+  }
+
+  try {
+    const page = await facebookGraphFetch(`/${encodeURIComponent(pageIdentifier)}`, {
+      fields: "id"
+    }, token);
+    const pageId = cleanText(page?.id, 120) || pageIdentifier;
+    const feed = await facebookGraphFetch(`/${encodeURIComponent(pageId)}/posts`, {
+      fields: "id,message,created_time,permalink_url,story,attachments{media,type,url,unshimmed_url}",
+      limit: "20"
+    }, token);
+    const posts = (Array.isArray(feed?.data) ? feed.data : [])
+      .map(normalizeFacebookPost)
+      .filter(Boolean)
+      .slice(0, 12);
+    const previous = await readFacebookScan(env);
+    const previousIds = new Set(previous.posts.map((post) => post.id));
+    const firstScan = !previous.checkedAt;
+    const newPosts = firstScan ? posts : posts.filter((post) => !previousIds.has(post.id));
+    const checkedAt = new Date().toISOString();
+    await env.NOW_SHOWING.put(FACEBOOK_SCAN_KEY, JSON.stringify({
+      version: 1,
+      checkedAt,
+      pageId,
+      posts
+    }));
+
+    return jsonResponse({
+      configured: true,
+      pageUrl: config.facebookUrl,
+      checkedAt,
+      firstScan,
+      posts,
+      newPosts,
+      newCount: newPosts.length
+    });
+  } catch (error) {
+    console.error(JSON.stringify({ message: "Facebook update check failed", error: String(error?.message || error) }));
+    return jsonResponse({
+      configured: true,
+      pageUrl: config.facebookUrl,
+      error: facebookErrorMessage(error)
+    }, 502);
+  }
+}
+
+async function resolveFacebookAccessToken(env) {
+  const directToken = cleanText(env.FACEBOOK_PAGE_ACCESS_TOKEN || env.META_PAGE_ACCESS_TOKEN, 500);
+  if (directToken) return directToken;
+  if (!env.META_APP_ID || !env.META_APP_SECRET) return "";
+
+  const url = new URL(`https://graph.facebook.com/${FACEBOOK_GRAPH_VERSION}/oauth/access_token`);
+  url.searchParams.set("client_id", env.META_APP_ID);
+  url.searchParams.set("client_secret", env.META_APP_SECRET);
+  url.searchParams.set("grant_type", "client_credentials");
+  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data?.access_token) return "";
+  return cleanText(data.access_token, 500);
+}
+
+async function facebookGraphFetch(pathname, params, token) {
+  const url = new URL(`https://graph.facebook.com/${FACEBOOK_GRAPH_VERSION}${pathname}`);
+  Object.entries(params || {}).forEach(([key, value]) => url.searchParams.set(key, value));
+  url.searchParams.set("access_token", token);
+  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data?.error) {
+    throw new Error(data?.error?.message || `Facebook Graph API request failed (${response.status}).`);
+  }
+  return data;
+}
+
+function normalizeFacebookPost(input) {
+  const attachment = Array.isArray(input?.attachments?.data) ? input.attachments.data[0] : null;
+  const attachmentText = cleanText(attachment?.title || attachment?.description, 240);
+  const message = cleanText(input?.message || input?.story || attachmentText, 1200);
+  const id = cleanText(input?.id, 160);
+  if (!id || !message) return null;
+
+  const createdAt = input?.created_time && !Number.isNaN(Date.parse(input.created_time))
+    ? new Date(input.created_time).toISOString()
+    : null;
+  const sourceUrl = safeFacebookUrl(input?.permalink_url);
+  const kind = classifyFacebookPost(message);
+  return {
+    id,
+    message,
+    createdAt,
+    sourceUrl,
+    kind,
+    kindLabel: kind === "movie" ? "Movie / showtime lead" : kind === "deal" ? "Deal / promotion lead" : "General update"
+  };
+}
+
+function classifyFacebookPost(message) {
+  const lower = message.toLowerCase();
+  if (/\b(deal|special|discount|free|save|combo|concession|popcorn|slush|\$\s?\d)/i.test(lower)) return "deal";
+  if (/\b(now playing|now showing|showtime|showtimes|screen|movie|film|trailer|coming soon|opens?)\b/i.test(lower)) return "movie";
+  return "other";
+}
+
+async function readFacebookScan(env) {
+  if (!env.NOW_SHOWING) return { version: 1, checkedAt: null, posts: [] };
+  const raw = await env.NOW_SHOWING.get(FACEBOOK_SCAN_KEY);
+  if (!raw) return { version: 1, checkedAt: null, posts: [] };
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      version: 1,
+      checkedAt: typeof parsed.checkedAt === "string" ? parsed.checkedAt : null,
+      posts: Array.isArray(parsed.posts) ? parsed.posts.filter((post) => post?.id) : []
+    };
+  } catch {
+    return { version: 1, checkedAt: null, posts: [] };
+  }
+}
+
+function facebookErrorMessage(error) {
+  const message = String(error?.message || "Facebook update check failed.");
+  if (/permission|access token|oauth|(#10|100)/i.test(message)) {
+    return "Facebook rejected the feed request. Check that the Page access token is valid and has permission to read the Page's public posts.";
+  }
+  return message.slice(0, 240);
 }
 
 function safeImageUrl(value) {

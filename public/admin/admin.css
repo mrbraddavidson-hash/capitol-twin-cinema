@@ -590,6 +590,88 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   line-height: 1.5;
 }
 
+.admin-facebook-updates {
+  max-width: 760px;
+  margin: 0 auto 1.25rem;
+}
+
+.admin-facebook-intro {
+  max-width: 68ch;
+  margin: .85rem 0 0;
+  color: var(--admin-muted);
+  line-height: 1.6;
+}
+
+.admin-facebook-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .75rem;
+}
+
+.facebook-results {
+  display: grid;
+  gap: .65rem;
+  margin-top: .75rem;
+}
+
+.facebook-post {
+  display: grid;
+  gap: .5rem;
+  padding: .85rem;
+  border: 1px solid var(--admin-line);
+  border-left: 4px solid var(--admin-blue);
+  border-radius: 9px;
+  background: #fff;
+}
+
+.facebook-post-heading,
+.facebook-post-actions {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.facebook-post-heading time {
+  color: var(--admin-muted);
+  font-size: .68rem;
+}
+
+.facebook-post-kind {
+  color: #16734b;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.facebook-post-kind--deal { color: #ad6a00; }
+.facebook-post-kind--other { color: var(--admin-muted); }
+
+.facebook-post p {
+  margin: 0;
+  color: var(--admin-ink);
+  font-size: .78rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.facebook-post-actions {
+  justify-content: flex-start;
+}
+
+.facebook-post-actions a {
+  color: var(--admin-red);
+  font-size: .68rem;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.facebook-post-actions a:hover { text-decoration: underline; }
+
 .admin-message {
   min-height: 1.3em;
   margin: .25rem 0 0;
@@ -782,4 +864,7 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   .admin-brand-complete { align-items: stretch; flex-direction: column; }
   .admin-brand-browser > summary { align-items: flex-start; flex-direction: column; }
   .admin-brand-browser iframe { height: 760px; }
+  .admin-facebook-actions { align-items: flex-start; justify-content: flex-start; }
+  .admin-facebook-actions .admin-button { width: 100%; }
+  .facebook-post-heading { align-items: flex-start; flex-direction: column; gap: .2rem; }
 }
