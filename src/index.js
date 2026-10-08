@@ -476,7 +476,7 @@ async function scanFacebook(request, env) {
     }, token);
     const pageId = cleanText(page?.id, 120) || pageIdentifier;
     const feed = await facebookGraphFetch(`/${encodeURIComponent(pageId)}/posts`, {
-      fields: "id,message,created_time,permalink_url,story,attachments{media,type,url,unshimmed_url}",
+      fields: "id,message,created_time,permalink_url,story,attachments",
       limit: "20"
     }, token);
     const posts = (Array.isArray(feed?.data) ? feed.data : [])
@@ -532,8 +532,12 @@ async function resolveFacebookAccessToken(env) {
 async function facebookGraphFetch(pathname, params, token) {
   const url = new URL(`https://graph.facebook.com/${FACEBOOK_GRAPH_VERSION}${pathname}`);
   Object.entries(params || {}).forEach(([key, value]) => url.searchParams.set(key, value));
-  url.searchParams.set("access_token", token);
-  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`
+    }
+  });
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data?.error) {
     throw new Error(data?.error?.message || `Facebook Graph API request failed (${response.status}).`);
