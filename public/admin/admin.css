@@ -595,6 +595,42 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   margin: 0 auto 1.25rem;
 }
 
+.admin-facebook-updates,
+.admin-brand-kit {
+  padding: 0;
+  overflow: hidden;
+}
+
+.admin-collapsible-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  transition: background-color 160ms ease;
+  cursor: pointer;
+  list-style: none;
+}
+
+.admin-collapsible-summary::-webkit-details-marker { display: none; }
+.admin-collapsible-summary:hover { background: rgba(255, 209, 102, .12); }
+
+.admin-collapsible-summary-copy {
+  display: grid;
+  gap: .2rem;
+}
+
+.admin-collapsible-summary-copy .admin-eyebrow { margin-bottom: 0; }
+.admin-collapsible-summary-copy strong { font-size: 1.05rem; }
+.admin-collapsible-summary .admin-advanced-toggle::after { content: " +"; }
+.admin-facebook-updates[open] .admin-collapsible-summary .admin-advanced-toggle::after,
+.admin-brand-kit[open] .admin-collapsible-summary .admin-advanced-toggle::after { content: " −"; }
+
+.admin-collapsible-body {
+  padding: 0 clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem);
+  border-top: 1px solid var(--admin-line);
+}
+
 .admin-facebook-intro {
   max-width: 68ch;
   margin: .85rem 0 0;

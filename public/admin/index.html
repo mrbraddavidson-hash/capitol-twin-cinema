@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/assets/fonts.css">
   <link rel="stylesheet" href="/assets/fontawesome/all.min.css">
   <link rel="stylesheet" href="/assets/makeover.css?v=theme-toggle1">
-  <link rel="stylesheet" href="/admin/admin.css?v=admin-panel7">
+  <link rel="stylesheet" href="/admin/admin.css?v=admin-simplify-20261014">
 </head>
 <body>
   <header class="admin-header">
@@ -37,30 +37,46 @@
         <div>
           <p class="admin-eyebrow">Capitol Twin Cinema</p>
           <h1 id="admin-heading">Manage showtimes</h1>
-          <p class="admin-lede">Update Screen 1 or Screen 2, then publish. That’s it.</p>
+          <p class="admin-lede">Review what’s live first, then update either screen and publish.</p>
         </div>
         <button id="logout-button" class="admin-button admin-button--quiet" type="button">Sign out</button>
       </div>
 
       <div id="admin-status" class="admin-status" role="status" aria-live="polite"></div>
 
-      <section class="admin-card admin-facebook-updates" aria-labelledby="facebook-updates-heading">
-        <div class="admin-card-heading">
-          <div>
-            <p class="admin-eyebrow">Source check</p>
-            <h2 id="facebook-updates-heading">Facebook updates</h2>
-          </div>
+      <details id="facebook-updates-panel" class="admin-card admin-facebook-updates">
+        <summary class="admin-collapsible-summary">
+          <span class="admin-collapsible-summary-copy">
+            <span class="admin-eyebrow">Source check</span>
+            <strong id="facebook-updates-heading" role="heading" aria-level="2">Facebook updates</strong>
+            <span class="admin-help">Review new movie, showtime, and deal leads when needed.</span>
+          </span>
+          <span class="admin-advanced-toggle">Open</span>
+        </summary>
+        <div class="admin-collapsible-body">
           <div class="admin-facebook-actions">
             <button id="scan-facebook" class="admin-button admin-button--quiet" type="button"><i class="fa-brands fa-facebook"></i> Check for new posts</button>
             <a id="facebook-page-link" class="admin-text-button" href="https://www.facebook.com/CapitolTwinCinema/" target="_blank" rel="noopener noreferrer">Open page <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
           </div>
+          <p class="admin-facebook-intro">Checks the connected public Page feed. Nothing is published automatically; review a post and apply it to the current draft first.</p>
+          <p id="facebook-scan-message" class="admin-message" role="status" aria-live="polite"></p>
+          <div id="facebook-results" class="facebook-results" aria-live="polite"></div>
         </div>
-        <p class="admin-facebook-intro">Checks the connected public Page feed for movie, showtime, and deal leads. Nothing is published automatically; review a post and apply it to the current draft first.</p>
-        <p id="facebook-scan-message" class="admin-message" role="status" aria-live="polite"></p>
-        <div id="facebook-results" class="facebook-results" aria-live="polite"></div>
-      </section>
+      </details>
 
       <div class="admin-grid">
+        <section class="admin-card" aria-labelledby="published-heading">
+          <div class="admin-card-heading">
+            <div>
+              <p class="admin-eyebrow">Live now</p>
+              <h2 id="published-heading">Live listings</h2>
+            </div>
+            <span id="updated-at" class="admin-help"></span>
+          </div>
+          <div id="published-list" class="published-list"></div>
+          <p id="published-empty" class="admin-empty" hidden>No listings published yet.</p>
+        </section>
+
         <section class="admin-card" aria-labelledby="entry-heading">
           <div class="admin-card-heading">
             <div>
@@ -199,28 +215,19 @@
           </form>
         </section>
 
-        <section class="admin-card" aria-labelledby="published-heading">
-          <div class="admin-card-heading">
-            <div>
-              <p class="admin-eyebrow">Step 2</p>
-              <h2 id="published-heading">Live listings</h2>
-            </div>
-            <span id="updated-at" class="admin-help"></span>
-          </div>
-          <div id="published-list" class="published-list"></div>
-          <p id="published-empty" class="admin-empty" hidden>No listings published yet.</p>
-        </section>
       </div>
 
-      <section class="admin-card admin-brand-kit" aria-labelledby="brand-kit-heading">
-        <div class="admin-card-heading">
-          <div>
-            <p class="admin-eyebrow">Official assets</p>
-            <h2 id="brand-kit-heading">Capitol Twin Cinema brand kit</h2>
-          </div>
-          <span class="admin-help">Preview, identify, and download</span>
-        </div>
-        <p class="admin-brand-kit-intro">These are the approved Capitol Twin Cinema marks already available on the site. Each card explains where that version belongs so the right logo is easy to choose.</p>
+      <details id="brand-kit-panel" class="admin-card admin-brand-kit">
+        <summary class="admin-collapsible-summary">
+          <span class="admin-collapsible-summary-copy">
+            <span class="admin-eyebrow">Official assets</span>
+            <strong id="brand-kit-heading" role="heading" aria-level="2">Capitol Twin Cinema brand kit</strong>
+            <span class="admin-help">Preview and download logos, badges, and social artwork when needed.</span>
+          </span>
+          <span class="admin-advanced-toggle">Open</span>
+        </summary>
+        <div class="admin-collapsible-body">
+          <p class="admin-brand-kit-intro">These are the approved Capitol Twin Cinema marks already available on the site. Each card explains where that version belongs so the right logo is easy to choose.</p>
 
         <div class="admin-brand-grid">
           <article class="admin-brand-asset">
@@ -338,7 +345,8 @@
           <summary>Show the complete packaged browser inside Admin <span class="admin-help">all logo, badge, social, and colour sections</span></summary>
           <iframe src="/assets/brand-kit/official-pack/index.html" title="Complete Capitol Twin Cinema official asset browser" loading="lazy"></iframe>
         </details>
-      </section>
+        </div>
+      </details>
 
       <details id="advanced-settings" class="admin-card admin-advanced">
         <summary>
