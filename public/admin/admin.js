@@ -476,12 +476,11 @@
     updatedAt.textContent = state.entries.length ? "Published now" : "";
     list.innerHTML = state.entries.map((entry) => {
       const times = entry.showtimes?.length ? entry.showtimes.join(" • ") : "No times entered";
-      const trailer = entry.trailerId ? "Trailer selected" : "No trailer selected";
       return `<article class="published-entry">
         <h3>${escapeHtml(entry.title)}</h3>
         <p><strong>${escapeHtml(entry.screen)}</strong>${entry.date ? ` · ${escapeHtml(entry.date)}` : ""}</p>
         <p>${escapeHtml(times)}</p>
-        <p>${escapeHtml([entry.rating, entry.runtime, trailer].filter(Boolean).join(" · "))}</p>
+        <p>${escapeHtml([entry.rating, entry.runtime].filter(Boolean).join(" · "))}</p>
         ${entry.overview ? `<p class="published-entry-overview">${escapeHtml(entry.overview)}</p>` : ""}
         <div class="published-entry-actions">
           <button class="admin-text-button" type="button" data-edit="${escapeHtml(entry.id)}">Edit</button>
