@@ -96,14 +96,14 @@ html.dark header {
 }
 
 header > div > div {
-  height: 13rem !important;
+  height: clamp(5.5rem, 6vw, 7rem) !important;
 }
 
 header .header-logo-light,
 header .header-logo-dark {
-  height: 12rem !important;
+  height: clamp(4rem, 5vw, 5.75rem) !important;
   width: auto !important;
-  max-width: 36rem;
+  max-width: 26rem;
 }
 
 header .header-desktop-nav {
@@ -1425,44 +1425,6 @@ html.dark #concessions {
   header .header-desktop-nav a {
     font-size: .68rem !important;
     letter-spacing: .045em;
-  }
-}
-
-/* On wide desktop, let the requested master mark become the full masthead. */
-@media (min-width: 80rem) {
-  header > div > div {
-    height: 30rem !important;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 1fr auto;
-    grid-template-areas:
-      "brand brand brand"
-      "spacer nav actions";
-    row-gap: .75rem;
-  }
-
-  header > div > div > a {
-    grid-area: brand;
-    justify-self: center;
-  }
-
-  header .header-desktop-nav {
-    grid-area: nav;
-  }
-
-  header > div > div > div {
-    grid-area: actions;
-    justify-self: end;
-  }
-
-  header .header-logo-light,
-  header .header-logo-dark {
-    width: min(72rem, 100%) !important;
-    height: auto !important;
-    max-width: none !important;
-  }
-
-  #showtimes {
-    scroll-margin-top: 30rem;
   }
 }
 
