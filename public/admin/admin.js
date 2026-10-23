@@ -36,6 +36,38 @@
       .replace(/'/g, "&#039;");
   }
 
+  function trailerIdFor(entry) {
+    const directId = String(entry?.trailerId || "").trim();
+    if (/^[A-Za-z0-9_-]{6,20}$/.test(directId)) return directId;
+
+    try {
+      const url = new URL(String(entry?.trailerUrl || ""));
+      if (!["youtube.com", "www.youtube.com", "youtu.be"].includes(url.hostname)) return "";
+      const id = url.hostname === "youtu.be" ? url.pathname.slice(1) : url.searchParams.get("v") || "";
+      return /^[A-Za-z0-9_-]{6,20}$/.test(id) ? id : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function trailerPreviewUrl(entry, trailerId) {
+    const poster = String(entry?.posterUrl || "").trim();
+    if (/^https:\/\/i\.ytimg\.com\//.test(poster)) {
+      return poster.replace(/\/(?:mqdefault|hqdefault|sddefault)\.jpg$/i, "/maxresdefault.jpg");
+    }
+    return `https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/maxresdefault.jpg`;
+  }
+
+  function activatePublishedTrailer(button) {
+    const trailerId = button.dataset.publishedTrailerId;
+    const title = button.dataset.publishedTrailerTitle || "Movie";
+    const preview = button.closest(".published-entry-trailer-preview");
+    if (!preview || !/^[A-Za-z0-9_-]{6,20}$/.test(trailerId || "")) return;
+    preview.outerHTML = `<div class="published-entry-trailer-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailerId)}?playsinline=1&rel=0&modestbranding=1" title="${escapeHtml(title)} official trailer" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>`;
+  }
+
   async function api(path, options = {}) {
     const response = await fetch(path, {
       ...options,
@@ -476,12 +508,24 @@
     updatedAt.textContent = state.entries.length ? "Published now" : "";
     list.innerHTML = state.entries.map((entry) => {
       const times = entry.showtimes?.length ? entry.showtimes.join(" • ") : "No times entered";
+      const title = escapeHtml(entry.title);
+      const trailerId = trailerIdFor(entry);
+      const trailer = trailerId
+        ? `<div class="published-entry-trailer">
+            <div class="published-entry-trailer-label">Official trailer</div>
+            <div class="published-entry-trailer-preview">
+              <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId))}" data-published-trailer-fallback="https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg" alt="${title} trailer preview" width="640" height="360" loading="lazy" decoding="async">
+              <button type="button" class="published-entry-trailer-play" data-published-trailer-id="${escapeHtml(trailerId)}" data-published-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
+            </div>
+          </div>`
+        : "";
       return `<article class="published-entry">
-        <h3>${escapeHtml(entry.title)}</h3>
+        <h3>${title}</h3>
         <p><strong>${escapeHtml(entry.screen)}</strong>${entry.date ? ` · ${escapeHtml(entry.date)}` : ""}</p>
         <p>${escapeHtml(times)}</p>
         <p>${escapeHtml([entry.rating, entry.runtime].filter(Boolean).join(" · "))}</p>
         ${entry.overview ? `<p class="published-entry-overview">${escapeHtml(entry.overview)}</p>` : ""}
+        ${trailer}
         <div class="published-entry-actions">
           <button class="admin-text-button" type="button" data-edit="${escapeHtml(entry.id)}">Edit</button>
           <button class="admin-text-button" type="button" data-delete="${escapeHtml(entry.id)}">Remove</button>
@@ -494,6 +538,16 @@
     });
     list.querySelectorAll("[data-delete]").forEach((button) => {
       button.addEventListener("click", () => removeEntry(button.dataset.delete));
+    });
+    list.querySelectorAll("[data-published-trailer-id]").forEach((button) => {
+      button.addEventListener("click", () => activatePublishedTrailer(button));
+    });
+    list.querySelectorAll("[data-published-trailer-fallback]").forEach((image) => {
+      image.addEventListener("error", () => {
+        if (image.dataset.fallbackUsed) return;
+        image.dataset.fallbackUsed = "true";
+        image.src = image.dataset.publishedTrailerFallback;
+      });
     });
   }
 
