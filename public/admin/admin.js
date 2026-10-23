@@ -110,7 +110,9 @@
       setConnectionStatus("#status-password", status.adminPasswordConfigured);
       setConnectionStatus("#status-movie", status.movieSearchConfigured);
       setConnectionStatus("#status-trailer", status.trailerSearchConfigured);
-      setConnectionStatus("#status-facebook", status.facebookScanConfigured && status.facebookPageConfigured);
+      const facebookReady = status.facebookPageConfigured
+        && (status.facebookScanConfigured || status.facebookPublicFallbackConfigured);
+      setConnectionStatus("#status-facebook", facebookReady);
       const messages = [];
       messages.push(status.movieSearchConfigured
         ? "Movie data lookup is ready."
@@ -119,8 +121,10 @@
         ? "Trailer lookup is ready."
         : "Trailer lookup needs the YOUTUBE_API_KEY Worker secret.");
       messages.push(status.facebookScanConfigured && status.facebookPageConfigured
-        ? "Facebook update checking is ready."
-        : "Facebook update checking needs a Page access token and Page ID in Advanced settings.");
+        ? "Facebook Graph API checking is ready; the public-page fallback is also available."
+        : status.facebookPublicFallbackConfigured && status.facebookPageConfigured
+          ? "Facebook public-page checking is ready. A Page access token adds richer results."
+          : "Facebook checking needs a public Page URL and Page ID in Advanced settings.");
       statusMessage.textContent = messages.join(" ");
     } catch (error) {
       statusMessage.textContent = error.message;
@@ -165,12 +169,25 @@
       pageLink.hidden = false;
     }
 
+    const sourceLabel = data.fromCache
+      ? "saved result"
+      : data.source === "graph-api"
+        ? "Page Graph API"
+        : data.source === "public-html"
+          ? "public Page HTML"
+          : "Facebook";
+    const lastChecked = data.fromCache && data.checkedAt
+      ? ` Last successful check: ${new Date(data.checkedAt).toLocaleString()}.`
+      : "";
+    const sourceNote = `Source: ${sourceLabel}.${lastChecked}${data.warning ? ` ${data.warning}` : ""}`;
+    const sourceMarkup = `<p class="facebook-source-note">${escapeHtml(sourceNote)}</p>`;
+
     if (!posts.length) {
-      $("#facebook-results").innerHTML = '<p class="admin-empty">No readable movie or deal posts were returned. Open Facebook to review the page directly.</p>';
+      $("#facebook-results").innerHTML = `${sourceMarkup}<p class="admin-empty">No readable movie or deal posts were returned. Open Facebook to review the page directly.</p>`;
       return;
     }
 
-    $("#facebook-results").innerHTML = posts.map((post, index) => {
+    $("#facebook-results").innerHTML = `${sourceMarkup}${posts.map((post, index) => {
       const when = post.createdAt ? new Date(post.createdAt).toLocaleString() : "Date unavailable";
       const source = post.sourceUrl
         ? `<a href="${escapeHtml(post.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open post <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
@@ -186,7 +203,7 @@
           ${source}
         </div>
       </article>`;
-    }).join("");
+    }).join("")}`;
 
     $("#facebook-results").querySelectorAll("[data-apply-facebook]").forEach((button) => {
       button.addEventListener("click", () => applyFacebookPost(Number(button.dataset.applyFacebook)));
@@ -228,7 +245,7 @@
         pageLink.href = error.data.pageUrl;
         pageLink.hidden = false;
       }
-      $("#facebook-results").innerHTML = '<p class="admin-empty">Use the Facebook page link for a manual review until the Page access token is configured.</p>';
+      $("#facebook-results").innerHTML = '<p class="admin-empty">Neither Facebook source returned readable posts. Open the Page link to review it directly.</p>';
     } finally {
       button.disabled = false;
       button.innerHTML = '<i class="fa-brands fa-facebook"></i> Check for new posts';

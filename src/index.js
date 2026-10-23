@@ -3,6 +3,8 @@ const CONFIG_KEY = "site-config";
 const FACEBOOK_SCAN_KEY = "facebook-scan";
 const TMDB_API_BASE = "https://api.themoviedb.org/3";
 const FACEBOOK_GRAPH_VERSION = "v24.0";
+const FACEBOOK_PUBLIC_TIMEOUT_MS = 8_000;
+const FACEBOOK_PUBLIC_MAX_BYTES = 1_500_000;
 const SESSION_COOKIE = "ctc_admin";
 const SESSION_TTL_SECONDS = 8 * 60 * 60;
 const MAX_BODY_BYTES = 24_000;
@@ -67,7 +69,8 @@ export default {
               env.FACEBOOK_PAGE_ACCESS_TOKEN
               || env.META_PAGE_ACCESS_TOKEN
               || (env.META_APP_ID && env.META_APP_SECRET)
-            )
+            ),
+            facebookPublicFallbackConfigured: Boolean(config.facebookUrl)
           });
         }
 
@@ -452,22 +455,36 @@ function safeFacebookUrl(value) {
 async function scanFacebook(request, env) {
   const config = await readConfig(env);
   const pageIdentifier = cleanText(config.facebookPageId, 120) || "CapitolTwinCinema";
+  const pageUrl = safeFacebookUrl(config.facebookUrl) || DEFAULT_CONFIG.facebookUrl;
   const token = await resolveFacebookAccessToken(env);
-
-  if (!token) {
-    return jsonResponse({
-      configured: false,
-      pageUrl: config.facebookUrl,
-      error: "Facebook checking needs a Page access token. Set FACEBOOK_PAGE_ACCESS_TOKEN (preferred) or META_PAGE_ACCESS_TOKEN in Worker secrets. Anonymous Facebook HTML is not a reliable feed source."
-    }, 503);
-  }
 
   if (!env.NOW_SHOWING) {
     return jsonResponse({
       configured: false,
-      pageUrl: config.facebookUrl,
+      pageUrl,
       error: "NOW_SHOWING storage is not configured, so new-post history cannot be saved."
     }, 503);
+  }
+
+  const previous = await readFacebookScan(env);
+
+  if (!token) {
+    const publicResult = await fetchPublicFacebookPosts(pageUrl);
+    if (publicResult.posts.length) {
+      return saveFacebookScanResult(env, {
+        pageUrl,
+        pageId: pageIdentifier,
+        posts: publicResult.posts,
+        source: "public-html",
+        warning: publicResult.warning
+      }, previous);
+    }
+
+    return cachedFacebookScanResponse(
+      previous,
+      pageUrl,
+      publicResult.warning || "Facebook did not expose server-readable post bodies. Open the public Page to review it directly; a Page access token enables richer Graph results."
+    );
   }
 
   try {
@@ -483,35 +500,75 @@ async function scanFacebook(request, env) {
       .map(normalizeFacebookPost)
       .filter(Boolean)
       .slice(0, 12);
-    const previous = await readFacebookScan(env);
-    const previousIds = new Set(previous.posts.map((post) => post.id));
-    const firstScan = !previous.checkedAt;
-    const newPosts = firstScan ? posts : posts.filter((post) => !previousIds.has(post.id));
-    const checkedAt = new Date().toISOString();
-    await env.NOW_SHOWING.put(FACEBOOK_SCAN_KEY, JSON.stringify({
-      version: 1,
-      checkedAt,
+    return saveFacebookScanResult(env, {
+      pageUrl,
       pageId,
-      posts
-    }));
-
-    return jsonResponse({
-      configured: true,
-      pageUrl: config.facebookUrl,
-      checkedAt,
-      firstScan,
       posts,
-      newPosts,
-      newCount: newPosts.length
-    });
+      source: "graph-api",
+      warning: ""
+    }, previous);
   } catch (error) {
     console.error(JSON.stringify({ message: "Facebook update check failed", error: String(error?.message || error) }));
-    return jsonResponse({
-      configured: true,
-      pageUrl: config.facebookUrl,
-      error: facebookErrorMessage(error)
-    }, 502);
+    const publicResult = await fetchPublicFacebookPosts(pageUrl);
+    if (publicResult.posts.length) {
+      return saveFacebookScanResult(env, {
+        pageUrl,
+        pageId: pageIdentifier,
+        posts: publicResult.posts,
+        source: "public-html",
+        warning: `Graph API unavailable. ${publicResult.warning || "Using the public Page fallback."}`
+      }, previous);
+    }
+
+    return cachedFacebookScanResponse(
+      previous,
+      pageUrl,
+      `Graph API unavailable. ${publicResult.warning || facebookErrorMessage(error)}`
+    );
   }
+}
+
+async function saveFacebookScanResult(env, result, previous) {
+  const posts = Array.isArray(result.posts) ? result.posts.slice(0, 12) : [];
+  const previousIds = new Set(previous.posts.map((post) => post.id));
+  const firstScan = !previous.checkedAt;
+  const newPosts = firstScan ? posts : posts.filter((post) => !previousIds.has(post.id));
+  const checkedAt = new Date().toISOString();
+  await env.NOW_SHOWING.put(FACEBOOK_SCAN_KEY, JSON.stringify({
+    version: 2,
+    checkedAt,
+    pageId: result.pageId || null,
+    source: result.source || "unknown",
+    posts
+  }));
+
+  return jsonResponse({
+    configured: true,
+    pageUrl: result.pageUrl,
+    checkedAt,
+    firstScan,
+    posts,
+    newPosts,
+    newCount: newPosts.length,
+    source: result.source || "unknown",
+    warning: cleanText(result.warning, 360),
+    fromCache: false
+  });
+}
+
+function cachedFacebookScanResponse(previous, pageUrl, warning) {
+  return jsonResponse({
+    configured: true,
+    pageUrl,
+    checkedAt: previous.checkedAt,
+    firstScan: !previous.checkedAt,
+    posts: previous.posts,
+    newPosts: [],
+    newCount: 0,
+    source: previous.checkedAt ? "cache" : "public-html",
+    warning: cleanText(warning, 360),
+    fromCache: Boolean(previous.checkedAt)
+  });
 }
 
 async function resolveFacebookAccessToken(env) {
@@ -545,6 +602,214 @@ async function facebookGraphFetch(pathname, params, token) {
   return data;
 }
 
+async function fetchPublicFacebookPosts(pageUrl) {
+  const urls = facebookPublicUrls(pageUrl);
+  const warnings = [];
+
+  for (const url of urls) {
+    try {
+      const response = await fetchPublicFacebookUrl(url);
+      if (!response.ok) {
+        warnings.push(`Facebook returned HTTP ${response.status} for the public Page.`);
+        continue;
+      }
+
+      const html = await readLimitedResponseText(response, FACEBOOK_PUBLIC_MAX_BYTES);
+      const posts = parsePublicFacebookPosts(html);
+      if (posts.length) {
+        return { posts, sourceUrl: url, warning: "" };
+      }
+
+      warnings.push("Facebook returned the page shell, but no server-readable post bodies.");
+    } catch (error) {
+      warnings.push(publicFacebookErrorMessage(error));
+    }
+  }
+
+  return {
+    posts: [],
+    sourceUrl: urls[0] || pageUrl,
+    warning: [...new Set(warnings)].join(" ").slice(0, 360)
+  };
+}
+
+function facebookPublicUrls(pageUrl) {
+  const base = new URL(safeFacebookUrl(pageUrl) || DEFAULT_CONFIG.facebookUrl);
+  base.search = "";
+  base.hash = "";
+  const urls = [base.href];
+  const path = base.pathname.replace(/\/+$/, "");
+  if (path) {
+    const posts = new URL(base.href);
+    posts.pathname = `${path}/posts`;
+    urls.push(posts.href);
+
+    const timeline = new URL(base.href);
+    timeline.searchParams.set("sk", "timeline");
+    urls.push(timeline.href);
+  }
+  return [...new Set(urls)];
+}
+
+async function fetchPublicFacebookUrl(url) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FACEBOOK_PUBLIC_TIMEOUT_MS);
+  try {
+    return await fetch(url, {
+      redirect: "follow",
+      signal: controller.signal,
+      headers: {
+        Accept: "text/html,application/xhtml+xml",
+        "Accept-Language": "en-CA,en;q=0.8",
+        "Cache-Control": "no-cache",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36"
+      }
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function readLimitedResponseText(response, maxBytes) {
+  if (!response.body) return "";
+  const reader = response.body.getReader();
+  const chunks = [];
+  let total = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done || !value) break;
+      const remaining = maxBytes - total;
+      if (remaining <= 0) {
+        await reader.cancel();
+        break;
+      }
+      const chunk = value.byteLength <= remaining ? value : value.slice(0, remaining);
+      chunks.push(chunk);
+      total += chunk.byteLength;
+      if (chunk.byteLength < value.byteLength) {
+        await reader.cancel();
+        break;
+      }
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  chunks.forEach((chunk) => {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  });
+  return new TextDecoder().decode(bytes);
+}
+
+function parsePublicFacebookPosts(html) {
+  const candidates = [];
+  const seen = new Set();
+  const patterns = [
+    /"(?:message|story|post_text)"\s*:\s*\{\s*"text"\s*:\s*"((?:\\.|[^"\\])*)"/gi,
+    /"(?:message|story|post_text)"\s*:\s*"((?:\\.|[^"\\])*)"/gi
+  ];
+
+  patterns.forEach((pattern) => {
+    let match;
+    while ((match = pattern.exec(html)) && candidates.length < 12) {
+      const contextStart = Math.max(0, match.index - 1_600);
+      const contextEnd = Math.min(html.length, pattern.lastIndex + 1_600);
+      const context = html.slice(contextStart, contextEnd);
+      if (!/(?:created_time|publish_time|timestamp|story_fbid|post_id)\s*["']?\s*:|\/posts\//i.test(context)) continue;
+
+      const message = decodeFacebookJsonString(match[1]);
+      if (!isUsefulPublicFacebookMessage(message)) continue;
+
+      const createdAt = normalizeFacebookCreatedTime(
+        extractFacebookJsonValue(context, ["created_time", "publish_time", "timestamp"])
+      );
+      const permalink = extractFacebookPermalink(context);
+      const postId = extractFacebookJsonValue(context, ["post_id", "story_fbid"])
+        || (permalink ? permalink : "")
+        || `public-${stableTextHash(`${message}|${createdAt || ""}`)}`;
+      const normalized = normalizeFacebookPost({
+        id: decodeFacebookJsonString(postId),
+        message,
+        created_time: createdAt,
+        permalink_url: permalink
+      });
+      if (!normalized || seen.has(normalized.id)) continue;
+      seen.add(normalized.id);
+      candidates.push({ ...normalized, source: "public-html" });
+    }
+  });
+
+  return candidates.slice(0, 12);
+}
+
+function extractFacebookJsonValue(context, names) {
+  const pattern = new RegExp(`"(?:${names.join("|")})"\\s*:\\s*(?:"((?:\\\\.|[^"\\\\])*)"|(\\d{9,13}))`, "i");
+  const match = context.match(pattern);
+  return match?.[1] || match?.[2] || "";
+}
+
+function extractFacebookPermalink(context) {
+  const raw = extractFacebookJsonValue(context, ["permalink_url", "url"]);
+  const decoded = decodeFacebookJsonString(raw);
+  return /\/posts\//i.test(decoded) ? safeFacebookUrl(decoded) : "";
+}
+
+function normalizeFacebookCreatedTime(value) {
+  const raw = decodeFacebookJsonString(value);
+  if (!raw) return null;
+  const numeric = Number(raw);
+  if (Number.isFinite(numeric) && numeric > 0) {
+    const milliseconds = numeric < 1_000_000_000_000 ? numeric * 1_000 : numeric;
+    const date = new Date(milliseconds);
+    if (!Number.isNaN(date.getTime())) return date.toISOString();
+  }
+  const parsed = Date.parse(raw);
+  return Number.isNaN(parsed) ? null : new Date(parsed).toISOString();
+}
+
+function decodeFacebookJsonString(value) {
+  const raw = String(value || "");
+  try {
+    return JSON.parse(`"${raw}"`)
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/gi, "'");
+  } catch {
+    return raw
+      .replace(/\\\//g, "/")
+      .replace(/\\"/g, '"')
+      .replace(/\\u([0-9a-f]{4})/gi, (_, code) => String.fromCharCode(parseInt(code, 16)))
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;/gi, "'");
+  }
+}
+
+function isUsefulPublicFacebookMessage(value) {
+  const message = cleanText(value, 1200);
+  return message.length >= 8
+    && !/^(facebook|capitol twin cinema|like|share|comment|see more)$/i.test(message);
+}
+
+function stableTextHash(value) {
+  let hash = 2_166_136_261;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16_777_619);
+  }
+  return (hash >>> 0).toString(36);
+}
+
+function publicFacebookErrorMessage(error) {
+  if (error?.name === "AbortError") return "Facebook public-page request timed out.";
+  return `Facebook public-page request failed: ${String(error?.message || "unknown error").slice(0, 160)}`;
+}
+
 function normalizeFacebookPost(input) {
   const attachment = Array.isArray(input?.attachments?.data) ? input.attachments.data[0] : null;
   const attachmentText = cleanText(attachment?.title || attachment?.description, 240);
@@ -575,18 +840,19 @@ function classifyFacebookPost(message) {
 }
 
 async function readFacebookScan(env) {
-  if (!env.NOW_SHOWING) return { version: 1, checkedAt: null, posts: [] };
+  if (!env.NOW_SHOWING) return { version: 2, checkedAt: null, source: "", posts: [] };
   const raw = await env.NOW_SHOWING.get(FACEBOOK_SCAN_KEY);
-  if (!raw) return { version: 1, checkedAt: null, posts: [] };
+  if (!raw) return { version: 2, checkedAt: null, source: "", posts: [] };
   try {
     const parsed = JSON.parse(raw);
     return {
-      version: 1,
+      version: 2,
       checkedAt: typeof parsed.checkedAt === "string" ? parsed.checkedAt : null,
+      source: typeof parsed.source === "string" ? parsed.source : "",
       posts: Array.isArray(parsed.posts) ? parsed.posts.filter((post) => post?.id) : []
     };
   } catch {
-    return { version: 1, checkedAt: null, posts: [] };
+    return { version: 2, checkedAt: null, source: "", posts: [] };
   }
 }
 

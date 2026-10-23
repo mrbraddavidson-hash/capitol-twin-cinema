@@ -652,6 +652,13 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   margin-top: .75rem;
 }
 
+.facebook-source-note {
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
 .facebook-post {
   display: grid;
   gap: .5rem;
