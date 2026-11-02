@@ -487,6 +487,10 @@
       const firstPrepared = state.bulkPrepared["Screen 1"];
       if (firstPrepared && !firstPrepared.error) usePreparedMovie("Screen 1", true);
       const ready = prepared.filter(([, data]) => !data.error).length;
+      if (ready) {
+        const editor = $("#listing-editor");
+        if (editor) editor.open = true;
+      }
       setMessage($("#bulk-movie-message"), ready === 2
         ? "Both listings are prepared. Screen 1 is loaded; switch the Screen selector to load Screen 2, then add showtimes and publish."
         : `${ready} of 2 listings prepared. Review the item marked Needs review.`, ready !== 2);
@@ -542,20 +546,22 @@
       const title = escapeHtml(entry.title);
       const trailerId = trailerIdFor(entry);
       const trailer = trailerId
-        ? `<div class="published-entry-trailer">
-            <div class="published-entry-trailer-label">Official trailer</div>
+        ? `<details class="published-entry-details">
+            <summary>Trailer preview</summary>
+            <div class="published-entry-trailer">
             <div class="published-entry-trailer-preview">
               <img src="${escapeHtml(trailerPreviewUrl(entry, trailerId))}" data-published-trailer-fallback="https://i.ytimg.com/vi/${encodeURIComponent(trailerId)}/hqdefault.jpg" alt="${title} trailer preview" width="640" height="360" loading="lazy" decoding="async">
               <button type="button" class="published-entry-trailer-play" data-published-trailer-id="${escapeHtml(trailerId)}" data-published-trailer-title="${title}" aria-label="Play ${title} trailer"><i class="fa-solid fa-play"></i><span>Play trailer</span></button>
             </div>
-          </div>`
+            </div>
+          </details>`
         : "";
       return `<article class="published-entry">
         <h3>${title}</h3>
         <p><strong>${escapeHtml(entry.screen)}</strong>${entry.date ? ` · ${escapeHtml(entry.date)}` : ""}</p>
         <p>${escapeHtml(times)}</p>
         <p>${escapeHtml([entry.rating, entry.runtime].filter(Boolean).join(" · "))}</p>
-        ${entry.overview ? `<p class="published-entry-overview">${escapeHtml(entry.overview)}</p>` : ""}
+        ${entry.overview ? `<details class="published-entry-details"><summary>Movie details</summary><p class="published-entry-overview">${escapeHtml(entry.overview)}</p></details>` : ""}
         ${trailer}
         <div class="published-entry-actions">
           <button class="admin-text-button" type="button" data-edit="${escapeHtml(entry.id)}">Edit</button>
@@ -594,6 +600,8 @@
     $("#bulk-movie-message").textContent = "";
     const optional = document.querySelector(".admin-optional");
     if (optional) optional.open = false;
+    const editor = $("#listing-editor");
+    if (editor) editor.open = false;
     state.trailerResults = [];
     state.movieResults = [];
     state.bulkApplied = { "Screen 1": false, "Screen 2": false };
@@ -649,6 +657,8 @@
     }
     const optional = document.querySelector(".admin-optional");
     if (optional && savedDetails) optional.open = true;
+    const editor = $("#listing-editor");
+    if (editor) editor.open = true;
     setMessage(formMessage, `Editing ${entry.title}. Publish when ready.`, false);
     $("#title").focus();
   }

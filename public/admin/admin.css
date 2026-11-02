@@ -624,7 +624,8 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 .admin-collapsible-summary-copy strong { font-size: 1.05rem; }
 .admin-collapsible-summary .admin-advanced-toggle::after { content: " +"; }
 .admin-facebook-updates[open] .admin-collapsible-summary .admin-advanced-toggle::after,
-.admin-brand-kit[open] .admin-collapsible-summary .admin-advanced-toggle::after { content: " −"; }
+.admin-brand-kit[open] .admin-collapsible-summary .admin-advanced-toggle::after,
+.admin-listing-editor[open] .admin-collapsible-summary .admin-advanced-toggle::after { content: " −"; }
 
 .admin-collapsible-body {
   padding: 0 clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem);
@@ -854,6 +855,24 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 .published-entry h3 { margin: 0; font-size: 1.15rem; }
 .published-entry p { margin: 0; color: var(--admin-muted); font-size: .78rem; line-height: 1.5; }
 .published-entry .published-entry-overview { color: var(--admin-ink); }
+.published-entry-details {
+  margin-top: .2rem;
+  border-top: 1px solid var(--admin-line);
+}
+.published-entry-details > summary {
+  padding: .45rem 0 .15rem;
+  color: var(--admin-red);
+  cursor: pointer;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  list-style: none;
+  text-transform: uppercase;
+}
+.published-entry-details > summary::-webkit-details-marker { display: none; }
+.published-entry-details > summary::after { content: " +"; }
+.published-entry-details[open] > summary::after { content: " −"; }
+.published-entry-details > .published-entry-overview { padding-bottom: .2rem; }
 .published-entry-trailer { display: grid; gap: .35rem; margin-top: .25rem; }
 .published-entry-trailer-label {
   color: var(--admin-muted);
@@ -894,6 +913,16 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 }
 .published-entry-trailer-play:hover { background: var(--admin-red); }
 .published-entry-actions { display: flex; gap: .75rem; margin-top: .4rem; }
+
+.admin-listing-editor {
+  margin-top: 1rem;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-listing-editor .admin-collapsible-summary { padding: .85rem 1rem; }
+.admin-listing-editor .admin-collapsible-body { padding: 0 1rem 1rem; }
 
 .admin-empty { color: var(--admin-muted); font-style: italic; }
 

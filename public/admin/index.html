@@ -111,7 +111,17 @@
             </div>
           </section>
 
-          <form id="movie-form" class="admin-form">
+          <details id="listing-editor" class="admin-listing-editor">
+            <summary class="admin-collapsible-summary">
+              <span class="admin-collapsible-summary-copy">
+                <span class="admin-eyebrow">Editor</span>
+                <strong id="listing-editor-heading" role="heading" aria-level="2">Add or edit a listing</strong>
+                <span class="admin-help">Use the prepared movie above, or update one screen manually.</span>
+              </span>
+              <span class="admin-advanced-toggle">Open</span>
+            </summary>
+            <div class="admin-collapsible-body">
+              <form id="movie-form" class="admin-form">
             <input id="entry-id" type="hidden">
             <input id="tmdb-id" type="hidden">
             <div class="admin-form-row">
@@ -212,7 +222,9 @@
 
             <button class="admin-button admin-button--primary admin-publish-button" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Publish screen listing</button>
             <p id="form-message" class="admin-message" role="status" aria-live="polite"></p>
-          </form>
+              </form>
+            </div>
+          </details>
         </section>
 
       </div>
