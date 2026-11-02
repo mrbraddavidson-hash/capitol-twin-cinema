@@ -13,6 +13,7 @@
     trailerResults: [],
     movieResults: [],
     bulkPrepared: { "Screen 1": null, "Screen 2": null },
+    bulkApplied: { "Screen 1": false, "Screen 2": false },
     facebookPosts: [],
     facebookScan: null,
     editingId: "",
@@ -481,10 +482,13 @@
           return [screen, { title, error: error.message }];
         }
       }));
+      state.bulkApplied = { "Screen 1": false, "Screen 2": false };
       prepared.forEach(([screen, data]) => renderPreparedMovie(screen, data));
+      const firstPrepared = state.bulkPrepared["Screen 1"];
+      if (firstPrepared && !firstPrepared.error) usePreparedMovie("Screen 1", true);
       const ready = prepared.filter(([, data]) => !data.error).length;
       setMessage($("#bulk-movie-message"), ready === 2
-        ? "Both listings are prepared. Use each screen button, add local showtimes, then publish."
+        ? "Both listings are prepared. Screen 1 is loaded; switch the Screen selector to load Screen 2, then add showtimes and publish."
         : `${ready} of 2 listings prepared. Review the item marked Needs review.`, ready !== 2);
     } catch (error) {
       setMessage($("#bulk-movie-message"), error.message);
@@ -494,10 +498,11 @@
     }
   }
 
-  function usePreparedMovie(screen) {
+  function usePreparedMovie(screen, automatic = false) {
     const prepared = state.bulkPrepared[screen];
     if (!prepared || prepared.error) return;
     const details = prepared.details || {};
+    state.bulkApplied[screen] = true;
     $("#screen").value = screen;
     updateMovieDetailsPanel(details, prepared.title);
     $("#trailer-id").value = prepared.trailer?.videoId || "";
@@ -505,7 +510,12 @@
       ? `https://www.youtube.com/watch?v=${prepared.trailer.videoId}`
       : "";
     if (prepared.trailer?.thumbnail) $("#poster-url").value = prepared.trailer.thumbnail;
-    setMessage(formMessage, `${details.title || prepared.title} loaded for ${screen}. Add showtimes, then publish.`, false);
+    if (!automatic) setMessage(formMessage, `${details.title || prepared.title} loaded for ${screen}. Add showtimes, then publish.`, false);
+  }
+
+  function loadPreparedScreen() {
+    const screen = $("#screen").value;
+    if (state.bulkPrepared[screen] && !state.bulkApplied[screen]) usePreparedMovie(screen, true);
   }
 
   async function copyCommand(button) {
@@ -586,6 +596,7 @@
     if (optional) optional.open = false;
     state.trailerResults = [];
     state.movieResults = [];
+    state.bulkApplied = { "Screen 1": false, "Screen 2": false };
     renderPreparedMovie("Screen 1", null);
     renderPreparedMovie("Screen 2", null);
     clearMovieDetailsPanel();
@@ -763,6 +774,7 @@
   });
 
   $("#movie-form").addEventListener("submit", publish);
+  $("#screen").addEventListener("change", loadPreparedScreen);
   $("#find-movie").addEventListener("click", findMovie);
   $("#find-both-movies").addEventListener("click", findBothMovies);
   $("#find-trailer").addEventListener("click", findTrailer);
