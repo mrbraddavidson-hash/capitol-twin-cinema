@@ -507,6 +507,8 @@
     if (!prepared || prepared.error) return;
     const details = prepared.details || {};
     state.bulkApplied[screen] = true;
+    const editor = $("#listing-editor");
+    if (editor) editor.open = true;
     $("#screen").value = screen;
     updateMovieDetailsPanel(details, prepared.title);
     $("#trailer-id").value = prepared.trailer?.videoId || "";
