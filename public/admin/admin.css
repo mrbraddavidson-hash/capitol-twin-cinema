@@ -263,6 +263,8 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   gap: 1.25rem;
 }
 
+.admin-grid > #screen-listing-section { order: -1; }
+
 .admin-brand-kit {
   max-width: 1120px;
   margin: 1.25rem auto 0;
