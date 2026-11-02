@@ -172,13 +172,44 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 
 .admin-form-row > div { display: grid; gap: .65rem; }
 
+.admin-choice-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.admin-choice-button {
+  min-height: 42px;
+  padding: .7rem .85rem;
+  border: 1px solid rgba(20, 23, 26, .2);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--admin-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.admin-choice-button:hover,
+.admin-choice-button.is-selected {
+  border-color: var(--admin-red);
+  background: rgba(211, 39, 52, .08);
+  color: var(--admin-red);
+}
+
+.admin-choice-button:focus-visible {
+  outline: 3px solid rgba(134, 205, 223, .45);
+  outline-offset: 1px;
+}
+
 .admin-showtimes-picker {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: .65rem;
 }
 
-.admin-showtimes-picker select {
+.admin-showtimes-picker input {
   min-width: 0;
 }
 

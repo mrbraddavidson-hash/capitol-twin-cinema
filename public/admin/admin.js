@@ -509,7 +509,7 @@
     state.bulkApplied[screen] = true;
     const editor = $("#listing-editor");
     if (editor) editor.open = true;
-    $("#screen").value = screen;
+    setScreen(screen, false);
     updateMovieDetailsPanel(details, prepared.title);
     $("#trailer-id").value = prepared.trailer?.videoId || "";
     $("#trailer-url").value = prepared.trailer?.videoId
@@ -522,6 +522,17 @@
   function loadPreparedScreen() {
     const screen = $("#screen").value;
     if (state.bulkPrepared[screen] && !state.bulkApplied[screen]) usePreparedMovie(screen, true);
+  }
+
+  function setScreen(screen, loadPrepared = true) {
+    const value = screen === "Screen 2" ? "Screen 2" : "Screen 1";
+    $("#screen").value = value;
+    document.querySelectorAll("[data-screen-choice]").forEach((button) => {
+      const selected = button.dataset.screenChoice === value;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    if (loadPrepared) loadPreparedScreen();
   }
 
   async function copyCommand(button) {
@@ -592,7 +603,7 @@
 
   function resetForm() {
     $("#movie-form").reset();
-    $("#screen").value = "Screen 1";
+    setScreen("Screen 1", false);
     $("#entry-id").value = "";
     $("#trailer-id").value = "";
     $("#trailer-results").replaceChildren();
@@ -615,12 +626,12 @@
   }
 
   function addShowtime() {
-    const value = $("#showtime-preset").value.trim();
+    const value = $("#showtime-entry").value.trim();
     if (!value) return;
     const current = $("#showtimes").value.split(",").map((time) => time.trim()).filter(Boolean);
     if (!current.some((time) => time.toLowerCase() === value.toLowerCase())) current.push(value);
     $("#showtimes").value = current.join(", ");
-    $("#showtime-preset").value = "";
+    $("#showtime-entry").value = "";
     $("#showtimes").focus();
     setMessage(formMessage, `${value} added.`, false);
   }
@@ -630,7 +641,7 @@
     if (!entry) return;
     state.editingId = id;
     $("#entry-id").value = entry.id;
-    $("#screen").value = entry.screen;
+    setScreen(entry.screen, false);
     $("#date").value = entry.date || "";
     $("#title").value = entry.title || "";
     $("#tmdb-id").value = entry.tmdbId ? String(entry.tmdbId) : "";
@@ -786,7 +797,9 @@
   });
 
   $("#movie-form").addEventListener("submit", publish);
-  $("#screen").addEventListener("change", loadPreparedScreen);
+  document.querySelectorAll("[data-screen-choice]").forEach((button) => {
+    button.addEventListener("click", () => setScreen(button.dataset.screenChoice));
+  });
   $("#find-movie").addEventListener("click", findMovie);
   $("#find-both-movies").addEventListener("click", findBothMovies);
   $("#find-trailer").addEventListener("click", findTrailer);
