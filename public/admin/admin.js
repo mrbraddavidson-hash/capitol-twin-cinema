@@ -192,11 +192,15 @@
       const source = post.sourceUrl
         ? `<a href="${escapeHtml(post.sourceUrl)}" target="_blank" rel="noopener noreferrer">Open post <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
         : "";
+      const image = post.imageUrl
+        ? `<a class="facebook-post-image-link" href="${escapeHtml(post.imageUrl)}" target="_blank" rel="noopener noreferrer"><img class="facebook-post-image" src="${escapeHtml(post.imageUrl)}" alt="Facebook post artwork" loading="lazy"></a>`
+        : "";
       return `<article class="facebook-post">
         <div class="facebook-post-heading">
           <span class="facebook-post-kind facebook-post-kind--${escapeHtml(post.kind || "other")}">${escapeHtml(post.kindLabel || "Facebook update")}</span>
           <time datetime="${escapeHtml(post.createdAt || "")}">${escapeHtml(when)}</time>
         </div>
+        ${image}
         <p>${escapeHtml(post.message)}</p>
         <div class="facebook-post-actions">
           <button class="admin-text-button" type="button" data-apply-facebook="${index}">Apply to draft notes</button>

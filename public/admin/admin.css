@@ -669,6 +669,22 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
   background: #fff;
 }
 
+.facebook-post-image-link {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.facebook-post-image {
+  display: block;
+  width: auto;
+  max-width: min(100%, 420px);
+  max-height: 420px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  object-fit: contain;
+}
+
 .facebook-post-heading,
 .facebook-post-actions {
   display: flex;

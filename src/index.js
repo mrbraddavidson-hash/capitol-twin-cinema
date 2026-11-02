@@ -736,13 +736,48 @@ function parsePublicFacebookPosts(html) {
         id: decodeFacebookJsonString(postId),
         message,
         created_time: createdAt,
-        permalink_url: permalink
+        permalink_url: permalink,
+        imageUrl: extractFacebookImage(context)
       });
       if (!normalized || seen.has(normalized.id)) continue;
       seen.add(normalized.id);
       candidates.push({ ...normalized, source: "public-html" });
     }
   });
+
+  const imagePattern = /"(?:src|uri|image_src|image_url)"\s*:\s*"((?:\\.|[^"\\])*)"/gi;
+  let imageMatch;
+  while ((imageMatch = imagePattern.exec(html)) && candidates.length < 12) {
+    const imageUrl = safeFacebookImageUrl(decodeFacebookJsonString(imageMatch[1]));
+    if (!imageUrl) continue;
+
+    const contextStart = Math.max(0, imageMatch.index - 1_600);
+    const contextEnd = Math.min(html.length, imagePattern.lastIndex + 1_600);
+    const context = html.slice(contextStart, contextEnd);
+    if (!/(?:created_time|publish_time|timestamp|story_fbid|post_id)\s*["']?\s*:|\/posts\//i.test(context)) continue;
+
+    const createdAt = normalizeFacebookCreatedTime(
+      extractFacebookJsonValue(context, ["created_time", "publish_time", "timestamp"])
+    );
+    const permalink = extractFacebookPermalink(context);
+    const message = cleanText(
+      extractFacebookJsonValue(context, ["message", "story", "description", "title"]),
+      1200
+    ) || "Facebook image post — open the poster to review movie and showtime details.";
+    const postId = extractFacebookJsonValue(context, ["post_id", "story_fbid"])
+      || (permalink ? permalink : "")
+      || `public-${stableTextHash(`${imageUrl}|${createdAt || ""}`)}`;
+    const normalized = normalizeFacebookPost({
+      id: decodeFacebookJsonString(postId),
+      message,
+      created_time: createdAt,
+      permalink_url: permalink,
+      imageUrl
+    });
+    if (!normalized || seen.has(normalized.id)) continue;
+    seen.add(normalized.id);
+    candidates.push({ ...normalized, source: "public-html" });
+  }
 
   return candidates.slice(0, 12);
 }
@@ -757,6 +792,11 @@ function extractFacebookPermalink(context) {
   const raw = extractFacebookJsonValue(context, ["permalink_url", "url"]);
   const decoded = decodeFacebookJsonString(raw);
   return /\/posts\//i.test(decoded) ? safeFacebookUrl(decoded) : "";
+}
+
+function extractFacebookImage(context) {
+  const match = context.match(/"(?:src|uri|image_src|image_url)"\s*:\s*"((?:\\.|[^"\\])*)"/i);
+  return match ? safeFacebookImageUrl(decodeFacebookJsonString(match[1])) : "";
 }
 
 function normalizeFacebookCreatedTime(value) {
@@ -813,7 +853,19 @@ function publicFacebookErrorMessage(error) {
 function normalizeFacebookPost(input) {
   const attachment = Array.isArray(input?.attachments?.data) ? input.attachments.data[0] : null;
   const attachmentText = cleanText(attachment?.title || attachment?.description, 240);
-  const message = cleanText(input?.message || input?.story || attachmentText, 1200);
+  const imageUrl = safeFacebookImageUrl(
+    input?.imageUrl
+      || attachment?.media?.image?.src
+      || attachment?.media?.image?.url
+      || attachment?.media?.image?.uri
+  );
+  const message = cleanText(
+    input?.message
+      || input?.story
+      || attachmentText
+      || (imageUrl ? "Facebook image post — open the poster to review movie and showtime details." : ""),
+    1200
+  );
   const id = cleanText(input?.id, 160);
   if (!id || !message) return null;
 
@@ -827,8 +879,15 @@ function normalizeFacebookPost(input) {
     message,
     createdAt,
     sourceUrl,
+    imageUrl,
     kind,
-    kindLabel: kind === "movie" ? "Movie / showtime lead" : kind === "deal" ? "Deal / promotion lead" : "General update"
+    kindLabel: kind === "movie"
+      ? "Movie / showtime lead"
+      : kind === "deal"
+        ? "Deal / promotion lead"
+        : imageUrl
+          ? "Facebook image post"
+          : "General update"
   };
 }
 
@@ -870,6 +929,19 @@ function safeImageUrl(value) {
   try {
     const url = new URL(raw);
     return url.protocol === "https:" && url.hostname === "i.ytimg.com" ? url.href.slice(0, 240) : "";
+  } catch {
+    return "";
+  }
+}
+
+function safeFacebookImageUrl(value) {
+  try {
+    const url = new URL(String(value || ""));
+    const hostname = url.hostname.toLowerCase();
+    return url.protocol === "https:"
+      && (hostname.endsWith(".fbcdn.net") || hostname === "facebook.com" || hostname.endsWith(".facebook.com"))
+      ? url.href.slice(0, 1200)
+      : "";
   } catch {
     return "";
   }
